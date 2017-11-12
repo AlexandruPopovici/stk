@@ -120,7 +120,7 @@ function init(){
 	 
 	 
 }
-
+var drawCount = 10
 function update(){
 	console.warn('UPDATE')
 
@@ -134,7 +134,6 @@ function update(){
 
 	 // Use the combined shader program object
 	 gl.useProgram(shaderProgram);
-	 gl.uniform1f(u_1, 2.);
 
 	 gl.bindVertexArray(vao);
 	 
@@ -150,9 +149,12 @@ function update(){
 	 // Set the view port
 	 gl.viewport(0,0,canvas.width,canvas.height);
 
-	 // Draw the triangle
-	 gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT,0);
-
+	 for(var i = 0, k = -1 ; i < drawCount; i++, k+=0.5){
+		 // Draw the triangle
+		 gl.uniform1f(u_1, k);
+		 gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT,0);
+	}
+	 
 	window.requestAnimationFrame(update);
 }
 init();

@@ -8,6 +8,6 @@ var vertSrc = `#version 300 es
 	void main() {
 	 
 	  vColor = color;
-	  gl_Position = vec4(position.xyz * scale, 1.);
+	  gl_Position = vec4(position.xyz + scale*vec3(0,1,0), 1.);
 	}
 `;
