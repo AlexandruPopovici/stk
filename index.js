@@ -5,8 +5,11 @@ new STK.NodeState()
 var vertex_buffer, color_buffer, Index_Buffer, shaderProgram, vao;
 var u_1, u_2;
 var projection = mat4.perspective([], Math.PI/3, gl.canvas.clientWidth / gl.canvas.clientHeight, 1, 1000);
-var model = mat4.translate([], mat4.create(), vec3.fromValues(0,0,0));
-var view = mat4.translate([], mat4.create(), vec3.fromValues(0,0,-20));
+var model = mat4.translate([], mat4.create(), vec3.fromValues(0,0,-5));
+var camMat = mat4.translate([], mat4.create(), vec3.fromValues(0,0,-10));
+var viewPoint = mat4.fromValues(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1);
+var view = mat4.multiply([], camMat, viewPoint);
+mat4.invert(view, view);
 var projection_l, view_l, model_l;
 function init(){
 	var ppt = new PPT();
