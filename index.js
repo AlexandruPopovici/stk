@@ -4,9 +4,11 @@ new STK.NodeState()
 
 var vertex_buffer, color_buffer, Index_Buffer, shaderProgram, vao;
 var u_1, u_2;
+var projection = mat4.perspective([], Math.PI/3, gl.canvas.clientWidth / gl.canvas.clientHeight, 1, 1000);
+var model = mat4.translate([], mat4.create(), vec3.fromValues(0,0,0));
+var view = mat4.translate([], mat4.create(), vec3.fromValues(0,0,-20));
+var projection_l, view_l, model_l;
 function init(){
-	console.warn('INIT');
-
 	var ppt = new PPT();
 	ppt.addChild('c1', 'root');
 	ppt.addChild('c2', 'root');
@@ -16,11 +18,8 @@ function init(){
 	ppt.addChild('c6', 'c1');
 	ppt.print();
 
-	var vertices = [
-	    -0.5,0.5,0.0,
-	    -0.5,-0.5,0.0,
-	    0.5,-0.5,0.0, 
-	 ];
+	var shape = Torus();
+	var vertices = shape.vertices;
 
 	 var colors = [
 	  	1,0,0,
@@ -28,7 +27,7 @@ function init(){
 	    0,0,1, 
 	 ];
  
- 	indices = [0,1,2];
+ 	indices = shape.indices;
  
 	// Create an empty buffer object to store vertex buffer
 	vertex_buffer = gl.createBuffer();
@@ -68,6 +67,9 @@ function init(){
     var fragShader = createShader(gl, gl.FRAGMENT_SHADER, fragSrc);
     shaderProgram = createProgram(gl, vertShader, fragShader);
     u_1 = gl.getUniformLocation(shaderProgram, 'scale')
+    projection_l = gl.getUniformLocation(shaderProgram, 'projection');
+    view_l = gl.getUniformLocation(shaderProgram, 'view');
+    model_l = gl.getUniformLocation(shaderProgram, 'model');
 	 // // Create a vertex shader object
 	 // var vertShader = gl.createShader(gl.VERTEX_SHADER);
 
@@ -114,13 +116,13 @@ function init(){
 	 gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0); 
 
 	 // Bind vertex buffer object
-	 gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
-	 gl.enableVertexAttribArray(1);
+	 //gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
+	 //gl.enableVertexAttribArray(1);
 	 // Get the attribute location
 	 // coord = gl.getAttribLocation(shaderProgram, "color");
 
 	 // Point an attribute to the currently bound VBO
-	 gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 0, 0); 
+	 //gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 0, 0); 
 
 	 //gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
 	 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, Index_Buffer);
@@ -130,7 +132,7 @@ function init(){
 	 
 	 
 }
-var drawCount = 10
+var drawCount = 1
 function update(){
 	console.warn('UPDATE')
 
@@ -161,7 +163,9 @@ function update(){
 
 	 for(var i = 0, k = -1 ; i < drawCount; i++, k+=0.5){
 		 // Draw the triangle
-		 gl.uniform1f(u_1, k);
+		 gl.uniformMatrix4fv(projection_l, false, projection);
+		 gl.uniformMatrix4fv(view_l, false, view);
+		 gl.uniformMatrix4fv(model_l, false, model);
 		 gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT,0);
 	}
 	 
