@@ -6,6 +6,16 @@ var vertex_buffer, color_buffer, Index_Buffer, shaderProgram, vao;
 var u_1, u_2;
 function init(){
 	console.warn('INIT');
+
+	var ppt = new PPT();
+	ppt.addChild('c1', 'root');
+	ppt.addChild('c2', 'root');
+	ppt.addChild('c3', 'c1');
+	ppt.addChild('c4', 'root');
+	ppt.addChild('c5', 'c3');
+	ppt.addChild('c6', 'c1');
+	ppt.print();
+
 	var vertices = [
 	    -0.5,0.5,0.0,
 	    -0.5,-0.5,0.0,

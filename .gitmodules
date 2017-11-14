@@ -1,0 +1,4 @@
+[submodule "lib/ppt"]
+	path = lib/ppt
+	url = git@github.com:AlexandruPopovici/parent-pointer-tree.git
+ branch = dev
