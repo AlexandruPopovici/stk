@@ -1,7 +1,8 @@
 new STK.NodeState()
  var canvas = document.getElementById('glCanvas');
+ controls = createControllerEntity();
+ controls.bindInput(canvas);
  gl = canvas.getContext('webgl2');
-
 var vertex_buffer, color_buffer, Index_Buffer, shaderProgram, vao;
 var u_1, u_2;
 var projection = mat4.perspective([], Math.PI/3, gl.canvas.clientWidth / gl.canvas.clientHeight, 1, 1000);
@@ -137,7 +138,6 @@ function init(){
 }
 var drawCount = 1
 function update(){
-	console.warn('UPDATE')
 
 	 // gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
 	 // Enable the attribute
