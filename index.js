@@ -3,10 +3,10 @@ new STK.NodeState()
  controls = createControllerEntity();
  controls.bindInput(canvas);
  gl = canvas.getContext('webgl2');
-var vertex_buffer, color_buffer, Index_Buffer, shaderProgram, vao;
+var vertex_buffer, uv_buffer, Index_Buffer, shaderProgram, vao, samplerObject;
 var u_1, u_2;
 var projection = mat4.perspective([], Math.PI/3, gl.canvas.clientWidth / gl.canvas.clientHeight, 1, 1000);
-var model = mat4.translate([], mat4.create(), vec3.fromValues(0,0,-5));
+var model = mat4.translate([], mat4.create(), vec3.fromValues(0,0,0));
 var camMat = mat4.translate([], mat4.create(), vec3.fromValues(0,0,-10));
 var viewPoint = mat4.fromValues(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1);
 var view = mat4.multiply([], camMat, viewPoint);
@@ -24,15 +24,13 @@ function init(){
 
 	var shape = Torus();
 	var vertices = shape.vertices;
-
-	 var colors = [
-	  	1,0,0,
-	    0,1,0,
-	    0,0,1, 
-	 ];
- 
+	var uvs = shape.uvs;
  	indices = shape.indices;
- 
+ 	
+ 	for(var i = 0 ; i < vertices.length; i+=3){
+ 		var attributeIndex = i/3;
+ 		console.warn('Vertex -> ', vertices[i], vertices[i+1], vertices[i+2], ' : ', uvs[attributeIndex*2],uvs[attributeIndex*2+1]);
+ 	}
 	// Create an empty buffer object to store vertex buffer
 	vertex_buffer = gl.createBuffer();
 
@@ -45,12 +43,12 @@ function init(){
 	// Unbind the buffer
 	gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
-	color_buffer = gl.createBuffer();
+	uv_buffer = gl.createBuffer();
 	// Bind appropriate array buffer to it
-	gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
+	gl.bindBuffer(gl.ARRAY_BUFFER, uv_buffer);
 	 
 	// Pass the vertex data to the buffer
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvs), gl.STATIC_DRAW);
 
 	// Unbind the buffer
 	gl.bindBuffer(gl.ARRAY_BUFFER, null);
@@ -120,25 +118,38 @@ function init(){
 	 gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0); 
 
 	 // Bind vertex buffer object
-	 //gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
-	 //gl.enableVertexAttribArray(1);
+	 gl.bindBuffer(gl.ARRAY_BUFFER, uv_buffer);
+	 gl.enableVertexAttribArray(1);
 	 // Get the attribute location
-	 // coord = gl.getAttribLocation(shaderProgram, "color");
+	 // coord = gl.getAttribLocation(shaderProgram, "uv");
 
 	 // Point an attribute to the currently bound VBO
-	 //gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 0, 0); 
+	 gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 0, 0); 
 
 	 //gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
 	 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, Index_Buffer);
 
 	 gl.bindVertexArray(null);
 
-	 
-	 
+	// loadImage('assets/textures/metal1.jpg', function(image){
+	// 	samplerObject = gl.createSampler();
+	// 	gl.samplerParameteri(samplerA, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_NEAREST);
+	// 	gl.samplerParameteri(samplerA, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+	// 	gl.samplerParameteri(samplerA, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+	// 	gl.samplerParameteri(samplerA, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+	    
+	//     var texture = gl.createTexture();
+	//     gl.bindTexture(gl.TEXTURE_2D, texture);
+	//     // Upload the image into the texture.
+	//     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+	// });
 }
 var drawCount = 1
 function update(){
-
+	controls.update();
+	var view = controls.out;
+	//mat4.invert(view, view);
+	// console.warn(controls.out);
 	 // gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
 	 // Enable the attribute
 	 

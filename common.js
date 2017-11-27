@@ -7,7 +7,7 @@ function createShader(gl, type, source) {
       return shader;
     }
    
-    console.log(gl.getShaderInfoLog(shader));
+    console.log(type, ': ', gl.getShaderInfoLog(shader));
     gl.deleteShader(shader);
 }
 

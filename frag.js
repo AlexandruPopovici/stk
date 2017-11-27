@@ -1,10 +1,12 @@
 var fragSrc = `#version 300 es
 	precision mediump float;
 	 
-	in vec3 vColor;
+	in vec2 vUv;
+
 	out vec4 outColor;
-	 
+	uniform sampler2D albedo;
+
 	void main() {
-	  outColor = vec4(vec3(1, 0.388, 0.278), 1);
+	  outColor = vec4(vUv.x, vUv.x, vUv.x, 1.);//texture2D(albedo, vUv);
 	}`
 ;

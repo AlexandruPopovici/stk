@@ -14,5 +14,12 @@ function generateUUID() {
         lut[d2&0x3f|0x80]+lut[d2>>8&0xff]+'-'+lut[d2>>16&0xff]+lut[d2>>24&0xff]+
         lut[d3&0xff]+lut[d3>>8&0xff]+lut[d3>>16&0xff]+lut[d3>>24&0xff];
     }
+}
 
+Math.clamp=function(val,min,max){return Math.max(min,Math.min(max,val));}
+
+function loadImage(url, callback) {
+  var image = new Image();
+  image.onload = callback(image);
+  image.src = url;
 }

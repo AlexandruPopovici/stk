@@ -1,27 +1,52 @@
 function createControllerEntity(){
 	var entity = new STK.Entity();
 	entity.bindInput = function(element){
-		element.addEventListener('click', this.click.bind(this));
 		element.addEventListener('mousemove', this.move.bind(this));
 		element.addEventListener('mouseup', this.up.bind(this));
 		element.addEventListener('mousedown', this.down.bind(this));
+		element.addEventListener('wheel', this.wheel.bind(this));
 	};
+	entity.isDown = false;
+	entity.origin = vec3.create();
+	entity.radius = 10;
+	entity.angle1 = 0;
+	entity.angle2 = -Math.PI/2;
+	entity.out = mat4.create();
 
 	entity.down = function(e){
-		console.log('down');
+		entity.isDown = true;
 	};
 
 	entity.up = function(e){
-		console.log('up');
+		entity.isDown = false;
 	};
 
 	entity.move = function(e){
-		console.log('move');
+		if(entity.isDown){
+			this.angle1 += e.movementX*0.01;
+			this.angle2 += e.movementY*0.01; 
+			this.angle2 = Math.clamp(this.angle2, -Math.PI/2, Math.PI/2);
+			// console.warn('Theta -> ', this.theta);
+			// console.warn('Phi -> ', this.phi);
+		}
+
 	};
 
-	entity.click = function(e){
-		console.log('click');
+	entity.wheel = function(e){
+		this.radius += e.deltaY * 0.01;
+	}
+
+	entity.update = function(delta){
+		var t = this.radius*Math.cos(this.angle2);   
+		var y = this.radius*Math.sin(this.angle2);
+		var x = t*Math.cos(this.angle1)
+		var z = t*Math.sin(this.angle1)
+		
+		var eye = vec3.fromValues(x,y,z);
+		var up = vec3.fromValues(0,1,0);
+		mat4.lookAt(this.out, eye, this.origin, up); 
 	};
+
 	return entity; 
 }
 
