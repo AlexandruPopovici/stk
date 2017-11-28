@@ -3,7 +3,7 @@ new STK.NodeState()
  controls = createControllerEntity();
  controls.bindInput(canvas);
  gl = canvas.getContext('webgl2');
-var vertex_buffer, uv_buffer, Index_Buffer, shaderProgram, vao, samplerObject;
+var vertex_buffer, uv_buffer, Index_Buffer, shaderProgram, vao, samplerObject, textureObject, textureLocation;
 var u_1, u_2;
 var projection = mat4.perspective([], Math.PI/3, gl.canvas.clientWidth / gl.canvas.clientHeight, 1, 1000);
 var model = mat4.translate([], mat4.create(), vec3.fromValues(0,0,0));
@@ -29,7 +29,6 @@ function init(){
  	
  	for(var i = 0 ; i < vertices.length; i+=3){
  		var attributeIndex = i/3;
- 		console.warn('Vertex -> ', vertices[i], vertices[i+1], vertices[i+2], ' : ', uvs[attributeIndex*2],uvs[attributeIndex*2+1]);
  	}
 	// Create an empty buffer object to store vertex buffer
 	vertex_buffer = gl.createBuffer();
@@ -72,6 +71,7 @@ function init(){
     projection_l = gl.getUniformLocation(shaderProgram, 'projection');
     view_l = gl.getUniformLocation(shaderProgram, 'view');
     model_l = gl.getUniformLocation(shaderProgram, 'model');
+    textureLocation = gl.getUniformLocation(shaderProgram,'albedo');
 	 // // Create a vertex shader object
 	 // var vertShader = gl.createShader(gl.VERTEX_SHADER);
 
@@ -131,18 +131,19 @@ function init(){
 
 	 gl.bindVertexArray(null);
 
-	// loadImage('assets/textures/metal1.jpg', function(image){
-	// 	samplerObject = gl.createSampler();
-	// 	gl.samplerParameteri(samplerA, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_NEAREST);
-	// 	gl.samplerParameteri(samplerA, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-	// 	gl.samplerParameteri(samplerA, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-	// 	gl.samplerParameteri(samplerA, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-	    
-	//     var texture = gl.createTexture();
-	//     gl.bindTexture(gl.TEXTURE_2D, texture);
-	//     // Upload the image into the texture.
-	//     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-	// });
+	loadImage('assets/textures/metal1.jpg', function(image){
+		samplerObject = gl.createSampler();
+		gl.samplerParameteri(samplerObject, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_NEAREST);
+		gl.samplerParameteri(samplerObject, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+		gl.samplerParameteri(samplerObject, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+		gl.samplerParameteri(samplerObject, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+	    textureObject = gl.createTexture();
+	    gl.bindTexture(gl.TEXTURE_2D, textureObject);
+	    // Upload the image into the texture.
+	    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+	    gl.generateMipmap(gl.TEXTURE_2D);
+	});
 }
 var drawCount = 1
 function update(){
@@ -166,6 +167,11 @@ function update(){
 	 // Clear the canvas
 	 gl.clearColor(0.5, 0.5, 0.5, 0.9);
 
+	 if(samplerObject != undefined){
+	 	gl.activeTexture(gl.TEXTURE0);
+		gl.bindTexture(gl.TEXTURE_2D, textureObject);
+		gl.bindSampler(0, samplerObject);
+	 }
 	 // Enable the depth test
 	 gl.enable(gl.DEPTH_TEST);
 
@@ -180,6 +186,7 @@ function update(){
 		 gl.uniformMatrix4fv(projection_l, false, projection);
 		 gl.uniformMatrix4fv(view_l, false, view);
 		 gl.uniformMatrix4fv(model_l, false, model);
+		 gl.uniform1i(textureLocation, 0);
 		 gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT,0);
 	}
 	 

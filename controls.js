@@ -10,7 +10,7 @@ function createControllerEntity(){
 	entity.origin = vec3.create();
 	entity.radius = 10;
 	entity.angle1 = 0;
-	entity.angle2 = -Math.PI/2;
+	entity.angle2 = 0;
 	entity.out = mat4.create();
 
 	entity.down = function(e){

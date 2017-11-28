@@ -18,8 +18,23 @@ function generateUUID() {
 
 Math.clamp=function(val,min,max){return Math.max(min,Math.min(max,val));}
 
-function loadImage(url, callback) {
-  var image = new Image();
-  image.onload = callback(image);
-  image.src = url;
+function loadImage(path, callback) {
+  var reader  = new FileReader();
+  reader.addEventListener("load", function () {
+    var image = new Image();
+    image.onload = function(){callback(image)};
+    image.src = reader.result;
+  }, false);
+
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function(){
+      if (this.readyState == 4){
+          reader.readAsDataURL(this.response);
+      }
+  }
+  xhr.open('GET', path);
+  xhr.responseType = 'blob';
+  xhr.send();
+  
+  
 }
