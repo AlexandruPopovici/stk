@@ -5,12 +5,10 @@ new STK.NodeState()
  gl = canvas.getContext('webgl2');
 var vertex_buffer, uv_buffer, Index_Buffer, shaderProgram, vao, samplerObject, textureObject, textureLocation;
 var u_1, u_2;
+var targetTexture, fb, depthTexture;
 var projection = mat4.perspective([], Math.PI/3, gl.canvas.clientWidth / gl.canvas.clientHeight, 1, 1000);
 var model = mat4.translate([], mat4.create(), vec3.fromValues(0,0,0));
-var camMat = mat4.translate([], mat4.create(), vec3.fromValues(0,0,-10));
-var viewPoint = mat4.fromValues(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1);
-var view = mat4.multiply([], camMat, viewPoint);
-mat4.invert(view, view);
+
 var projection_l, view_l, model_l;
 function init(){
 	var ppt = new PPT();
@@ -133,8 +131,8 @@ function init(){
 
 	loadImage('assets/textures/metal1.jpg', function(image){
 		samplerObject = gl.createSampler();
-		gl.samplerParameteri(samplerObject, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_NEAREST);
-		gl.samplerParameteri(samplerObject, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+		gl.samplerParameteri(samplerObject, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
+		gl.samplerParameteri(samplerObject, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
 		gl.samplerParameteri(samplerObject, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
 		gl.samplerParameteri(samplerObject, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 
@@ -143,12 +141,62 @@ function init(){
 	    // Upload the image into the texture.
 	    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
 	    gl.generateMipmap(gl.TEXTURE_2D);
+	    gl.bindTexture(gl.TEXTURE_2D, null);
 	});
+
+	//---- COLOR0
+	targetTexture = gl.createTexture();
+	gl.bindTexture(gl.TEXTURE_2D, targetTexture);
+	 
+	// define size and format of level 0
+	const level = 0;
+	const internalFormat = gl.RGBA;
+	const border = 0;
+	const format = gl.RGBA;
+	const type = gl.UNSIGNED_BYTE;
+	const data = null;
+	gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
+	              canvas.width, canvas.height, border,
+	              format, type, data);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+	gl.bindTexture(gl.TEXTURE_2D, null);
+
+	//--DEPTH
+	depthTexture = gl.createTexture();
+	gl.bindTexture(gl.TEXTURE_2D, depthTexture);
+	 
+	// make a depth buffer and the same size as the targetTexture
+	gl.texImage2D(gl.TEXTURE_2D, level, gl.DEPTH_COMPONENT24,
+	                canvas.width, canvas.height, 0,
+	                gl.DEPTH_COMPONENT, gl.UNSIGNED_INT, null);
+	 
+	  // set the filtering so we don't need mips
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    // Create and bind the framebuffer
+    fb = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+     
+    // attach the texture as the first color attachment
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, targetTexture, level);
+  	gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, depthTexture, level);
+
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 }
 var drawCount = 1
 function update(){
 	controls.update();
-	var view = controls.out;
+	// var camMat = mat4.create();
+	// mat4.rotateZ(camMat, camMat, Math.PI/2);
+	// mat4.translate(camMat, camMat, vec3.fromValues(2,2,-10));
+	// var viewPoint = mat4.fromValues(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1);
+	// mat4.multiply(camMat, camMat, viewPoint);
+	var view = controls.out;//mat4.invert(camMat, camMat);
 	//mat4.invert(view, view);
 	// console.warn(controls.out);
 	 // gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
@@ -158,38 +206,64 @@ function update(){
 	 // Bind index buffer object
 	 // gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, Index_Buffer);
 	 /*=========Drawing the triangle===========*/
-
+	
 	 // Use the combined shader program object
+	 gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+
 	 gl.useProgram(shaderProgram);
 
 	 gl.bindVertexArray(vao);
 	 
 	 // Clear the canvas
-	 gl.clearColor(0.5, 0.5, 0.5, 0.9);
+	 gl.clearColor(1, 1, 1, 1);
 
-	 if(samplerObject != undefined){
-	 	gl.activeTexture(gl.TEXTURE0);
-		gl.bindTexture(gl.TEXTURE_2D, textureObject);
-		gl.bindSampler(0, samplerObject);
-	 }
+ 	 // gl.activeTexture(gl.TEXTURE0);
+	 gl.bindTexture(gl.TEXTURE_2D, textureObject);
+	 gl.bindSampler(0, samplerObject);
+
 	 // Enable the depth test
 	 gl.enable(gl.DEPTH_TEST);
 
 	 // Clear the color buffer bit
-	 gl.clear(gl.COLOR_BUFFER_BIT);
+	  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 	 // Set the view port
 	 gl.viewport(0,0,canvas.width,canvas.height);
-
-	 for(var i = 0, k = -1 ; i < drawCount; i++, k+=0.5){
-		 // Draw the triangle
-		 gl.uniformMatrix4fv(projection_l, false, projection);
-		 gl.uniformMatrix4fv(view_l, false, view);
-		 gl.uniformMatrix4fv(model_l, false, model);
-		 gl.uniform1i(textureLocation, 0);
-		 gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT,0);
-	}
 	 
+	 gl.uniformMatrix4fv(projection_l, false, projection);
+	 gl.uniformMatrix4fv(view_l, false, view);
+	 gl.uniformMatrix4fv(model_l, false, model);
+	 gl.uniform1i(textureLocation, 0);
+	 gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT,0);
+
+//---------------------------------------------------------------------
+	 gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+	 gl.useProgram(shaderProgram);
+
+	 gl.bindVertexArray(vao);
+	 
+	 // Clear the canvas
+	 gl.clearColor(1, 1, 1, 1);
+
+ 	 // gl.activeTexture(gl.TEXTURE0);
+	 gl.bindTexture(gl.TEXTURE_2D, depthTexture);
+	 gl.bindSampler(0, null);
+
+	 // Enable the depth test
+	 gl.enable(gl.DEPTH_TEST);
+
+	 // Clear the color buffer bit
+	 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+	 // Set the view port
+	 gl.viewport(0,0,canvas.width,canvas.height);
+	 
+	 gl.uniformMatrix4fv(projection_l, false, projection);
+	 gl.uniformMatrix4fv(view_l, false, view);
+	 gl.uniformMatrix4fv(model_l, false, model);
+	 gl.uniform1i(textureLocation, 0);
+	 gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT,0);
+
 	window.requestAnimationFrame(update);
 }
 init();

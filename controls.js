@@ -7,7 +7,7 @@ function createControllerEntity(){
 		element.addEventListener('wheel', this.wheel.bind(this));
 	};
 	entity.isDown = false;
-	entity.origin = vec3.create();
+	entity.origin = vec3.fromValues(0,0,0);
 	entity.radius = 10;
 	entity.angle1 = 0;
 	entity.angle2 = 0;
