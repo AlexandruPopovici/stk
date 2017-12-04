@@ -4,11 +4,12 @@ new STK.NodeState()
  controls.bindInput(canvas);
  gl = canvas.getContext('webgl2');
 var vertex_buffer, uv_buffer, Index_Buffer, shaderProgram, vao, samplerObject, textureObject, textureLocation;
+var quad_buffer, quad_index_buffer, quad_shaderProgram, quad_textureLocation
 var u_1, u_2;
 var targetTexture, fb, depthTexture;
 var projection = mat4.perspective([], Math.PI/3, gl.canvas.clientWidth / gl.canvas.clientHeight, 1, 1000);
 var model = mat4.translate([], mat4.create(), vec3.fromValues(0,0,0));
-
+var quad;
 var projection_l, view_l, model_l;
 function init(){
 	var ppt = new PPT();
@@ -25,9 +26,8 @@ function init(){
 	var uvs = shape.uvs;
  	indices = shape.indices;
  	
- 	for(var i = 0 ; i < vertices.length; i+=3){
- 		var attributeIndex = i/3;
- 	}
+ 	quad = FSQuad();
+ 	
 	// Create an empty buffer object to store vertex buffer
 	vertex_buffer = gl.createBuffer();
 
@@ -62,6 +62,31 @@ function init(){
 	// Unbind the buffer
 	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
     
+
+    // ---- FS-QUAD
+	quad_buffer = gl.createBuffer();
+
+	// Bind appropriate array buffer to it
+	gl.bindBuffer(gl.ARRAY_BUFFER, quad_buffer);
+	 
+	// Pass the vertex data to the buffer
+	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(quad.vertices), gl.STATIC_DRAW);
+
+	// Unbind the buffer
+	gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+
+	quad_index_buffer = gl.createBuffer();
+
+	// Bind appropriate array buffer to it
+	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, quad_index_buffer);
+
+	// Pass the vertex data to the buffer
+	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(quad.indices), gl.STATIC_DRAW);
+	 
+	// Unbind the buffer
+	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+
     var vertShader = createShader(gl, gl.VERTEX_SHADER, vertSrc);
     var fragShader = createShader(gl, gl.FRAGMENT_SHADER, fragSrc);
     shaderProgram = createProgram(gl, vertShader, fragShader);
@@ -70,38 +95,12 @@ function init(){
     view_l = gl.getUniformLocation(shaderProgram, 'view');
     model_l = gl.getUniformLocation(shaderProgram, 'model');
     textureLocation = gl.getUniformLocation(shaderProgram,'albedo');
-	 // // Create a vertex shader object
-	 // var vertShader = gl.createShader(gl.VERTEX_SHADER);
 
-	 // // Attach vertex shader source code
-	 // gl.shaderSource(vertShader, vertSrc);
 
-	 // // Compile the vertex shader
-	 // var vertResult = gl.compileShader(vertShader);
-	 // if(vertResult)
-	 // 	console.error(gl.getShaderInfoLog(vertShader))
-	 // // Create fragment shader object
-	 // var fragShader = gl.createShader(gl.FRAGMENT_SHADER);
-
-	 // // Attach fragment shader source code
-	 // gl.shaderSource(fragShader, fragSrc); 
-	 
-	 // // Compile the fragmentt shader
-	 // var fragResult = gl.compileShader(fragShader);
-	 // if(fragResult)
-	 // 	console.error(gl.getShaderInfoLog(fragShader))
-	 // // Create a shader program object to store
-	 // // the combined shader program
-	 // shaderProgram = gl.createProgram();
-
-	 // // Attach a vertex shader
-	 // gl.attachShader(shaderProgram, vertShader);
-
-	 // // Attach a fragment shader
-	 // gl.attachShader(shaderProgram, fragShader);
-
-	 // // Link both the programs
-	 // gl.linkProgram(shaderProgram);
+	vertShader = createShader(gl, gl.VERTEX_SHADER, fsquad_vert);
+    fragShader = createShader(gl, gl.FRAGMENT_SHADER, fsquad_frag);
+    quad_shaderProgram = createProgram(gl, vertShader, fragShader);
+    quad_textureLocation = gl.getUniformLocation(shaderProgram,'tex');
 
 	 /*======= Associating shaders to buffer objects =======*/
 	 vao = gl.createVertexArray();
@@ -111,7 +110,6 @@ function init(){
 	 gl.enableVertexAttribArray(0);
 	 // Get the attribute location
 	 // coord = gl.getAttribLocation(shaderProgram, "coordinates");
-
 	 // Point an attribute to the currently bound VBO
 	 gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0); 
 
@@ -120,7 +118,6 @@ function init(){
 	 gl.enableVertexAttribArray(1);
 	 // Get the attribute location
 	 // coord = gl.getAttribLocation(shaderProgram, "uv");
-
 	 // Point an attribute to the currently bound VBO
 	 gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 0, 0); 
 
@@ -183,7 +180,7 @@ function init(){
     gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
      
     // attach the texture as the first color attachment
-    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, targetTexture, level);
+    //gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, targetTexture, level);
   	gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, depthTexture, level);
 
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
@@ -216,7 +213,7 @@ function update(){
 	 
 	 // Clear the canvas
 	 gl.clearColor(1, 1, 1, 1);
-
+	 gl.colorMask(false, false, false, false);
  	 // gl.activeTexture(gl.TEXTURE0);
 	 gl.bindTexture(gl.TEXTURE_2D, textureObject);
 	 gl.bindSampler(0, samplerObject);
@@ -237,33 +234,51 @@ function update(){
 	 gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT,0);
 
 //---------------------------------------------------------------------
-	 gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-	 gl.useProgram(shaderProgram);
+	gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+	gl.bindVertexArray(null);
+	 // gl.useProgram(shaderProgram);
 
-	 gl.bindVertexArray(vao);
+	 // gl.bindVertexArray(vao);
 	 
-	 // Clear the canvas
-	 gl.clearColor(1, 1, 1, 1);
+	 // // Clear the canvas
+	 // gl.clearColor(1, 1, 1, 1);
 
- 	 // gl.activeTexture(gl.TEXTURE0);
-	 gl.bindTexture(gl.TEXTURE_2D, depthTexture);
-	 gl.bindSampler(0, null);
+ 	//  // gl.activeTexture(gl.TEXTURE0);
+	 // gl.bindTexture(gl.TEXTURE_2D, depthTexture);
+	 // gl.bindSampler(0, null);
 
-	 // Enable the depth test
-	 gl.enable(gl.DEPTH_TEST);
+	 // // Enable the depth test
+	 // gl.enable(gl.DEPTH_TEST);
 
-	 // Clear the color buffer bit
-	 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+	 // // Clear the color buffer bit
+	 // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-	 // Set the view port
-	 gl.viewport(0,0,canvas.width,canvas.height);
+	 // // Set the view port
+	 // gl.viewport(0,0,canvas.width,canvas.height);
 	 
-	 gl.uniformMatrix4fv(projection_l, false, projection);
-	 gl.uniformMatrix4fv(view_l, false, view);
-	 gl.uniformMatrix4fv(model_l, false, model);
-	 gl.uniform1i(textureLocation, 0);
-	 gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT,0);
+	 // gl.uniformMatrix4fv(projection_l, false, projection);
+	 // gl.uniformMatrix4fv(view_l, false, view);
+	 // gl.uniformMatrix4fv(model_l, false, model);
+	 // gl.uniform1i(textureLocation, 0);
+	 // gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT,0);
+	gl.useProgram(quad_shaderProgram);
 
+	gl.bindBuffer(gl.ARRAY_BUFFER, quad_buffer);
+	gl.enableVertexAttribArray(0);
+	gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0); 
+
+	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, quad_index_buffer);
+	gl.colorMask(true, true, true, true);
+	gl.clearColor(1, 1, 1, 1);
+
+	gl.bindTexture(gl.TEXTURE_2D, depthTexture);
+	gl.bindSampler(0, null);
+
+	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+	gl.viewport(0,0,canvas.width,canvas.height);
+
+	gl.uniform1i(quad_textureLocation, 0);
+	gl.drawElements(gl.TRIANGLES, quad.indices.length, gl.UNSIGNED_SHORT,0);
 	window.requestAnimationFrame(update);
 }
 init();

@@ -33,7 +33,7 @@ function createControllerEntity(){
 	};
 
 	entity.wheel = function(e){
-		this.radius += e.deltaY * 0.01;
+		this.radius += e.deltaY * 0.005;
 	}
 
 	entity.update = function(delta){
