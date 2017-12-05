@@ -5,6 +5,7 @@ var fsquad_frag = `#version 300 es
 
 	out vec4 outColor;
 	uniform sampler2D tex;
+	uniform sampler2D depth;
 
 	float LinearizeDepth(in sampler2D depthTexture, in vec2 uv)
 	{
@@ -15,7 +16,8 @@ var fsquad_frag = `#version 300 es
 	}
 
 	void main() {
-	  float depth = texture(tex, vUv).r;//LinearizeDepth(tex, vUv);
-	  outColor = vec4(depth,depth,depth,1);
+	  vec4 color = texture(tex, vUv);
+	  float depth = texture(depth, vUv).r;
+	  outColor = vec4(color.rgb*depth, 1.);
 	}`
 ;

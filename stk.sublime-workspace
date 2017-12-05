@@ -1,0 +1,1717 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"normaliz",
+				"normalize3"
+			],
+			[
+				"surface",
+				"surfaceHeight\t(?)"
+			],
+			[
+				"diff",
+				"diffEnumerables"
+			],
+			[
+				"ge",
+				"geometryDescriptors\t(?)"
+			],
+			[
+				"canRender",
+				"canRenderToScreen"
+			],
+			[
+				"free",
+				"freeFormPivot\t(?)"
+			],
+			[
+				"mm_to",
+				"mm_to_pixels_x\t(num)"
+			],
+			[
+				"selected",
+				"selectedTexture"
+			],
+			[
+				"diamondsNee",
+				"diamondsNeedRebatch"
+			],
+			[
+				"diamondsN",
+				"diamondsNeedRebatch"
+			],
+			[
+				"diamonds",
+				"diamondsNeedRebatch"
+			],
+			[
+				"session",
+				"sessionId"
+			],
+			[
+				"thet",
+				"theta_v\t(num)"
+			],
+			[
+				"triang",
+				"triangleCount\t(num)"
+			],
+			[
+				"NaturePa",
+				"NaturePatternFeature"
+			],
+			[
+				"patter",
+				"patternType"
+			],
+			[
+				"pat",
+				"patternType"
+			],
+			[
+				"needs",
+				"needsRecolor\t(?)"
+			],
+			[
+				"pattern",
+				"patternType"
+			],
+			[
+				"Pattern",
+				"PatternFeature"
+			],
+			[
+				"pixes",
+				"pixels_to_mm"
+			],
+			[
+				"circum",
+				"circumcircleB\t{}"
+			],
+			[
+				"prevPo",
+				"prevPointY\t(?)"
+			],
+			[
+				"poly",
+				"polyPoints\t[]"
+			],
+			[
+				"trans",
+				"transform"
+			],
+			[
+				"Vec",
+				"Vector3"
+			],
+			[
+				"clock",
+				"clockwiseMatrix"
+			],
+			[
+				"bottom",
+				"bottomY\t(num)"
+			],
+			[
+				"natura",
+				"naturalHeight"
+			],
+			[
+				"natural",
+				"naturalWidth"
+			],
+			[
+				"client",
+				"clientHeight"
+			],
+			[
+				"mouse",
+				"mouseMove"
+			],
+			[
+				"minimal",
+				"minimalScreenSpaceBoundingVertices"
+			],
+			[
+				"MODE",
+				"MODE_REGULAR\t(str)"
+			],
+			[
+				"selec",
+				"selectedOption\t(?)"
+			],
+			[
+				"metric",
+				"metricRange\t(?)"
+			],
+			[
+				"GetCOm",
+				"GetComponent"
+			],
+			[
+				"WaitFor",
+				"WaitForEndOfFrame"
+			],
+			[
+				"fresnel",
+				"fresnelTerm"
+			],
+			[
+				"glow",
+				"glowcomposer\t(?)"
+			],
+			[
+				"rende",
+				"render"
+			],
+			[
+				"hasOw",
+				"hasOwnProperty"
+			],
+			[
+				"get",
+				"getGlobalCollision()"
+			],
+			[
+				"SafeA",
+				"SAFE_APPLY\t(bool)"
+			],
+			[
+				"has",
+				"hasOwnProperty"
+			],
+			[
+				"req",
+				"requestedCirc"
+			],
+			[
+				"height",
+				"heightDelta\t(num)"
+			],
+			[
+				"delta",
+				"deltaDSize\t(num)"
+			],
+			[
+				"nonLin",
+				"nonLinearHeight\t(num)"
+			],
+			[
+				"linear",
+				"linearHeight\t(num)"
+			],
+			[
+				"nonL",
+				"nonLinearHeight\t(num)"
+			],
+			[
+				"non",
+				"nonLinearHeight\t(?)"
+			],
+			[
+				"vA",
+				"vAmount"
+			],
+			[
+				"restric",
+				"restrictedHeight\t(num)"
+			],
+			[
+				"diamo",
+				"diamondMargin"
+			],
+			[
+				"constr",
+				"constraints"
+			],
+			[
+				"wave",
+				"waveHeight"
+			],
+			[
+				"property",
+				"propertyName"
+			],
+			[
+				"REND",
+				"RENDERER_STATUS_READY"
+			],
+			[
+				"RE",
+				"RENDERER_STATUS_READY"
+			],
+			[
+				"RENDERER",
+				"RENDERER_STATUS_RUNNING"
+			],
+			[
+				"Rende",
+				"RENDERER_STATUS_RUNNING\t(str)"
+			],
+			[
+				"Render",
+				"RENDERER_STATUS_READY\t(str)"
+			],
+			[
+				"Rne",
+				"RENDERER_STATUS_READY\t(str)"
+			],
+			[
+				"ring",
+				"ringsContext"
+			],
+			[
+				"_",
+				"_uvScale"
+			],
+			[
+				"diamond",
+				"diamondAmount"
+			],
+			[
+				"wi",
+				"width"
+			],
+			[
+				"heigh",
+				"heightUnits"
+			],
+			[
+				"point",
+				"pointsToMetric"
+			],
+			[
+				"heg",
+				"heightUnits"
+			],
+			[
+				"metrc",
+				"metricSize"
+			],
+			[
+				"ringI",
+				"ringID"
+			],
+			[
+				"_di",
+				"_distance_a"
+			],
+			[
+				"material",
+				"materialExterior"
+			],
+			[
+				"_light",
+				"_lightmapOutsideY"
+			],
+			[
+				"remove",
+				"removeEventListener"
+			],
+			[
+				"scale",
+				"scaleAmount\t(num)"
+			],
+			[
+				"anticl",
+				"antiClockwiseTransform\t(?)"
+			],
+			[
+				"clo",
+				"clockwiseMatrix"
+			],
+			[
+				"featu",
+				"featureX"
+			],
+			[
+				"this",
+				"thisOption\t{}"
+			],
+			[
+				"index",
+				"indexOf"
+			],
+			[
+				"interior",
+				"interiorNormalmap"
+			],
+			[
+				"inter",
+				"interiorHeightmap\t(?)"
+			],
+			[
+				"exter",
+				"exteriorNormalmap\t(?)"
+			],
+			[
+				"can",
+				"canRender"
+			],
+			[
+				"create",
+				"createStitches"
+			],
+			[
+				"ant",
+				"antiClockwiseTransform\t(?)"
+			],
+			[
+				"anti",
+				"antiClockwiseTransform"
+			],
+			[
+				"plane",
+				"planeSurface"
+			],
+			[
+				"target",
+				"target_restore"
+			],
+			[
+				"restore",
+				"restoreHeight\t(num)"
+			],
+			[
+				"background",
+				"backgroundContainer"
+			],
+			[
+				"screen",
+				"screenshotTime\t(num)"
+			],
+			[
+				"bottomM",
+				"bottomMarker"
+			],
+			[
+				"topMar",
+				"topMarker\t(?)"
+			],
+			[
+				"PROFIL",
+				"PROFILE_C"
+			],
+			[
+				"inner",
+				"innerOcclusionThreshold"
+			],
+			[
+				"PROFILE",
+				"PROFILE_A"
+			],
+			[
+				"ringIns",
+				"ringInstances"
+			],
+			[
+				"diamondS",
+				"diamondSize"
+			],
+			[
+				"DIAMOND",
+				"DIAMOND_FILL_LOOSE"
+			],
+			[
+				"diamon",
+				"diamondAmount"
+			],
+			[
+				"dSize",
+				"dSize2\t(?)"
+			],
+			[
+				"DIAMON",
+				"DIAMOND_FILL_FILL\t(str)"
+			],
+			[
+				"getDiamon",
+				"getDiamondMargin"
+			],
+			[
+				"DIAMOND_FILL",
+				"DIAMOND_FILL_LOOSE\t(str)"
+			],
+			[
+				"Oblique",
+				"ObliqueLineFeature"
+			],
+			[
+				"upda",
+				"updateMargins\t(bool)"
+			],
+			[
+				"getMax",
+				"getMaxVAlign"
+			],
+			[
+				"FEA",
+				"FeatureColor"
+			],
+			[
+				"PRONGS_HEX",
+				"PRONGS_HEX_BOTTOM\t(num)"
+			],
+			[
+				"PRONGS_PARAMS_HE",
+				"PRONGS_PARAMS_HEX_BOTTOM_TOP\t{}"
+			],
+			[
+				"compute",
+				"computeProngs\t(?)"
+			],
+			[
+				"Diamond",
+				"DiamondPatternFeature"
+			],
+			[
+				"draw",
+				"drawPolygonDiamonds"
+			],
+			[
+				"grid",
+				"gridDelta"
+			],
+			[
+				"outer",
+				"outerSegments"
+			],
+			[
+				"surfa",
+				"surfaceWidth\t(?)"
+			],
+			[
+				"size",
+				"sizeX"
+			],
+			[
+				"diamona",
+				"diamondAmount"
+			],
+			[
+				"distance",
+				"distanceTo"
+			],
+			[
+				"instane",
+				"instanceID\t(?)"
+			],
+			[
+				"clockwis",
+				"clockwiseMatrix"
+			],
+			[
+				"right",
+				"rightWidth\t(num)"
+			],
+			[
+				"_target",
+				"_targetRadius"
+			],
+			[
+				"multiply",
+				"multiplyScalar"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "index.js",
+			"settings":
+			{
+				"buffer_size": 10043,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "lib/gl-matrix.js",
+			"settings":
+			{
+				"buffer_size": 174379,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "var vertSrc = `#version 300 es\n \n\tlayout(location = 0) in vec3 position;\n\tlayout(location = 1) in vec2 uv;\n\tout vec2 vUv;\n\n\tuniform mat4 projection;\n\tuniform mat4 view;\n\tuniform mat4 model;\n\n\tvoid main() {\n\t \n\t  vUv = uv;\n\t  gl_Position = projection * view * model * vec4(position, 1.);\n\t}\n`;\n",
+			"file": "vert.js",
+			"file_size": 293,
+			"file_write_time": 131568726791173828,
+			"settings":
+			{
+				"buffer_size": 293,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "controls.js",
+			"settings":
+			{
+				"buffer_size": 1318,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 699,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"ringde",
+				"Preferences: Package Control Settings – Default"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"Pac",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"Packa",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control",
+				"Preferences: Package Control Settings – User"
+			],
+			[
+				"disco",
+				"Package Control: Discover Packages"
+			],
+			[
+				"packa",
+				"Package Control: Enable Package"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/busyalex/octane-scripting/src/Load.lua",
+		"/home/busyalex/octane-scripting/src/configuration.json",
+		"/home/busyalex/Insignety Designer/designer/src/modules/app/insignety-conf.js",
+		"/home/busyalex/backoffice/src/app/scripts/config/insignety-conf.js",
+		"/home/busyalex/octane-scripting/src/require-path.lua",
+		"/home/busyalex/octane-scripting/src/path.lua",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/Materials.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/Bridge.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/RingBuilder.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/ring.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/NaturePatternFeature.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/utils.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/lib/three.js",
+		"/home/busyalex/octane-scripting/src/DiamondPlacement.lua",
+		"/home/busyalex/octane-scripting/.gitignore",
+		"/home/busyalex/.sbt/1.0/global.sbt",
+		"/home/busyalex/Insignety cleanup/insignety/build.sbt",
+		"/home/busyalex/.sbt/0.13/plugins/plugins.sbt",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/OffscreenRender.js",
+		"/home/busyalex/octane-scripting/src/RingUtils.lua",
+		"/home/busyalex/octane-scripting/src/MeshValidator.lua",
+		"/home/busyalex/backoffice/src/app/scripts/services/artifactLibrary.service.js",
+		"/home/busyalex/backoffice/src/app/scripts/controllers/artifactLibrary/editArtifact.controller.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/ECGFeature.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/FeatureModel.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/DiamondPatternFeature.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/Restrictions.js",
+		"/home/busyalex/Insignety Designer/designer/src/modules/ring_design/add-feature-panel/add-feature-panel.html",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/Surface2D.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/TextFeature.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/ObliqueLineFeature.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/FingerprintFeature.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/HandwritingFeature.js",
+		"/home/busyalex/Insignety Designer/designer/src/modules/ring_design/ringdesign.controller.es6",
+		"/tmp/dev-rendering-server/526471ad-15d3-4831-9861-63b4974c5bb2/input/configuration.json",
+		"/home/busyalex/octane-scripting/src/conf.lua",
+		"/home/busyalex/octane-scripting/res",
+		"/home/busyalex/octane-scripting/results",
+		"/home/busyalex/stk/lib/gl-matrix.js",
+		"/home/busyalex/stk/index.js",
+		"/tmp/dev-rendering-server/a78759a1-5bf2-4b03-a8ef-8397bf1097bf/input/configuration.json",
+		"/home/busyalex/Desktop/configuration.json",
+		"/home/busyalex/octane-scripting/assets/generated/B475-exterior.obj",
+		"/tmp/dev-rendering-server/fe4b05d1-7829-4a8e-8b36-234e0c4e0b33/input/configuration.json",
+		"/tmp/dev-rendering-server/e5fdb4cf-e590-4178-945c-4c83517dfbef/input/configuration.json",
+		"/home/busyalex/Desktop/path-external.lua",
+		"/home/busyalex/Insignety Designer/designer/src/modules/ring_design/add-feature-panel/add-feature-panel.controller.js",
+		"/home/busyalex/Insignety Designer/designer/src/modules/ring_design/text-symbols/textsymbols.directive.es6",
+		"/home/busyalex/octane-scripting/lib/bitmap_resize.lua",
+		"/home/busyalex/octane-scripting/assets/generated/B448-exterior.obj",
+		"/home/busyalex/Downloads/8-44-6-outer.obj",
+		"/home/busyalex/octane-scripting/src/LoadDiamonds.lua",
+		"/home/busyalex/octane-scripting/assets/generated/B448-exterior_old.obj",
+		"/home/busyalex/.OctaneRender/license",
+		"/home/busyalex/octane-scripting/lib/json.lua",
+		"/home/busyalex/Insignety cleanup/insignety/components/service/rendering-service/src/main/resources/Load.lua",
+		"/home/busyalex/Downloads/2017-11-02-RingOuter-B-8-44-planar-mapping.obj",
+		"/home/busyalex/Desktop/require-path-external.lua",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/model/GeometryDescriptor.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/model/GeometryModel.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/model/RingDescriptor.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/util/utils.js",
+		"/home/busyalex/Insignety Designer/designer/index.html",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/model/MaterialDescriptor.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/shaders/RingPlane.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/RingInstance.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/Renderer.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/lib/js/controls/TrackballControls.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/model/RingModel.js",
+		"/home/busyalex/Desktop/path.lua",
+		"/home/busyalex/Desktop/require-path.lua",
+		"/home/busyalex/octane-scripting/src/Path.lua",
+		"/home/busyalex/octane-scripting/src/RequirePath.lua",
+		"/home/busyalex/Desktop/Path.lua",
+		"/home/busyalex/Downloads/RingOuter-B-8-44.obj",
+		"/home/busyalex/octane-scripting/assets/configuration.json",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/util/RawGeometry.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/util/Repository.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/api/Bridge.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/static/ring.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/static/RendererOptions.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/util/Logger.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/util/CanvasTexture.js",
+		"/home/busyalex/Insignety Designer/designer/src/index.html",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/lib/own/indexedOBJLoader.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/RawGeometry.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/fence/BoxCollider.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/LineFeature.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/MetricsContext.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/Constraints.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/WaveFeature.js",
+		"/home/busyalex/Insignety Designer/designer/bower_components/angularjs-slider/src/rzslider.js",
+		"/home/busyalex/Insignety Designer/designer/bower_components/angularjs-slider/dist/rzslider.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/PatternFeature.js",
+		"/home/busyalex/Insignety Designer/designer/assets/obj/diamond_blender.obj",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/util/indexedOBJLoader.js",
+		"/home/busyalex/Insignety Designer/designer/src/modules/ring_design/radial-menu/radialMenu.directive.es6",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/shaders/FastRNM.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/shaders/FastRNMAnisotropic.js",
+		"/home/busyalex/Insignety Designer/designer/tasks/build.js",
+		"/home/busyalex/Insignety Designer/designer/src/modules/ring_design/edit-feature-panel/edit-feature-panel.html",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/fence/Collisions.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/fence/PolygonCollider.js",
+		"/home/busyalex/octane-scripting/lib/kdtree.lua",
+		"/home/busyalex/lua-kdtree/README.md",
+		"/home/busyalex/Desktop/OctaneRender/scripts/Load.lua",
+		"/home/busyalex/Insignety Designer/designer/src/modules/ring_design/designer.html",
+		"/home/busyalex/Insignety Designer/designer/src/styles/sass/modules/_designer.scss",
+		"/home/busyalex/Insignety Designer/designer/src/modules/ring_design/radial-menu/radial.html",
+		"/home/busyalex/Insignety Designer/designer/src/styles/sass/modules/_radials.scss",
+		"/home/busyalex/Insignety Designer/designer/src/modules/ring_design/ring.service.es6",
+		"/home/busyalex/Insignety Designer/designer/src/modules/ring_design/texture/texture.controller.es6",
+		"/home/busyalex/Insignety Designer/designer/src/modules/ring_design/texture/lazy-thumbnails.directive.es6",
+		"/home/busyalex/Insignety Designer/designer/src/modules/ring_design/texture/texture.service.es6",
+		"/home/busyalex/Insignety Designer/designer/src/modules/ring_design/texture/texture-dialog.html",
+		"/home/busyalex/Insignety Designer/designer/bower.json",
+		"/home/busyalex/Insignety Designer/designer/gulpfile.js",
+		"/home/busyalex/Insignety Designer/designer/package.json",
+		"/home/busyalex/Insignety Designer/designer/tasks/bower.js",
+		"/home/busyalex/Downloads/three.js-master/src/math/Quaternion.js",
+		"/home/busyalex/Downloads/three.js-master/src/math/Vector3.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/shaders/NewDiamond_Front.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/shaders/NewDiamond_Back.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/shaders/DiamondFront.js",
+		"/home/busyalex/SDFToolkit/SDFToolkit/Assets/Plugins/Editor/Catlike Coding/SDF Toolkit/SDFTextureGeneratorWindow.cs",
+		"/home/busyalex/SDFToolkit/SDFToolkit/Assets/Plugins/Catlike Coding/SDF Toolkit/SDFTextureGenerator.cs",
+		"/home/busyalex/Downloads/three.js-master/examples/js/postprocessing/RenderPass.js",
+		"/home/busyalex/Insignety Designer/designer/src/webgl/shaders/DiamondBack.js"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"/home/busyalex/backoffice/src",
+			"/home/busyalex/Insignety Designer/designer/src/modules/ring_design",
+			"/home/busyalex/Insignety Designer/designer/src/canvas2D,/home/busyalex/Insignety Designer/designer/src/webgl",
+			"/home/busyalex/Insignety Designer/designer/src/canvas2D,/home/busyalex/Insignety Designer/designer/src/webgl,/home/busyalex/Insignety Designer/designer/src/canvas2D,/home/busyalex/Insignety Designer/designer/src/webgl,/home/busyalex/Insignety Designer/designer/src/modules",
+			"/home/busyalex/Insignety Designer/designer/src/canvas2D,/home/busyalex/Insignety Designer/designer/src/webgl,/home/busyalex/Insignety Designer/designer/src/canvas2D,/home/busyalex/Insignety Designer/designer/src/webgl",
+			"/home/busyalex/Insignety Designer/designer/src/canvas2D,/home/busyalex/Insignety Designer/designer/src/webgl",
+			"/home/busyalex/Insignety Designer/designer/src/styles",
+			"/home/busyalex/Insignety Designer/designer",
+			"/home/busyalex/Insignety Designer/designer/src",
+			"/home/busyalex/WEBGL/three/src/rev4",
+			"/home/busyalex/Insignety Designer/designer/src/canvas2D",
+			"/home/busyalex/Insignety Designer/designer/src/webgl",
+			"/home/busyalex/InsignetyDesigner/designer,/home/busyalex/WEBGL/three/src",
+			"/home/busyalex/InsignetyDesigner/designer",
+			"/home/busyalex/InsignetyDesigner/designer/app",
+			"/home/busyalex/InsignetyDesigner/designer/app/scripts",
+			"/home/busyalex/InsignetyDesigner/designer/app/scriptsrepo"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"lookAt",
+			"invert",
+			"model",
+			"camMat",
+			".hdr",
+			"changeArtifactAccess",
+			".hdr",
+			"power",
+			".hdr",
+			"maxsamples",
+			"SAMPLES",
+			".hdr",
+			"normals",
+			"samples",
+			"maxsamples",
+			"samples",
+			".hdr",
+			"side",
+			"planeref",
+			"prgb",
+			"planemat",
+			"meshStats",
+			"stat",
+			"stats",
+			"planeplaceval",
+			"planeplace",
+			"file",
+			"planeplace",
+			"plane",
+			"planemat",
+			"flipp",
+			"A_POLY_NORMAL_INDICES",
+			"envirogama",
+			"enviro",
+			"texenviro",
+			"envirome",
+			"power",
+			"envirome",
+			"diamond",
+			"diamond2",
+			"cognac",
+			"samples",
+			"transform",
+			"placement",
+			"samples",
+			"resizeImage",
+			"evaluate",
+			"ntype",
+			"enum",
+			"PT_ENUM",
+			"continue",
+			"sides",
+			"exter",
+			"INT",
+			"conf",
+			"math",
+			"PI",
+			"base",
+			"exter",
+			"right",
+			"y",
+			"rottxinter",
+			"inter",
+			"sample",
+			"octane.NT_MAT",
+			"matexter",
+			"matinter",
+			"prongCap",
+			"sample",
+			"width",
+			"circumference",
+			"diamond",
+			"ringInfo",
+			"RENDER_OUTPUT_PATH",
+			"invert",
+			"sample",
+			"black",
+			"samples",
+			"addFeature",
+			"handleAddFeatureResponse",
+			"ringService.addFeature",
+			"checkCountRestrictions",
+			"text",
+			"maxChars",
+			"text",
+			"text.options.maxChars",
+			"Alpha",
+			"samples",
+			"sample",
+			"clamp",
+			"maxval",
+			"clamp",
+			"hdr",
+			"samples",
+			"diamond",
+			"samples",
+			"camera",
+			"aperture",
+			"camera",
+			"camposval",
+			"polar",
+			"Vector3",
+			"grup",
+			"planeplace",
+			"\t\n",
+			"NT_Ge",
+			"cherry",
+			"ROOT_PATH",
+			"ringTable",
+			"sample",
+			"dmexter",
+			"point",
+			"keepnenv",
+			"rotexter",
+			"subnormex",
+			"finish",
+			"hmapext_type",
+			"table",
+			"insert",
+			"--",
+			"hmapext",
+			"subnormex",
+			"common",
+			" 0 ",
+			"0",
+			"mesh:setAttribute(octane.A_PIN_COUNT",
+			"A_FILENAME",
+			"skyblue"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"ringTable",
+			"CANVAS.NaturePatternFeature",
+			"ease-in-out",
+			":",
+			"",
+			" ",
+			"",
+			"hAlign.options.floor",
+			"vAlign.options.ceil",
+			"vAlign.options.floor",
+			"thickness.options.step",
+			"thickness.options.ceil",
+			"thickness.options.floor",
+			"length.options.floor",
+			"length.options.step",
+			"length.options.ceil",
+			"length.options.floor"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 4,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "index.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10043,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "lib/gl-matrix.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 174379,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								133947,
+								133947
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 100235.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "vert.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 293,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								256,
+								256
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "controls.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1318,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 699,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								580,
+								580
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 35.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 124.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 29.0
+	},
+	"pinned_build_system": "",
+	"project": "stk.sublime-project",
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"load",
+				"~/octane-scripting/src/Load.lua"
+			],
+			[
+				"",
+				"~/octane-scripting/src/Load.lua"
+			],
+			[
+				"diamond",
+				"~/octane-scripting/src/DiamondPlacement.lua"
+			],
+			[
+				"valida",
+				"~/octane-scripting/src/MeshValidator.lua"
+			],
+			[
+				"ringut",
+				"~/octane-scripting/src/RingUtils.lua"
+			],
+			[
+				"ring",
+				"~/Insignety Designer/designer/src/webgl/ring.js"
+			],
+			[
+				"vali",
+				"~/octane-scripting/src/MeshValidator.lua"
+			],
+			[
+				"diamo",
+				"~/octane-scripting/src/DiamondPlacement.lua"
+			],
+			[
+				"diamon",
+				"~/octane-scripting/src/DiamondPlacement.lua"
+			],
+			[
+				"diamondpl",
+				"~/octane-scripting/src/DiamondPlacement.lua"
+			],
+			[
+				"valid",
+				"~/octane-scripting/src/MeshValidator.lua"
+			],
+			[
+				"ringb",
+				"~/Insignety Designer/designer/src/webgl/RingBuilder.js"
+			],
+			[
+				"ingut",
+				"~/octane-scripting/src/RingUtils.lua"
+			],
+			[
+				"surfa",
+				"~/Insignety Designer/designer/src/canvas2D/Surface2D.js"
+			],
+			[
+				"ringu",
+				"~/octane-scripting/src/RingUtils.lua"
+			],
+			[
+				"conf",
+				"~/Insignety Designer/designer/src/modules/app/insignety-conf.js"
+			],
+			[
+				"diamondp",
+				"~/octane-scripting/src/DiamondPlacement.lua"
+			],
+			[
+				"con",
+				"~/octane-scripting/src/configuration.json"
+			],
+			[
+				"handw",
+				"~/Insignety Designer/designer/src/canvas2D/HandwritingFeature.js"
+			],
+			[
+				"ringdes",
+				"~/Insignety Designer/designer/src/modules/ring_design/ringdesign.controller.es6"
+			],
+			[
+				"tex",
+				"~/Insignety Designer/designer/src/canvas2D/TextFeature.js"
+			],
+			[
+				"ringde",
+				"~/Insignety Designer/designer/src/modules/ring_design/ringdesign.controller.es6"
+			],
+			[
+				"bridge",
+				"~/Insignety Designer/designer/src/webgl/Bridge.js"
+			],
+			[
+				"ecg",
+				"~/Insignety Designer/designer/src/canvas2D/ECGFeature.js"
+			],
+			[
+				"line",
+				"~/Insignety Designer/designer/src/canvas2D/ObliqueLineFeature.js"
+			],
+			[
+				"render",
+				"~/Insignety Designer/designer/src/webgl/Renderer.js"
+			],
+			[
+				"trac",
+				"~/Insignety Designer/designer/src/webgl/lib/js/controls/TrackballControls.js"
+			],
+			[
+				"ringpl",
+				"~/Insignety Designer/designer/src/webgl/shaders/RingPlane.js"
+			],
+			[
+				"raw",
+				"~/Insignety Designer/designer/src/webgl/util/RawGeometry.js"
+			],
+			[
+				"reposito",
+				"~/Insignety Designer/designer/src/webgl/util/Repository.js"
+			],
+			[
+				"utis",
+				"~/Insignety Designer/designer/src/webgl/util/utils.js"
+			],
+			[
+				"repos",
+				"~/Insignety Designer/designer/src/webgl/util/Repository.js"
+			],
+			[
+				"bridg",
+				"~/Insignety Designer/designer/src/webgl/api/Bridge.js"
+			],
+			[
+				"bridger",
+				"~/Insignety Designer/designer/src/webgl/model/RingDescriptor.js"
+			],
+			[
+				"index",
+				"~/Insignety Designer/designer/index.html"
+			],
+			[
+				"ringins",
+				"~/Insignety Designer/designer/src/webgl/RingInstance.js"
+			],
+			[
+				"ringmod",
+				"~/Insignety Designer/designer/src/webgl/model/RingModel.js"
+			],
+			[
+				"ringd",
+				"~/Insignety Designer/designer/src/modules/ring_design/ringdesign.controller.es6"
+			],
+			[
+				"ringmo",
+				"~/Insignety Designer/designer/src/webgl/model/RingModel.js"
+			],
+			[
+				"ringm",
+				"~/Insignety Designer/designer/src/webgl/model/RingModel.js"
+			],
+			[
+				"rawg",
+				"~/Insignety Designer/designer/src/webgl/RawGeometry.js"
+			],
+			[
+				"reposit",
+				"~/Insignety Designer/designer/src/webgl/util/Repository.js"
+			],
+			[
+				"obliq",
+				"~/Insignety Designer/designer/src/canvas2D/ObliqueLineFeature.js"
+			],
+			[
+				"wavef",
+				"~/Insignety Designer/designer/src/canvas2D/WaveFeature.js"
+			],
+			[
+				"linefe",
+				"~/Insignety Designer/designer/src/canvas2D/LineFeature.js"
+			],
+			[
+				"repo",
+				"~/Insignety Designer/designer/src/webgl/Repository.js"
+			],
+			[
+				"reposi",
+				"~/Insignety Designer/designer/src/webgl/Repository.js"
+			],
+			[
+				"rawge",
+				"~/Insignety Designer/designer/src/webgl/RawGeometry.js"
+			],
+			[
+				"wavefea",
+				"~/Insignety Designer/designer/src/canvas2D/WaveFeature.js"
+			],
+			[
+				"linef",
+				"~/Insignety Designer/designer/src/canvas2D/LineFeature.js"
+			],
+			[
+				"wave",
+				"~/Insignety Designer/designer/src/canvas2D/WaveFeature.js"
+			],
+			[
+				"obli",
+				"~/Insignety Designer/designer/src/canvas2D/ObliqueLineFeature.js"
+			],
+			[
+				"obl",
+				"~/Insignety Designer/designer/src/canvas2D/ObliqueLineFeature.js"
+			],
+			[
+				"repostiory",
+				"~/Insignety Designer/designer/src/webgl/Repository.js"
+			],
+			[
+				"indexed",
+				"~/Insignety Designer/designer/src/webgl/indexedOBJLoader.js"
+			],
+			[
+				"diamod",
+				"~/Insignety Designer/designer/src/webgl/shaders/NewDiamond_Front.js"
+			],
+			[
+				"materials",
+				"~/Insignety Designer/designer/src/webgl/Materials.js"
+			],
+			[
+				"rend",
+				"~/Insignety Designer/designer/src/webgl/Renderer.js"
+			],
+			[
+				"diamondb",
+				"~/Insignety Designer/designer/src/webgl/shaders/NewDiamond_Back.js"
+			],
+			[
+				"utils",
+				"~/Insignety Designer/designer/src/webgl/utils.js"
+			],
+			[
+				"mater",
+				"~/Insignety Designer/designer/src/webgl/Materials.js"
+			],
+			[
+				"material",
+				"~/Insignety Designer/designer/src/webgl/Materials.js"
+			],
+			[
+				"confgi",
+				"~/octane-scripting/assets/configuration.json"
+			],
+			[
+				"diamond_fr",
+				"~/Insignety Designer/designer/src/webgl/shaders/NewDiamond_Front.js"
+			],
+			[
+				"utisl",
+				"~/Insignety Designer/designer/src/webgl/utils.js"
+			],
+			[
+				"rende",
+				"~/Insignety Designer/designer/src/webgl/Renderer.js"
+			],
+			[
+				"three",
+				"~/Insignety Designer/designer/src/webgl/lib/three.js"
+			],
+			[
+				"thre",
+				"~/Insignety Designer/designer/src/webgl/lib/three.js"
+			],
+			[
+				"br",
+				"~/Insignety Designer/designer/src/webgl/Bridge.js"
+			],
+			[
+				"util",
+				"~/Insignety Designer/designer/src/webgl/utils.js"
+			],
+			[
+				"canvast",
+				"~/Insignety Designer/designer/src/webgl/CanvasTexture.js"
+			],
+			[
+				"obj",
+				"~/Insignety Designer/designer/src/webgl/indexedOBJLoader.js"
+			],
+			[
+				"ringdse",
+				"~/Insignety Designer/designer/src/modules/ring_design/ringdesign.controller.es6"
+			],
+			[
+				"diamondstr",
+				"~/Insignety Designer/designer/src/webgl/DiamondStructure.js"
+			],
+			[
+				"diamondba",
+				"~/Insignety Designer/designer/src/webgl/DiamondBatch.js"
+			],
+			[
+				"diamonds",
+				"~/Insignety Designer/designer/src/webgl/DiamondStructure.js"
+			],
+			[
+				"uti",
+				"~/Insignety Designer/designer/src/webgl/utils.js"
+			],
+			[
+				"ut",
+				"~/Insignety Designer/designer/src/webgl/utils.js"
+			],
+			[
+				"dia",
+				"~/Insignety Designer/designer/src/webgl/shaders/DiamondFront.js"
+			],
+			[
+				"nature",
+				"~/Insignety Designer/designer/src/canvas2D/NaturePatternFeature.js"
+			],
+			[
+				"naturepa",
+				"~/Insignety Designer/designer/src/canvas2D/NaturePatternFeature.js"
+			],
+			[
+				"natur",
+				"~/Insignety Designer/designer/src/canvas2D/NaturePatternFeature.js"
+			],
+			[
+				"patter",
+				"~/Insignety Designer/designer/src/canvas2D/PatternFeature.js"
+			],
+			[
+				"naturep",
+				"~/Insignety Designer/designer/src/canvas2D/NaturePatternFeature.js"
+			],
+			[
+				"track",
+				"~/Insignety Designer/designer/src/webgl/lib/js/controls/TrackballControls.js"
+			],
+			[
+				"text",
+				"~/Insignety Designer/designer/src/modules/ring_design/texture/texture.controller.es6"
+			],
+			[
+				"texture",
+				"~/Insignety Designer/designer/src/modules/ring_design/texture/texture.controller.es6"
+			],
+			[
+				"brd",
+				"~/Insignety Designer/designer/src/webgl/Bridge.js"
+			],
+			[
+				"laz",
+				"~/Insignety Designer/designer/src/modules/ring_design/texture/lazy-thumbnails.directive.es6"
+			],
+			[
+				"te",
+				"~/Insignety Designer/designer/src/modules/ring_design/texture/texture.controller.es6"
+			],
+			[
+				"lax",
+				"~/SDFToolkit/SDFToolkit/Assets/Plugins/Catlike Coding/SDF Toolkit/SDFTextureGenerator.cs"
+			],
+			[
+				"newdiamond",
+				"~/Insignety Designer/designer/src/webgl/shaders/NewDiamond_Front.js"
+			],
+			[
+				"loadd",
+				"~/octane-scripting/src/LoadDiamonds.lua"
+			],
+			[
+				"diamondfr",
+				"~/Insignety Designer/designer/src/webgl/shaders/NewDiamond_Front.js"
+			],
+			[
+				"diamodfr",
+				"~/Insignety Designer/designer/src/webgl/shaders/NewDiamond_Front.js"
+			],
+			[
+				"diamodfron",
+				"~/Insignety Designer/designer/src/webgl/shaders/NewDiamond_Front.js"
+			],
+			[
+				"rinb",
+				"~/Insignety Designer/designer/src/webgl/RingBuilder.js"
+			],
+			[
+				"trackba",
+				"~/Insignety Designer/designer/src/webgl/lib/js/controls/TrackballControls.js"
+			],
+			[
+				"trackb",
+				"~/Insignety Designer/designer/src/webgl/lib/js/controls/TrackballControls.js"
+			],
+			[
+				"ringbu",
+				"~/Insignety Designer/designer/src/webgl/RingBuilder.js"
+			],
+			[
+				"ringin",
+				"~/Insignety Designer/designer/src/webgl/RingInstance.js"
+			],
+			[
+				"ringbui",
+				"~/Insignety Designer/designer/src/webgl/RingBuilder.js"
+			],
+			[
+				"iamob",
+				"~/Insignety Designer/designer/src/webgl/DiamondBatch.js"
+			],
+			[
+				"diamndb",
+				"~/Insignety Designer/designer/src/webgl/DiamondBatch.js"
+			],
+			[
+				"ringddes",
+				"~/Insignety Designer/designer/src/modules/ring_design/ringdesign.controller.es6"
+			],
+			[
+				"re",
+				"~/Insignety Designer/designer/src/webgl/Renderer.js"
+			],
+			[
+				"diamondbac",
+				"~/Insignety Designer/designer/src/webgl/shaders/DiamondBack.js"
+			],
+			[
+				"ingdes",
+				"~/Insignety Designer/designer/src/modules/ring_design/ringdesign.controller.es6"
+			],
+			[
+				"diamondf",
+				"~/Insignety Designer/designer/src/webgl/shaders/DiamondFront.js"
+			],
+			[
+				"ren",
+				"~/Insignety Designer/designer/src/webgl/Renderer.js"
+			],
+			[
+				"rener",
+				"~/Insignety Designer/designer/src/webgl/OffscreenRender.js"
+			],
+			[
+				"materil",
+				"~/Insignety Designer/designer/src/webgl/Materials.js"
+			],
+			[
+				"async",
+				"~/Insignety Designer/designer/src/webgl/AsyncRingBuilder.js"
+			],
+			[
+				"asy",
+				"~/Insignety Designer/designer/src/webgl/AsyncRingBuilder.js"
+			],
+			[
+				"idex",
+				"~/Insignety Designer/designer/index.html"
+			],
+			[
+				"asyn",
+				"~/Insignety Designer/designer/src/webgl/AsyncRingBuilder.js"
+			],
+			[
+				"can",
+				"~/Insignety Designer/designer/src/webgl/CanvasTexture.js"
+			],
+			[
+				"canvas",
+				"~/Insignety Designer/designer/src/webgl/CanvasTexture.js"
+			],
+			[
+				"textures",
+				"~/Insignety Designer/designer/src/modules/ring_design/texture/texture.controller.es6"
+			],
+			[
+				"rz",
+				"~/Insignety Designer/designer/bower_components/angularjs-slider/dist/rzslider.js"
+			],
+			[
+				"finger",
+				"~/Insignety Designer/designer/src/canvas2D/FingerprintFeature.js"
+			],
+			[
+				"featurem",
+				"~/Insignety Designer/designer/src/canvas2D/FeatureModel.js"
+			],
+			[
+				"fingerprint",
+				"~/Insignety Designer/designer/src/canvas2D/FingerprintFeature.js"
+			],
+			[
+				"slider",
+				"~/Insignety Designer/designer/bower_components/angularjs-slider/dist/rzslider.js"
+			],
+			[
+				"fingerp",
+				"~/Insignety Designer/designer/src/canvas2D/FingerprintFeature.js"
+			],
+			[
+				"surface",
+				"~/Insignety Designer/designer/src/canvas2D/Surface2D.js"
+			],
+			[
+				"fastrnm",
+				"~/Insignety Designer/designer/src/webgl/shaders/FastRNM.js"
+			],
+			[
+				"brid",
+				"~/Insignety Designer/designer/src/webgl/Bridge.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

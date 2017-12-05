@@ -3,7 +3,7 @@ var fragSrc = `#version 300 es
 	 
 	in vec2 vUv;
 
-	out vec4 outColor;
+	layout(location = 0) out vec4 outColor;
 	uniform sampler2D albedo;
 
 	void main() {

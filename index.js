@@ -4,7 +4,7 @@ new STK.NodeState()
  controls.bindInput(canvas);
  gl = canvas.getContext('webgl2');
 var vertex_buffer, uv_buffer, Index_Buffer, shaderProgram, vao, samplerObject, textureObject, textureLocation;
-var quad_buffer, quad_index_buffer, quad_shaderProgram, quad_textureLocation
+var quad_buffer, quad_index_buffer, quad_shaderProgram, quad_textureLocation, quad_depthLocation
 var u_1, u_2;
 var targetTexture, fb, depthTexture;
 var projection = mat4.perspective([], Math.PI/3, gl.canvas.clientWidth / gl.canvas.clientHeight, 1, 1000);
@@ -100,8 +100,8 @@ function init(){
 	vertShader = createShader(gl, gl.VERTEX_SHADER, fsquad_vert);
     fragShader = createShader(gl, gl.FRAGMENT_SHADER, fsquad_frag);
     quad_shaderProgram = createProgram(gl, vertShader, fragShader);
-    quad_textureLocation = gl.getUniformLocation(shaderProgram,'tex');
-
+    quad_textureLocation = gl.getUniformLocation(quad_shaderProgram,'tex');
+    quad_depthLocation = gl.getUniformLocation(quad_shaderProgram,'depth');
 	 /*======= Associating shaders to buffer objects =======*/
 	 vao = gl.createVertexArray();
 	 gl.bindVertexArray(vao);
@@ -180,7 +180,7 @@ function init(){
     gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
      
     // attach the texture as the first color attachment
-    //gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, targetTexture, level);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, targetTexture, level);
   	gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, depthTexture, level);
 
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
@@ -213,8 +213,8 @@ function update(){
 	 
 	 // Clear the canvas
 	 gl.clearColor(1, 1, 1, 1);
-	 gl.colorMask(false, false, false, false);
- 	 // gl.activeTexture(gl.TEXTURE0);
+	 //gl.colorMask(false, false, false, false);
+ 	 gl.activeTexture(gl.TEXTURE0);
 	 gl.bindTexture(gl.TEXTURE_2D, textureObject);
 	 gl.bindSampler(0, samplerObject);
 
@@ -236,6 +236,7 @@ function update(){
 //---------------------------------------------------------------------
 	gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 	gl.bindVertexArray(null);
+	gl.bindSampler(0, null);
 	 // gl.useProgram(shaderProgram);
 
 	 // gl.bindVertexArray(vao);
@@ -268,16 +269,19 @@ function update(){
 	gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0); 
 
 	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, quad_index_buffer);
-	gl.colorMask(true, true, true, true);
-	gl.clearColor(1, 1, 1, 1);
+	//gl.colorMask(true, true, true, true);
+	//gl.clearColor(1, 1, 1, 1);
 
+	gl.activeTexture(gl.TEXTURE0);
+	gl.bindTexture(gl.TEXTURE_2D, targetTexture);
+	gl.activeTexture(gl.TEXTURE1);
 	gl.bindTexture(gl.TEXTURE_2D, depthTexture);
-	gl.bindSampler(0, null);
 
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	gl.viewport(0,0,canvas.width,canvas.height);
 
 	gl.uniform1i(quad_textureLocation, 0);
+	gl.uniform1i(quad_depthLocation, 1);
 	gl.drawElements(gl.TRIANGLES, quad.indices.length, gl.UNSIGNED_SHORT,0);
 	window.requestAnimationFrame(update);
 }
