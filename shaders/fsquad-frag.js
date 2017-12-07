@@ -9,15 +9,15 @@ var fsquad_frag = `#version 300 es
 
 	float LinearizeDepth(in sampler2D depthTexture, in vec2 uv)
 	{
-	    float zNear = 1.;    // TODO: Replace by the zNear of your perspective projection
-	    float zFar  = 1000.0; // TODO: Replace by the zFar  of your perspective projection
+	    float zNear = 0.1;    // TODO: Replace by the zNear of your perspective projection
+	    float zFar  = 10.0; // TODO: Replace by the zFar  of your perspective projection
 	    float depth = texture(depthTexture, uv).r;
 	    return (2.0 * zNear) / (zFar + zNear - depth * (zFar - zNear));
 	}
 
 	void main() {
 	  vec4 color = texture(tex, vUv);
-	  float depth = texture(depth, vUv).r;
-	  outColor = vec4(color.rgb*depth, 1.);
+	  float depth = LinearizeDepth(depth, vUv);
+	  outColor = vec4(depth,depth,depth,1.);//vec4(color.rgb*depth, 1.);
 	}`
 ;

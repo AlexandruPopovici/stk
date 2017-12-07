@@ -1,4 +1,3 @@
-new STK.NodeState()
  var canvas = document.getElementById('glCanvas');
  controls = createControllerEntity();
  controls.bindInput(canvas);
@@ -7,7 +6,7 @@ var vertex_buffer, uv_buffer, Index_Buffer, shaderProgram, vao, samplerObject, t
 var quad_buffer, quad_index_buffer, quad_shaderProgram, quad_textureLocation, quad_depthLocation
 var u_1, u_2;
 var targetTexture, fb, depthTexture;
-var projection = mat4.perspective([], Math.PI/3, gl.canvas.clientWidth / gl.canvas.clientHeight, 1, 1000);
+var projection = mat4.perspective([], Math.PI/3, gl.canvas.clientWidth / gl.canvas.clientHeight, 0.1, 100);
 var model = mat4.translate([], mat4.create(), vec3.fromValues(0,0,0));
 var quad;
 var projection_l, view_l, model_l;
