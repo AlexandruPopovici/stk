@@ -2,10 +2,10 @@
 STK.GPawn = function(geometry, material, drawContext){
 	this.guid = generateUUID();
 
-	this.vao = geometry.makeVAO(); /* Vertex Array Object */
-	this.ubo = material.makeUBO(); /* Uniform Byffer Object */
-	this.tao = material.makeTAO(); /* Texture Array Object */
-	this.sbo = material.makeSBO(); /* Sampler Buffer Object */
+	this.vao = geometry.createVAO(); /* Vertex Array Object */
+	this.ubo = material.createUBO(); /* Uniform Buffer Object */
+	//this.tao = material.makeTAO(); /* Texture Array Object */
+	this.sbo = material.createSBO(); /* Sampler Buffer Object */
 
 	this.drawContext = drawContext;
 	return this.guid;

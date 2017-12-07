@@ -4,13 +4,18 @@ var vertSrc = `#version 300 es
 	layout(location = 1) in vec2 uv;
 	out vec2 vUv;
 
-	uniform mat4 projection;
-	uniform mat4 view;
-	uniform mat4 model;
-
+	layout (std140) uniform Transform_data
+	{ 
+	  mat4 projection;
+	  mat4 model;
+	  mat4 view;
+	} transform_data;
+	
+	// uniform mat4 view;
+	// uniform mat4 model;
 	void main() {
 	 
 	  vUv = uv;
-	  gl_Position = projection * view * model * vec4(position, 1.);
+	  gl_Position = transform_data.projection * transform_data.view * transform_data.model * vec4(position, 1.);
 	}
 `;

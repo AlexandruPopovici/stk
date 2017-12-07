@@ -2,11 +2,12 @@
  controls = createControllerEntity();
  controls.bindInput(canvas);
  gl = canvas.getContext('webgl2');
-var vertex_buffer, uv_buffer, Index_Buffer, shaderProgram, vao, samplerObject, textureObject, textureLocation;
+var vertex_buffer, uv_buffer, Index_Buffer, shaderProgram, vao, samplerObject, textureObject, textureLocation, ubo;
 var quad_buffer, quad_index_buffer, quad_shaderProgram, quad_textureLocation, quad_depthLocation
 var u_1, u_2;
 var targetTexture, fb, depthTexture;
 var projection = mat4.perspective([], Math.PI/3, gl.canvas.clientWidth / gl.canvas.clientHeight, 0.1, 100);
+var view = mat4.create();
 var model = mat4.translate([], mat4.create(), vec3.fromValues(0,0,0));
 var quad;
 var projection_l, view_l, model_l;
@@ -183,6 +184,17 @@ function init(){
   	gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, depthTexture, level);
 
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+
+    var uniformData = new Float32Array(projection.length+model.length+view.length);
+    uniformData.set(projection);
+    uniformData.set(model, projection.length);
+    uniformData.set(view, projection.length+model.length);
+    ubo = gl.createBuffer();
+    gl.bindBuffer(gl.UNIFORM_BUFFER, ubo);
+    gl.bufferData(gl.UNIFORM_BUFFER, uniformData, gl.DYNAMIC_DRAW);
+	gl.bindBuffer(gl.UNIFORM_BUFFER, null);
+	const ubo_id = gl.getUniformBlockIndex(shaderProgram, "Transform_data");
+    gl.uniformBlockBinding(shaderProgram, ubo_id, 0);
 }
 var drawCount = 1
 function update(){
@@ -192,7 +204,7 @@ function update(){
 	// mat4.translate(camMat, camMat, vec3.fromValues(2,2,-10));
 	// var viewPoint = mat4.fromValues(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1);
 	// mat4.multiply(camMat, camMat, viewPoint);
-	var view = controls.out;//mat4.invert(camMat, camMat);
+	view = controls.out;//mat4.invert(camMat, camMat);
 	//mat4.invert(view, view);
 	// console.warn(controls.out);
 	 // gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
@@ -226,9 +238,14 @@ function update(){
 	 // Set the view port
 	 gl.viewport(0,0,canvas.width,canvas.height);
 	 
-	 gl.uniformMatrix4fv(projection_l, false, projection);
-	 gl.uniformMatrix4fv(view_l, false, view);
-	 gl.uniformMatrix4fv(model_l, false, model);
+	 gl.bindBuffer(gl.UNIFORM_BUFFER, ubo);
+	 gl.bufferSubData(gl.UNIFORM_BUFFER, 32*4, view, 0, view.length);
+	 gl.bindBuffer(gl.UNIFORM_BUFFER, null);
+	 
+     gl.bindBufferBase(gl.UNIFORM_BUFFER, 0, ubo);
+	 //gl.uniformMatrix4fv(projection_l, false, projection);
+	 // gl.uniformMatrix4fv(view_l, false, view);
+	 // gl.uniformMatrix4fv(model_l, false, model);
 	 gl.uniform1i(textureLocation, 0);
 	 gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT,0);
 

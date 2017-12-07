@@ -16,12 +16,12 @@ STK.Geometry.prototype = {
 	* @param {arguments} Variable number of arguments in the repeating form of(name:string, data:array, etc)
 	*/
 	_init: function(arguments){
-		for(var i = 0 ; i < arguments.length; i+=2){
+		for(var i = 1 ; i < arguments.length; i+=2){
 			this.data[arguments[i]] = arguments[i+1]
 		}
 	},
 
-	makeVAO: function(){
+	createVAO: function(){
 		var gl = STK.Board.Context;
 		var vertex_buffer = gl.createBuffer();
 
@@ -49,7 +49,7 @@ STK.Geometry.prototype = {
 		// Unbind the buffer
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
 
-		this.vao = gl.createVertexArray();
+		var vao = gl.createVertexArray();
 		gl.bindVertexArray(vao);
 		// Bind vertex buffer object
 		gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
@@ -59,10 +59,10 @@ STK.Geometry.prototype = {
 		gl.bindBuffer(gl.ARRAY_BUFFER, uv_buffer);
 	 	gl.enableVertexAttribArray(1);
 		gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 0, 0); 
-		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, Index_Buffer);
+		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_Buffer);
 		gl.bindVertexArray(null);
 
-		return this.vao;
+		return vao;
 	},
 
 }
