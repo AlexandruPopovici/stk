@@ -2,6 +2,7 @@ STK.Geometry = function(id){
 	this.userID = id;
 	this.guid = generateUUID();
 	this.data = {};
+	this.handles = {};
 	this._init(arguments);
 	return this.guid;
 }
@@ -21,7 +22,16 @@ STK.Geometry.prototype = {
 		}
 	},
 
-	createVAO: function(){
+	_checkHandles: function(){
+		for(var handle in this.handles){
+			if(this.handles.hasOwnProperty(handle)){
+				if(this.handles[handle] == undefined)
+					console.error("Handle -> ", handle, ' is invalid!');
+			}
+		}
+	},
+
+	createGL: function(){
 		var gl = STK.Board.Context;
 		var vertex_buffer = gl.createBuffer();
 
@@ -30,7 +40,7 @@ STK.Geometry.prototype = {
 		// Pass the vertex data to the buffer
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.data['positions']), gl.STATIC_DRAW);
 		// Unbind the buffer
-		gl.bindBuffer(gl.ARRAY_BUFFER, null);
+		this.handles['vbo_positions'] = vertex_buffer;
 
 		var uv_buffer = gl.createBuffer();
 		// Bind appropriate array buffer to it
@@ -38,7 +48,7 @@ STK.Geometry.prototype = {
 		// Pass the vertex data to the buffer
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.data['uvs']), gl.STATIC_DRAW);
 		// Unbind the buffer
-		gl.bindBuffer(gl.ARRAY_BUFFER, null);
+		this.handles['vbo_uvs'] = uv_buffer;
 
 		// Create an empty buffer object to store Index buffer
 		var index_Buffer = gl.createBuffer();
@@ -47,7 +57,7 @@ STK.Geometry.prototype = {
 		// Pass the vertex data to the buffer
 		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.data['indices']), gl.STATIC_DRAW);
 		// Unbind the buffer
-		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+		this.handles['ibo'] = index_Buffer;
 
 		var vao = gl.createVertexArray();
 		gl.bindVertexArray(vao);
@@ -61,8 +71,31 @@ STK.Geometry.prototype = {
 		gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 0, 0); 
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_Buffer);
 		gl.bindVertexArray(null);
+		this.handles['vao'] = vao;
 
-		return vao;
+		this._checkHandles();
+	},
+
+	/**
+	params = {
+			glHandleID: 'id',
+			glType: int,
+			glMode: int,
+			data: [],
+			offset,
+			size
+		}
+	*/
+	updateGL: function(params){
+		var gl = STK.Board.Context;
+		gl.bindBuffer(params.glType, this.handles[params.glHandleID]);
+		if(params.size - params.offset < params.size){
+			gl.bufferSubData(params.glType, params.offset, new Float32Array(params.data), 0, params.size);
+		}
+		else{
+			gl.bufferData(params.glType, new Float32Array(params.data), params.glMode);
+		}
+		gl.bindBuffer(params.glType, null);
 	},
 
 }
