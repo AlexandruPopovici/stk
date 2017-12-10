@@ -1,8 +1,9 @@
-STK.Material = function(vert, frag){
+STK.Material = function(name, vert, frag){
+	this.userID = name;
 	this.guid = generateUUID();
-
+	this.data = {};
+	this.handles = {};
 	this.program = this._makeProgram(vert, frag);
-
 	return this.guid;
 }
 
@@ -16,21 +17,28 @@ STK.Material.prototype = {
 	    return createProgram(gl, vertShader, fragShader);
 	},
 
-	createUBO: function(size, uniform_block_name, index){
+	createGL: function(uniform_block_name, size){
 		var gl = STK.Board.Context;
-	    const ubo = gl.createBuffer();
-	    gl.bindBuffer(gl.UNIFORM_BUFFER, ubo);
-	    gl.bufferData(gl.UNIFORM_BUFFER, new Float32Array(size), gl.DYNAMIC_DRAW);
+	    
+		var ubo = gl.createBuffer();
+		gl.bindBuffer(gl.UNIFORM_BUFFER, ubo);
+		gl.bufferData(gl.UNIFORM_BUFFER, new Float32Array(size), gl.DYNAMIC_DRAW);
 		gl.bindBuffer(gl.UNIFORM_BUFFER, null);
-		const ubo_id = gl.getUniformBlockIndex(this.program, uniform_block_name);
-	    gl.uniformBlockBinding(this.program, ubo_id, index);
+		
 	    return ubo;
+	    
 	},
 
-	updateUBO: function(ubo, data){
+	bindGL: function(index, uniform_block_name){
 		var gl = STK.Board.Context;
-		gl.bindBuffer(gl.UNIFORM_BUFFER, ubo);
-	    gl.bufferData(gl.UNIFORM_BUFFER, data, gl.DYNAMIC_DRAW);
+		const ubo_id = gl.getUniformBlockIndex(this.program, uniform_block_name);
+	    gl.uniformBlockBinding(this.program, ubo_id, index);
+	},
+
+	updateGL: function(handle, offset, data){
+		var gl = STK.Board.Context;
+		gl.bindBuffer(gl.UNIFORM_BUFFER, handle);
+		gl.bufferSubData(gl.UNIFORM_BUFFER, offset*4, new Float32Array(data), 0, data.length);
 		gl.bindBuffer(gl.UNIFORM_BUFFER, null);
 	},
 

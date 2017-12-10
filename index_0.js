@@ -7,17 +7,23 @@ var projection = mat4.perspective([], Math.PI/3, gl.canvas.clientWidth / gl.canv
 var view = mat4.create();
 var model = mat4.translate([], mat4.create(), vec3.fromValues(0,0,0));
 
+var ubo = null;
  function init(){
  	this.board = new STK.Board(gl);
  	this.shape = Torus(1.0, 0.4);
  	this.geometry = new STK.Geometry('Torus', 'positions', shape.vertices, 'uvs', shape.uvs, 'indices', shape.indices);
- 	this.material = new STK.Material(vertSrc, fragSrc);
+ 	this.material = new STK.Material('Mat', vertSrc, fragSrc);
  	this.drawContext = new STK.DrawContext(canvas.width, canvas.height);
 
  	// this.pawn = new STK.GPawn(geometry, material, drawContext);
  	// this.vao = geometry.createVAO();
  	geometry.createGL();
- 	this.ubo = material.createUBO(16*3, 'Transform_data', 0);
+ 	//this.ubo = material.createUBO(16*3, 'Transform_data', 0);
+ 	ubo = material.createGL('Transform_data', 16*3);
+ 	material.bindGL(0, 'Transform_data');
+ 	material.updateGL(ubo, 0, projection);
+ 	material.updateGL(ubo, 16, model);
+ 	material.updateGL(ubo, 32, view);
  	this.sbo = material.createSBO();
 
  	loadImage('assets/textures/metal1.jpg', function(image){
@@ -48,7 +54,6 @@ var small = 0.4;
  	gl.useProgram(this.material.program);
 
 	gl.bindVertexArray(geometry.handles['vao']);
-	 
 	
  	gl.activeTexture(gl.TEXTURE0);
 	gl.bindTexture(gl.TEXTURE_2D, this.tao);
@@ -63,15 +68,13 @@ var small = 0.4;
 		offset: 0,
 		size: g.vertices.length
 	});
+
 	large += 0.01;
 	small += 0.01;
-	gl.bindBuffer(gl.UNIFORM_BUFFER, this.ubo);
-	gl.bufferSubData(gl.UNIFORM_BUFFER, 0, new Float32Array(projection), 0, 16);
-	gl.bufferSubData(gl.UNIFORM_BUFFER, 16*4, new Float32Array(model), 0, 16);
-	gl.bufferSubData(gl.UNIFORM_BUFFER, 32*4, new Float32Array(controls.out), 0, 16);
-	gl.bindBuffer(gl.UNIFORM_BUFFER, null);
-	 
-    gl.bindBufferBase(gl.UNIFORM_BUFFER, 0, this.ubo);
+	
+ 	material.updateGL(ubo, 32, controls.out);
+
+    gl.bindBufferBase(gl.UNIFORM_BUFFER, 0, ubo);
 	gl.uniform1i(this.textureLocation, 0);
 	gl.drawElements(gl.TRIANGLES, this.shape.indices.length, gl.UNSIGNED_SHORT,0);
 
