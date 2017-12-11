@@ -1,13 +1,12 @@
-var fragSrc = `#version 300 es
+var indirect_frag = `#version 300 es
 	precision highp float;
 	 
 	in vec2 vUv;
-	in vec3 vN;
 
 	layout(location = 0) out vec4 outColor;
 	uniform sampler2D albedo;
 
 	void main() {
-	  outColor = vec4(normalize(vN*0.5+0.5), 1.0);//texture(albedo, vUv);
+	  outColor = texture(albedo, vUv);
 	}`
 ;
