@@ -26,13 +26,6 @@ STK.Material.prototype = {
 		gl.bindBuffer(gl.UNIFORM_BUFFER, null);
 		
 	    return ubo;
-	    
-	},
-
-	bindGL: function(index, uniform_block_name){
-		var gl = STK.Board.Context;
-		const ubo_id = gl.getUniformBlockIndex(this.program, uniform_block_name);
-	    gl.uniformBlockBinding(this.program, ubo_id, index);
 	},
 
 	updateGL: function(handle, offset, data){
@@ -42,7 +35,25 @@ STK.Material.prototype = {
 		gl.bindBuffer(gl.UNIFORM_BUFFER, null);
 	},
 
-	createSBO: function(){
+	bindGL: function(index, uniform_block_name){
+		var gl = STK.Board.Context;
+		const ubo_id = gl.getUniformBlockIndex(this.program, uniform_block_name);
+	    gl.uniformBlockBinding(this.program, ubo_id, index);
+	},
+
+	createTexture: function(texName, path, uniformName){
+		loadImage(path, function(image){
+		    this.handles[texName] = gl.createTexture();
+		    gl.bindTexture(gl.TEXTURE_2D, this.handles[texName]);
+		    // Upload the image into the texture.
+		    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+		    gl.generateMipmap(gl.TEXTURE_2D);
+		    gl.bindTexture(gl.TEXTURE_2D, null);
+		    this.handles[uniformName] = gl.getUniformLocation(this.program, uniformName);
+		}.bind(this));
+	},
+
+	createSampler: function(params){
 		var gl = STK.Board.Context;
 		var sbo = gl.createSampler();
 		gl.samplerParameteri(sbo, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
@@ -50,6 +61,14 @@ STK.Material.prototype = {
 		gl.samplerParameteri(sbo, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
 		gl.samplerParameteri(sbo, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 		return sbo;
+	},
+
+	bindTexture: function(texUnit, texName, sampler, uniformName){
+		gl.activeTexture(texUnit);
+		gl.bindTexture(gl.TEXTURE_2D, this.handles[texName]);
+		gl.bindSampler(texUnit-gl.TEXTURE0, sampler);
+		gl.uniform1i(this.handles[uniformName], texUnit-gl.TEXTURE0);
 	}
 
+	
 }
