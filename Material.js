@@ -19,12 +19,10 @@ STK.Material.prototype = {
 
 	createGL: function(uniform_block_name, size){
 		var gl = STK.Board.Context;
-	    
 		var ubo = gl.createBuffer();
 		gl.bindBuffer(gl.UNIFORM_BUFFER, ubo);
 		gl.bufferData(gl.UNIFORM_BUFFER, new Float32Array(size), gl.DYNAMIC_DRAW);
 		gl.bindBuffer(gl.UNIFORM_BUFFER, null);
-		
 	    return ubo;
 	},
 
@@ -37,7 +35,7 @@ STK.Material.prototype = {
 
 	bindGL: function(index, uniform_block_name){
 		var gl = STK.Board.Context;
-		const ubo_id = gl.getUniformBlockIndex(this.program, uniform_block_name);
+		var ubo_id = gl.getUniformBlockIndex(this.program, uniform_block_name);
 	    gl.uniformBlockBinding(this.program, ubo_id, index);
 	},
 
@@ -53,13 +51,23 @@ STK.Material.prototype = {
 		}.bind(this));
 	},
 
+	/**
+		params: {
+			wrapS: int,
+			wrapT: int
+		}
+	*/
 	createSampler: function(params){
 		var gl = STK.Board.Context;
 		var sbo = gl.createSampler();
 		gl.samplerParameteri(sbo, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
 		gl.samplerParameteri(sbo, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-		gl.samplerParameteri(sbo, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-		gl.samplerParameteri(sbo, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		gl.samplerParameteri(sbo, gl.TEXTURE_WRAP_S, params.wrapS);
+		gl.samplerParameteri(sbo, gl.TEXTURE_WRAP_T, params.wrapT);
+
+		//Anisotropic filtering does not work with sampler objects...great
+		// var ext = gl.getExtension('EXT_texture_filter_anisotropic');
+	    // gl.samplerParameterf(sbo, ext.TEXTURE_MAX_ANISOTROPY_EXT, 16.);
 		return sbo;
 	},
 

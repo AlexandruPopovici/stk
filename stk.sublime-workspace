@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"getDiamon",
+				"getDiamondCount"
+			],
+			[
+				"di",
+				"diamondAmount"
+			],
+			[
+				"depth",
+				"depthTexture\t(?)"
+			],
+			[
 				"normaliz",
 				"normalize3"
 			],
@@ -428,10 +440,6 @@
 				"DIAMOND_FILL_FILL\t(str)"
 			],
 			[
-				"getDiamon",
-				"getDiamondMargin"
-			],
-			[
 				"DIAMOND_FILL",
 				"DIAMOND_FILL_LOOSE\t(str)"
 			],
@@ -506,24 +514,197 @@
 			[
 				"right",
 				"rightWidth\t(num)"
-			],
-			[
-				"_target",
-				"_targetRadius"
-			],
-			[
-				"multiply",
-				"multiplyScalar"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "index.js",
+			"file": "index_0.js",
 			"settings":
 			{
-				"buffer_size": 10043,
+				"buffer_size": 3388,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "STK.Material = function(name, vert, frag){\n\tthis.userID = name;\n\tthis.guid = generateUUID();\n\tthis.data = {};\n\tthis.handles = {};\n\tthis.program = this._makeProgram(vert, frag);\n\treturn this.guid;\n}\n\nSTK.Material.prototype = {\n\n\tconstructor: STK.Material,\n\n\t_makeProgram: function(vert, frag){\n\t\tvar vertShader = createShader(gl, gl.VERTEX_SHADER, vert);\n\t    var fragShader = createShader(gl, gl.FRAGMENT_SHADER, frag);\n\t    return createProgram(gl, vertShader, fragShader);\n\t},\n\n\tcreateGL: function(uniform_block_name, size){\n\t\tvar gl = STK.Board.Context;\n\t\tvar ubo = gl.createBuffer();\n\t\tgl.bindBuffer(gl.UNIFORM_BUFFER, ubo);\n\t\tgl.bufferData(gl.UNIFORM_BUFFER, new Float32Array(size), gl.DYNAMIC_DRAW);\n\t\tgl.bindBuffer(gl.UNIFORM_BUFFER, null);\n\t    return ubo;\n\t},\n\n\tupdateGL: function(handle, offset, data){\n\t\tvar gl = STK.Board.Context;\n\t\tgl.bindBuffer(gl.UNIFORM_BUFFER, handle);\n\t\tgl.bufferSubData(gl.UNIFORM_BUFFER, offset*4, new Float32Array(data), 0, data.length);\n\t\tgl.bindBuffer(gl.UNIFORM_BUFFER, null);\n\t},\n\n\tbindGL: function(index, uniform_block_name){\n\t\tvar gl = STK.Board.Context;\n\t\tvar ubo_id = gl.getUniformBlockIndex(this.program, uniform_block_name);\n\t    gl.uniformBlockBinding(this.program, ubo_id, index);\n\t},\n\n\tcreateTexture: function(texName, path, uniformName){\n\t\tloadImage(path, function(image){\n\t\t    this.handles[texName] = gl.createTexture();\n\t\t    gl.bindTexture(gl.TEXTURE_2D, this.handles[texName]);\n\t\t    // Upload the image into the texture.\n\t\t    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);\n\t\t    gl.generateMipmap(gl.TEXTURE_2D);\n\t\t    gl.bindTexture(gl.TEXTURE_2D, null);\n\t\t    this.handles[uniformName] = gl.getUniformLocation(this.program, uniformName);\n\t\t}.bind(this));\n\t},\n\n\t/**\n\t\tparams: {\n\t\t\twrapS: int,\n\t\t\twrapT: int\n\t\t}\n\t*/\n\tcreateSampler: function(params){\n\t\tvar gl = STK.Board.Context;\n\t\tvar sbo = gl.createSampler();\n\t\tgl.samplerParameteri(sbo, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);\n\t\tgl.samplerParameteri(sbo, gl.TEXTURE_MAG_FILTER, gl.LINEAR);\n\t\tgl.samplerParameteri(sbo, gl.TEXTURE_WRAP_S, params.wrapS);\n\t\tgl.samplerParameteri(sbo, gl.TEXTURE_WRAP_T, params.wrapT);\n\t\t//Anisotropic filtering does not work with sampler objects...great\n\t\t// var ext = gl.getExtension('EXT_texture_filter_anisotropic');\n\t    // gl.samplerParameteri(sbo, ext.TEXTURE_MAX_ANISOTROPY_EXT, 16.);\n\t\treturn sbo;\n\t},\n\n\tbindTexture: function(texUnit, texName, sampler, uniformName){\n\t\tgl.activeTexture(texUnit);\n\t\tgl.bindTexture(gl.TEXTURE_2D, this.handles[texName]);\n\t\tgl.bindSampler(texUnit-gl.TEXTURE0, sampler);\n\t\tgl.uniform1i(this.handles[uniformName], texUnit-gl.TEXTURE0);\n\t}\n\n\t\n}",
+			"file": "Material.js",
+			"file_size": 2659,
+			"file_write_time": 131574722718797403,
+			"settings":
+			{
+				"buffer_size": 2659,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/busyalex/Downloads/three.js-master/src/extras/geometries/PlaneGeometry.js",
+			"settings":
+			{
+				"buffer_size": 688,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/busyalex/Downloads/three.js-master/src/extras/geometries/PlaneBufferGeometry.js",
+			"settings":
+			{
+				"buffer_size": 2329,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "lib/plane.js",
+			"settings":
+			{
+				"buffer_size": 1623,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "lib/torus.js",
+			"settings":
+			{
+				"buffer_size": 1857,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/busyalex/Insignety Designer/designer/src/modules/ring_design/ringdesign.controller.es6",
+			"settings":
+			{
+				"buffer_size": 110954,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/busyalex/Insignety Designer/designer/src/webgl/Bridge.js",
+			"settings":
+			{
+				"buffer_size": 30167,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/busyalex/Insignety Designer/designer/src/modules/main/staticData.service.es6",
+			"settings":
+			{
+				"buffer_size": 28896,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/busyalex/Insignety Designer/designer/src/canvas2D/FeatureModel.js",
+			"settings":
+			{
+				"buffer_size": 790,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/busyalex/Insignety Designer/designer/src/canvas2D/Restrictions.js",
+			"settings":
+			{
+				"buffer_size": 18514,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/busyalex/Insignety Designer/designer/src/modules/ring_design/radial-menu/radialMenu.directive.es6",
+			"settings":
+			{
+				"buffer_size": 17013,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "shaders/fsquad-vert.js",
+			"settings":
+			{
+				"buffer_size": 263,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Entity.js",
+			"settings":
+			{
+				"buffer_size": 110,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "shaders/fsquad-frag.js",
+			"settings":
+			{
+				"buffer_size": 677,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "util.js",
+			"settings":
+			{
+				"buffer_size": 1323,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Board.js",
+			"settings":
+			{
+				"buffer_size": 151,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "common.js",
+			"settings":
+			{
+				"buffer_size": 771,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Geometry.js",
+			"settings":
+			{
+				"buffer_size": 2865,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "GPawn.js",
+			"settings":
+			{
+				"buffer_size": 533,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Pass.js",
+			"settings":
+			{
+				"buffer_size": 107,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "DrawContext.js",
+			"settings":
+			{
+				"buffer_size": 417,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -537,13 +718,10 @@
 			}
 		},
 		{
-			"contents": "var vertSrc = `#version 300 es\n \n\tlayout(location = 0) in vec3 position;\n\tlayout(location = 1) in vec2 uv;\n\tout vec2 vUv;\n\n\tuniform mat4 projection;\n\tuniform mat4 view;\n\tuniform mat4 model;\n\n\tvoid main() {\n\t \n\t  vUv = uv;\n\t  gl_Position = projection * view * model * vec4(position, 1.);\n\t}\n`;\n",
-			"file": "vert.js",
-			"file_size": 293,
-			"file_write_time": 131568726791173828,
+			"file": "shaders/vert.js",
 			"settings":
 			{
-				"buffer_size": 293,
+				"buffer_size": 607,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -561,7 +739,17 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 699,
+				"buffer_size": 889,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "shaders/frag.js",
+			"settings":
+			{
+				"buffer_size": 198,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		}
@@ -635,6 +823,27 @@
 	},
 	"file_history":
 	[
+		"/home/busyalex/stk/index.js",
+		"/home/busyalex/Downloads/three.js-master/src/core/BufferGeometry.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/WaveFeature.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/TextFeature.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/PatternFeature.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/ObliqueLineFeature.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/NaturePatternFeature.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/LineFeature.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/HandwritingFeature.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/FingerprintFeature.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/ECGFeature.js",
+		"/home/busyalex/Insignety Designer/designer/src/canvas2D/DiamondPatternFeature.js",
+		"/home/busyalex/stk/shaders/writedepth-frag.js",
+		"/home/busyalex/stk/Entity.js",
+		"/home/busyalex/stk/NodeState.js",
+		"/home/busyalex/stk/Node.js",
+		"/home/busyalex/.cache/.fr-7UTYCf/fboDepth/src/main.cpp",
+		"/home/busyalex/stk/shaders/writedepth-vert.js",
+		"/home/busyalex/stk/shaders/writedepth-frag",
+		"/home/busyalex/stk/shaders/writedepth-vert",
+		"/home/busyalex/stk/vert.js",
 		"/home/busyalex/octane-scripting/src/Load.lua",
 		"/home/busyalex/octane-scripting/src/configuration.json",
 		"/home/busyalex/Insignety Designer/designer/src/modules/app/insignety-conf.js",
@@ -645,7 +854,6 @@
 		"/home/busyalex/Insignety Designer/designer/src/webgl/Bridge.js",
 		"/home/busyalex/Insignety Designer/designer/src/webgl/RingBuilder.js",
 		"/home/busyalex/Insignety Designer/designer/src/webgl/ring.js",
-		"/home/busyalex/Insignety Designer/designer/src/canvas2D/NaturePatternFeature.js",
 		"/home/busyalex/Insignety Designer/designer/src/webgl/utils.js",
 		"/home/busyalex/Insignety Designer/designer/src/webgl/lib/three.js",
 		"/home/busyalex/octane-scripting/src/DiamondPlacement.lua",
@@ -658,23 +866,16 @@
 		"/home/busyalex/octane-scripting/src/MeshValidator.lua",
 		"/home/busyalex/backoffice/src/app/scripts/services/artifactLibrary.service.js",
 		"/home/busyalex/backoffice/src/app/scripts/controllers/artifactLibrary/editArtifact.controller.js",
-		"/home/busyalex/Insignety Designer/designer/src/canvas2D/ECGFeature.js",
 		"/home/busyalex/Insignety Designer/designer/src/canvas2D/FeatureModel.js",
-		"/home/busyalex/Insignety Designer/designer/src/canvas2D/DiamondPatternFeature.js",
 		"/home/busyalex/Insignety Designer/designer/src/canvas2D/Restrictions.js",
 		"/home/busyalex/Insignety Designer/designer/src/modules/ring_design/add-feature-panel/add-feature-panel.html",
 		"/home/busyalex/Insignety Designer/designer/src/canvas2D/Surface2D.js",
-		"/home/busyalex/Insignety Designer/designer/src/canvas2D/TextFeature.js",
-		"/home/busyalex/Insignety Designer/designer/src/canvas2D/ObliqueLineFeature.js",
-		"/home/busyalex/Insignety Designer/designer/src/canvas2D/FingerprintFeature.js",
-		"/home/busyalex/Insignety Designer/designer/src/canvas2D/HandwritingFeature.js",
 		"/home/busyalex/Insignety Designer/designer/src/modules/ring_design/ringdesign.controller.es6",
 		"/tmp/dev-rendering-server/526471ad-15d3-4831-9861-63b4974c5bb2/input/configuration.json",
 		"/home/busyalex/octane-scripting/src/conf.lua",
 		"/home/busyalex/octane-scripting/res",
 		"/home/busyalex/octane-scripting/results",
 		"/home/busyalex/stk/lib/gl-matrix.js",
-		"/home/busyalex/stk/index.js",
 		"/tmp/dev-rendering-server/a78759a1-5bf2-4b03-a8ef-8397bf1097bf/input/configuration.json",
 		"/home/busyalex/Desktop/configuration.json",
 		"/home/busyalex/octane-scripting/assets/generated/B475-exterior.obj",
@@ -722,13 +923,10 @@
 		"/home/busyalex/Insignety Designer/designer/src/webgl/lib/own/indexedOBJLoader.js",
 		"/home/busyalex/Insignety Designer/designer/src/webgl/RawGeometry.js",
 		"/home/busyalex/Insignety Designer/designer/src/canvas2D/fence/BoxCollider.js",
-		"/home/busyalex/Insignety Designer/designer/src/canvas2D/LineFeature.js",
 		"/home/busyalex/Insignety Designer/designer/src/canvas2D/MetricsContext.js",
 		"/home/busyalex/Insignety Designer/designer/src/canvas2D/Constraints.js",
-		"/home/busyalex/Insignety Designer/designer/src/canvas2D/WaveFeature.js",
 		"/home/busyalex/Insignety Designer/designer/bower_components/angularjs-slider/src/rzslider.js",
 		"/home/busyalex/Insignety Designer/designer/bower_components/angularjs-slider/dist/rzslider.js",
-		"/home/busyalex/Insignety Designer/designer/src/canvas2D/PatternFeature.js",
 		"/home/busyalex/Insignety Designer/designer/assets/obj/diamond_blender.obj",
 		"/home/busyalex/Insignety Designer/designer/src/webgl/util/indexedOBJLoader.js",
 		"/home/busyalex/Insignety Designer/designer/src/modules/ring_design/radial-menu/radialMenu.directive.es6",
@@ -752,17 +950,7 @@
 		"/home/busyalex/Insignety Designer/designer/src/modules/ring_design/texture/texture-dialog.html",
 		"/home/busyalex/Insignety Designer/designer/bower.json",
 		"/home/busyalex/Insignety Designer/designer/gulpfile.js",
-		"/home/busyalex/Insignety Designer/designer/package.json",
-		"/home/busyalex/Insignety Designer/designer/tasks/bower.js",
-		"/home/busyalex/Downloads/three.js-master/src/math/Quaternion.js",
-		"/home/busyalex/Downloads/three.js-master/src/math/Vector3.js",
-		"/home/busyalex/Insignety Designer/designer/src/webgl/shaders/NewDiamond_Front.js",
-		"/home/busyalex/Insignety Designer/designer/src/webgl/shaders/NewDiamond_Back.js",
-		"/home/busyalex/Insignety Designer/designer/src/webgl/shaders/DiamondFront.js",
-		"/home/busyalex/SDFToolkit/SDFToolkit/Assets/Plugins/Editor/Catlike Coding/SDF Toolkit/SDFTextureGeneratorWindow.cs",
-		"/home/busyalex/SDFToolkit/SDFToolkit/Assets/Plugins/Catlike Coding/SDF Toolkit/SDFTextureGenerator.cs",
-		"/home/busyalex/Downloads/three.js-master/examples/js/postprocessing/RenderPass.js",
-		"/home/busyalex/Insignety Designer/designer/src/webgl/shaders/DiamondBack.js"
+		"/home/busyalex/Insignety Designer/designer/package.json"
 	],
 	"find":
 	{
@@ -797,6 +985,19 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"\t\tgl.bufferSubData(gl.UNIFORM_BUFFER, offset*4, new Float32Array(data), 0, data.length);",
+			"wrapTgl",
+			"ubo",
+			"torus",
+			"plane",
+			"var",
+			"addFeature",
+			"side |",
+			"side ?",
+			"updateMaterial",
+			"getTotalCarats",
+			"updateMaterial",
+			"ringUpdateOptions",
 			"lookAt",
 			"invert",
 			"model",
@@ -911,20 +1112,7 @@
 			"point",
 			"keepnenv",
 			"rotexter",
-			"subnormex",
-			"finish",
-			"hmapext_type",
-			"table",
-			"insert",
-			"--",
-			"hmapext",
-			"subnormex",
-			"common",
-			" 0 ",
-			"0",
-			"mesh:setAttribute(octane.A_PIN_COUNT",
-			"A_FILENAME",
-			"skyblue"
+			"subnormex"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -959,16 +1147,432 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "index.js",
+					"file": "index_0.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10043,
+						"buffer_size": 3388,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1078,
+								1078
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 798.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Material.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2659,
+						"regions":
+						{
+							"bookmarks":
+							{
+								"flags": 144,
+								"icon": "bookmark",
+								"regions":
+								[
+									[
+										887,
+										975
+									]
+								],
+								"scope": "bookmarks"
+							}
+						},
+						"selection":
+						[
+							[
+								1749,
+								1749
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 456.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/home/busyalex/Downloads/three.js-master/src/extras/geometries/PlaneGeometry.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 688,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/home/busyalex/Downloads/three.js-master/src/extras/geometries/PlaneBufferGeometry.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2329,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2163,
+								2163
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1159.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "lib/plane.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1623,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								839,
+								839
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "lib/torus.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1857,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1848,
+								1848
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 798.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/home/busyalex/Insignety Designer/designer/src/modules/ring_design/ringdesign.controller.es6",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 110954,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								25369,
+								25369
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JavaScriptNext.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 9244.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 16,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/home/busyalex/Insignety Designer/designer/src/webgl/Bridge.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 30167,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								25090,
+								25090
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 15070.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 17,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "/home/busyalex/Insignety Designer/designer/src/modules/main/staticData.service.es6",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 28896,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								18271,
+								18271
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JavaScriptNext.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 9958.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 18,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "/home/busyalex/Insignety Designer/designer/src/canvas2D/FeatureModel.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 790,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								464,
+								464
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 15,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "/home/busyalex/Insignety Designer/designer/src/canvas2D/Restrictions.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 18514,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5522,
+								5522
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 2928.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 19,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "/home/busyalex/Insignety Designer/designer/src/modules/ring_design/radial-menu/radialMenu.directive.es6",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 17013,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								406,
+								406
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScriptNext - ES6 Syntax/JavaScriptNext.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2508.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 20,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "shaders/fsquad-vert.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 263,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								263,
+								263
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 25,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "Entity.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 110,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 14,
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "shaders/fsquad-frag.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 677,
 						"regions":
 						{
 						},
@@ -988,11 +1592,212 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
+					"buffer": 15,
+					"file": "util.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1323,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								763,
+								763
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 23,
+					"type": "text"
+				},
+				{
+					"buffer": 16,
+					"file": "Board.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 151,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								151,
+								151
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 22,
+					"type": "text"
+				},
+				{
+					"buffer": 17,
+					"file": "common.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 771,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								415,
+								415
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 24,
+					"type": "text"
+				},
+				{
+					"buffer": 18,
+					"file": "Geometry.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2865,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 57.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 21,
+					"type": "text"
+				},
+				{
+					"buffer": 19,
+					"file": "GPawn.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 533,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								208,
+								208
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
+					"type": "text"
+				},
+				{
+					"buffer": 20,
+					"file": "Pass.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 107,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								105,
+								105
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 21,
+					"file": "DrawContext.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 417,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								281,
+								281
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 22,
 					"file": "lib/gl-matrix.js",
 					"semi_transient": false,
 					"settings":
@@ -1004,8 +1809,8 @@
 						"selection":
 						[
 							[
-								133947,
-								133947
+								133447,
+								133447
 							]
 						],
 						"settings":
@@ -1014,28 +1819,28 @@
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": -0.0,
+						"translation.x": 0.0,
 						"translation.y": 100235.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 26,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "vert.js",
+					"buffer": 23,
+					"file": "shaders/vert.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 293,
+						"buffer_size": 607,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								256,
-								256
+								298,
+								298
 							]
 						],
 						"settings":
@@ -1047,11 +1852,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 24,
 					"file": "controls.js",
 					"semi_transient": false,
 					"settings":
@@ -1076,24 +1881,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 25,
 					"file": "index.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 699,
+						"buffer_size": 889,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								580,
-								580
+								273,
+								273
 							]
 						],
 						"settings":
@@ -1106,7 +1911,35 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 26,
+					"file": "shaders/frag.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 198,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								171,
+								171
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Unity3D/UnityJavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -1169,11 +2002,63 @@
 		"selected_items":
 		[
 			[
-				"load",
-				"~/octane-scripting/src/Load.lua"
+				"material",
+				"~/stk/Material.js"
+			],
+			[
+				"index",
+				"~/stk/index_0.js"
+			],
+			[
+				"mater",
+				"~/stk/Material.js"
+			],
+			[
+				"inde",
+				"~/stk/index_0.js"
+			],
+			[
+				"vert",
+				"~/stk/shaders/vert.js"
+			],
+			[
+				"materia",
+				"~/stk/Material.js"
+			],
+			[
+				"in",
+				"~/stk/index_0.js"
+			],
+			[
+				"ine",
+				"~/stk/index_0.js"
+			],
+			[
+				"frag",
+				"~/stk/shaders/frag.js"
 			],
 			[
 				"",
+				"~/stk/Material.js"
+			],
+			[
+				"materi",
+				"~/stk/Material.js"
+			],
+			[
+				"plane",
+				"~/stk/lib/plane.js"
+			],
+			[
+				"contro",
+				"~/stk/controls.js"
+			],
+			[
+				"pa",
+				"~/stk/GPawn.js"
+			],
+			[
+				"load",
 				"~/octane-scripting/src/Load.lua"
 			],
 			[
@@ -1305,10 +2190,6 @@
 				"~/Insignety Designer/designer/src/webgl/model/RingDescriptor.js"
 			],
 			[
-				"index",
-				"~/Insignety Designer/designer/index.html"
-			],
-			[
 				"ringins",
 				"~/Insignety Designer/designer/src/webgl/RingInstance.js"
 			],
@@ -1407,14 +2288,6 @@
 			[
 				"utils",
 				"~/Insignety Designer/designer/src/webgl/utils.js"
-			],
-			[
-				"mater",
-				"~/Insignety Designer/designer/src/webgl/Materials.js"
-			],
-			[
-				"material",
-				"~/Insignety Designer/designer/src/webgl/Materials.js"
 			],
 			[
 				"confgi",
@@ -1639,46 +2512,6 @@
 			[
 				"canvas",
 				"~/Insignety Designer/designer/src/webgl/CanvasTexture.js"
-			],
-			[
-				"textures",
-				"~/Insignety Designer/designer/src/modules/ring_design/texture/texture.controller.es6"
-			],
-			[
-				"rz",
-				"~/Insignety Designer/designer/bower_components/angularjs-slider/dist/rzslider.js"
-			],
-			[
-				"finger",
-				"~/Insignety Designer/designer/src/canvas2D/FingerprintFeature.js"
-			],
-			[
-				"featurem",
-				"~/Insignety Designer/designer/src/canvas2D/FeatureModel.js"
-			],
-			[
-				"fingerprint",
-				"~/Insignety Designer/designer/src/canvas2D/FingerprintFeature.js"
-			],
-			[
-				"slider",
-				"~/Insignety Designer/designer/bower_components/angularjs-slider/dist/rzslider.js"
-			],
-			[
-				"fingerp",
-				"~/Insignety Designer/designer/src/canvas2D/FingerprintFeature.js"
-			],
-			[
-				"surface",
-				"~/Insignety Designer/designer/src/canvas2D/Surface2D.js"
-			],
-			[
-				"fastrnm",
-				"~/Insignety Designer/designer/src/webgl/shaders/FastRNM.js"
-			],
-			[
-				"brid",
-				"~/Insignety Designer/designer/src/webgl/Bridge.js"
 			]
 		],
 		"width": 0.0
