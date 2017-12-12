@@ -31,11 +31,14 @@ var sbo2 = null;
  	//Create vertex transform UBO
  	ubo_vertex_transform = material.createGL('Vertex_Transform_data', 16*5);
  	material.bindGL(0, 'Vertex_Transform_data');
-
+ 	indirectMaterial.bindGL(0, 'Vertex_Transform_data');
  	//Create texture transform UBO
  	ubo_texture_transform = material.createGL('Texure_Transform_data', 4);
  	material.bindGL(1, 'Texture_Transform_data');
+ 	indirectMaterial.bindGL(1, 'Texture_Transform_data');
 
+ 	indirectMaterial.createTexture('metal', 'assets/textures/metal1.jpg', 'albedo');
+ 	indirectMaterial.createTexture('ground', 'assets/textures/checkerboard texture.jpg', 'albedo');
  	material.createTexture('metal', 'assets/textures/metal1.jpg', 'albedo');
  	material.createTexture('ground', 'assets/textures/checkerboard texture.jpg', 'albedo');
  	sbo1 = material.createSampler({wrapS: gl.CLAMP_TO_EDGE, wrapT: gl.CLAMP_TO_EDGE});
@@ -68,24 +71,25 @@ function updateLocals(imm_model){
  	//Set context
  	this.drawContext.set();
 
- 	updateLocals(model);
  	//Use material's program
- 	gl.useProgram(this.material.program);
+ 	gl.useProgram(this.indirectMaterial.program);
 
  	//Bind torus Geometry's VAO
 	gl.bindVertexArray(geometry.handles['vao']);
 	//Bind the named texture handle to the texture unit, bind the SBO, and texture uniform location
-	material.bindTexture(gl.TEXTURE0, 'metal', sbo1, 'albedo');
- 	material.updateGL(ubo_texture_transform, 0, vec4.fromValues(1,1,0,0));
+	indirectMaterial.bindTexture(gl.TEXTURE0, 'ground', sbo2, 'albedo');
+	updateLocals(model);
+ 	indirectMaterial.updateGL(ubo_texture_transform, 0, vec4.fromValues(32,32,0,0));
  	//Bind UBO
     gl.bindBufferBase(gl.UNIFORM_BUFFER, 0, ubo_vertex_transform);
     gl.bindBufferBase(gl.UNIFORM_BUFFER, 1, ubo_texture_transform);
 	//Draw torus
 	gl.drawElements(gl.TRIANGLES, this.torusShape.indices.length, gl.UNSIGNED_SHORT,0);
 
+	gl.useProgram(this.material.program);
 	//Bind plane Geometry's VAO
-	updateLocals(planeModel);
 	gl.bindVertexArray(planeGeometry.handles['vao']);
+	updateLocals(planeModel);
 	material.updateGL(ubo_texture_transform, 0, vec4.fromValues(32,32,0,0));
 	material.bindTexture(gl.TEXTURE0, 'ground', sbo2, 'albedo');
 	//Draw plane

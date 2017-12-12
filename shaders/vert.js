@@ -24,7 +24,7 @@ var vertSrc = `#version 300 es
 	void main() {
 	 
 	  vUv = uv * texture_transform_data.tex_transform.xy + texture_transform_data.tex_transform.zw;
-	  vN = normalize(normal);//vertex_transform_data.normalMatrix * normal;
+	  vN = (vertex_transform_data.model * vec4(normal, 0.)).xyz;
 	  gl_Position = vertex_transform_data.projection * vertex_transform_data.modelView * vec4(position, 1.);
 	}
 `;

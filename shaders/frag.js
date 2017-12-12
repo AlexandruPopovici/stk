@@ -8,6 +8,6 @@ var fragSrc = `#version 300 es
 	uniform sampler2D albedo;
 
 	void main() {
-	  outColor = vec4(normalize(vN*0.5+0.5), 1.0);//texture(albedo, vUv);
+	  outColor = texture(albedo, vUv);
 	}`
 ;
