@@ -16,7 +16,6 @@ var cube_skybox_vert = `#version 300 es
 	
 
 	void main() {
-	  vec4 aPosition = vec4(position, 1.);
 	  mat4 inverseProjection = inverse(vertex_transform_data.projection);
       mat3 inverseModelview = transpose(mat3(vertex_transform_data.view));
       vec3 unprojected = (inverseProjection * aPosition).xyz;
