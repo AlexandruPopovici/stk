@@ -11,6 +11,7 @@ var indirect_frag = `#version 300 es
 
 	layout(location = 0) out vec4 outColor;
 	uniform sampler2D albedo;
+	uniform samplerCube environment;
 
 	// a small epsilon to work around the biggest problems with floats
     const float EPS = 0.0001;
@@ -19,8 +20,8 @@ var indirect_frag = `#version 300 es
     // maximum recursion depth for rays
     const int MAX_DEPTH = 3;
 
-    const float planeWidth = 1000.;
-    const float planeHeight = 1000.;
+    const float planeWidth = 10.;
+    const float planeHeight = 10.;
 
     struct Ray
   	{

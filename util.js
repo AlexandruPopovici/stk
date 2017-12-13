@@ -35,6 +35,38 @@ function loadImage(path, callback) {
   xhr.open('GET', path);
   xhr.responseType = 'blob';
   xhr.send();
-  
-  
+}
+
+function loadCubemap(dirPath, sType, callback){
+  var sides = []
+  var onSideLoaded = function(sideImage){
+    sides.push(sideImage);
+    if(sides.length == 6)
+      callback(sides);
+  }
+
+  var loadSide = function(path){
+    var reader  = new FileReader();
+    reader.addEventListener("load", function () {
+      var image = new Image();
+      image.onload = function(){onSideLoaded(image)};
+      image.src = reader.result;
+    }, false);
+
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+        if (this.readyState == 4){
+            reader.readAsDataURL(this.response);
+        }
+    }
+    xhr.open('GET', path);
+    xhr.responseType = 'blob';
+    xhr.send();
+  }
+  loadSide(dirPath + '/' + 'posX' + sType);
+  loadSide(dirPath + '/' + 'negX' + sType);
+  loadSide(dirPath + '/' + 'posY' + sType);
+  loadSide(dirPath + '/' + 'negY' + sType);
+  loadSide(dirPath + '/' + 'posZ' + sType);
+  loadSide(dirPath + '/' + 'negZ' + sType);
 }

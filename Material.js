@@ -2,11 +2,14 @@ STK.Material = function(name, vert, frag){
 	this.userID = name;
 	this.guid = generateUUID();
 	this.data = {};
-	this.handles = {};
+	this.locations = {};
 	this.program = this._makeProgram(vert, frag);
 	return this.guid;
 }
 
+STK.Material.Handles = {
+
+}
 STK.Material.prototype = {
 
 	constructor: STK.Material,
@@ -41,18 +44,42 @@ STK.Material.prototype = {
 
 	createTexture: function(texName, path, uniformName){
 		loadImage(path, function(image){
-		    this.handles[texName] = gl.createTexture();
-		    gl.bindTexture(gl.TEXTURE_2D, this.handles[texName]);
+		    STK.Material.Handles[texName] = gl.createTexture();
+		    gl.bindTexture(gl.TEXTURE_2D, STK.Material.Handles[texName]);
 		    // Upload the image into the texture.
 		    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
 		    gl.generateMipmap(gl.TEXTURE_2D);
 		    gl.bindTexture(gl.TEXTURE_2D, null);
-		    this.handles[uniformName] = gl.getUniformLocation(this.program, uniformName);
+		    // STK.Material.Handles[uniformName] = gl.getUniformLocation(this.program, uniformName);
+		}.bind(this));
+	},
+
+	createCubemap: function(texName, path, uniformName){
+		loadCubemap(path, '.jpg', function(sides){
+		    STK.Material.Handles[texName] = gl.createTexture();
+		    gl.bindTexture(gl.TEXTURE_CUBE_MAP, STK.Material.Handles[texName]);
+		    // Upload the image into the texture.
+		    gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_X, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sides[0]);
+		    gl.texImage2D(gl.TEXTURE_CUBE_MAP_NEGATIVE_X, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sides[1]);
+		    gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_Y, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sides[2]);
+		    gl.texImage2D(gl.TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sides[3]);
+		    gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_Z, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sides[4]);
+		    gl.texImage2D(gl.TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sides[5]);
+
+		    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+			gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+			gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_S, gl.REPEAT);
+			gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_T, gl.REPEAT);
+		    // gl.generateMipmap(gl.gl.TEXTURE_CUBE_MAP);
+		    gl.bindTexture(gl.TEXTURE_CUBE_MAP, null);
+		    // STK.Material.Handles[uniformName] = gl.getUniformLocation(this.program, uniformName);
 		}.bind(this));
 	},
 
 	/**
 		params: {
+			min : int,
+			mag: int,
 			wrapS: int,
 			wrapT: int
 		}
@@ -60,8 +87,8 @@ STK.Material.prototype = {
 	createSampler: function(params){
 		var gl = STK.Board.Context;
 		var sbo = gl.createSampler();
-		gl.samplerParameteri(sbo, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
-		gl.samplerParameteri(sbo, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+		gl.samplerParameteri(sbo, gl.TEXTURE_MIN_FILTER, params.min);
+		gl.samplerParameteri(sbo, gl.TEXTURE_MAG_FILTER, params.mag);
 		gl.samplerParameteri(sbo, gl.TEXTURE_WRAP_S, params.wrapS);
 		gl.samplerParameteri(sbo, gl.TEXTURE_WRAP_T, params.wrapT);
 
@@ -71,11 +98,14 @@ STK.Material.prototype = {
 		return sbo;
 	},
 
-	bindTexture: function(texUnit, texName, sampler, uniformName){
+	bindTexture: function(texType, texUnit, texName, sampler, uniformName){
+		if(this.locations[uniformName] == undefined)
+			this.locations[uniformName] = gl.getUniformLocation(this.program, uniformName);
 		gl.activeTexture(texUnit);
-		gl.bindTexture(gl.TEXTURE_2D, this.handles[texName]);
-		gl.bindSampler(texUnit-gl.TEXTURE0, sampler);
-		gl.uniform1i(this.handles[uniformName], texUnit-gl.TEXTURE0);
+		gl.bindTexture(texType, STK.Material.Handles[texName]);
+		// if(sampler != null)
+			gl.bindSampler(texUnit-gl.TEXTURE0, sampler);
+		gl.uniform1i(this.locations[uniformName], texUnit-gl.TEXTURE0);
 	}
 
 	
