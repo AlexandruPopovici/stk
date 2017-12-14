@@ -30,13 +30,8 @@ var sbo2 = null;
  	this.drawContext = new STK.DrawContext(canvas.width, canvas.height);
 
  	this.indirectMaterial = new STK.Material('Indirect', indirect_vert, indirect_frag);
- 	// indirectMaterial.bindGL(0, 'Vertex_Transform_data');
-
  	this.skyBoxMaterial = new STK.Material('Skybox', skybox_vert, skybox_frag);
- 	// this.skyBoxMaterial.bindGL(0, 'Vertex_Transform_data');
-
  	this.skyBoxCubeMaterial = new STK.Material('Skybox', cube_skybox_vert, cube_skybox_frag);
- 	// this.skyBoxCubeMaterial.bindGL(0, 'Vertex_Transform_data');
 
  	geometry.createGL();
  	planeGeometry.createGL();
@@ -49,11 +44,13 @@ var sbo2 = null;
  	indirectMaterial.bindGL(0, 'Vertex_Transform_data');
  	skyBoxCubeMaterial.bindGL(0, 'Vertex_Transform_data');
  	skyBoxMaterial.bindGL(0, 'Vertex_Transform_data');
+
  	//Create texture transform UBO
  	ubo_texture_transform = material.createGL('Texure_Transform_data', 4);
  	material.bindGL(1, 'Texture_Transform_data');
  	indirectMaterial.bindGL(1, 'Texture_Transform_data');
 
+ 	//Textures and samplers
  	material.createTexture('metal', 'assets/textures/metal1.jpg', 'albedo');
  	material.createTexture('ground', 'assets/textures/checkerboard texture.jpg', 'albedo');
  	material.createCubemap('environment', 'assets/textures/LancellottiChapel', 'environment');
@@ -62,9 +59,6 @@ var sbo2 = null;
  	sbo3 = material.createSampler({min:gl.LINEAR, mag: gl.LINEAR, wrapS: gl.MIRRORED_REPEAT, wrapT: gl.MIRRORED_REPEAT});
  
  }
-
-var large = 1.0;
-var small = 0.4;
 
 function updateGlobals(){
 	controls.update();
@@ -124,6 +118,8 @@ function updateLocals(imm_model){
 	material.bindTexture(gl.TEXTURE_2D, gl.TEXTURE0, 'ground', sbo2, 'albedo');
 	//Draw plane
 	gl.drawElements(gl.TRIANGLES, this.planeShape.indices.length, gl.UNSIGNED_SHORT,0);
+
+	
  	window.requestAnimationFrame(update);
  }
 
