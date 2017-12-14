@@ -7,7 +7,13 @@ var fragSrc = `#version 300 es
 	layout(location = 0) out vec4 outColor;
 	uniform sampler2D albedo;
 
+	`
+	+ gamma
+	+
+	`
+
 	void main() {
-	  outColor = texture(albedo, vUv);
+		vec3 color = texture(albedo, vUv).rgb;
+		outColor = vec4(toGamma(color), 1.0);
 	}`
 ;

@@ -6,27 +6,26 @@ var indirect_vert = `#version 300 es
 	out vec2 vUv;
 	out vec4 ray_origin;
 	out vec3 ray_direction;
+	out vec3 pos_eye;
+	out vec3 n_eye;
 
-	layout (std140) uniform Vertex_Transform_data
-	{ 
-	  mat4 projection;
-	  mat4 model;
-	  mat4 view;
-	  mat4 modelView;
-	  mat3 normalMatrix;//World Space!
-	} vertex_transform_data;
-	
-	layout (std140) uniform Texture_Transform_data
-	{ 
-	  vec4 tex_transform;
-	} texture_transform_data;
+
+	`
+	+ vertex_transform_UBO
+	+ texture_transform_UBO
+	+
+	`
 
 
 	void main() {
-	 
+	 	
+	  vec4 wPos = vertex_transform_data.model * vec4(position, 1.);
 	  vUv = uv * texture_transform_data.tex_transform.xy + texture_transform_data.tex_transform.zw;
-	  ray_origin = vertex_transform_data.model * vec4(position, 1.);
+	  ray_origin = wPos;
 	  ray_direction = (vertex_transform_data.model * vec4(normal, 0.)).xyz;
+
+	  pos_eye = vec3(vertex_transform_data.modelView * vec4(position, 1.0));
+  	  n_eye = vec3(vertex_transform_data.modelView * vec4(normal, 0.0));
 	  gl_Position = vertex_transform_data.projection * vertex_transform_data.modelView * vec4(position, 1.);
 	}
 `;

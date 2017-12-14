@@ -47,8 +47,8 @@ STK.Material.prototype = {
 		    STK.Material.Handles[texName] = gl.createTexture();
 		    gl.bindTexture(gl.TEXTURE_2D, STK.Material.Handles[texName]);
 		    // Upload the image into the texture.
-		    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-		    gl.generateMipmap(gl.TEXTURE_2D);
+		    gl.texImage2D(gl.TEXTURE_2D, 0, gl.SRGB8, gl.RGB, gl.UNSIGNED_BYTE, image);
+		    //gl.generateMipmap(gl.TEXTURE_2D);
 		    gl.bindTexture(gl.TEXTURE_2D, null);
 		    // STK.Material.Handles[uniformName] = gl.getUniformLocation(this.program, uniformName);
 		}.bind(this));
@@ -59,18 +59,19 @@ STK.Material.prototype = {
 		    STK.Material.Handles[texName] = gl.createTexture();
 		    gl.bindTexture(gl.TEXTURE_CUBE_MAP, STK.Material.Handles[texName]);
 		    // Upload the image into the texture.
-		    gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_X, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sides[0]);
-		    gl.texImage2D(gl.TEXTURE_CUBE_MAP_NEGATIVE_X, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sides[1]);
-		    gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_Y, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sides[2]);
-		    gl.texImage2D(gl.TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sides[3]);
-		    gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_Z, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sides[4]);
-		    gl.texImage2D(gl.TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, sides[5]);
+		    gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_X, 0, gl.SRGB8, gl.RGB, gl.UNSIGNED_BYTE, sides['posx']);
+		    gl.texImage2D(gl.TEXTURE_CUBE_MAP_NEGATIVE_X, 0, gl.SRGB8, gl.RGB, gl.UNSIGNED_BYTE, sides['negx']);
+		    gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_Y, 0, gl.SRGB8, gl.RGB, gl.UNSIGNED_BYTE, sides['posy']);
+		    gl.texImage2D(gl.TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, gl.SRGB8, gl.RGB, gl.UNSIGNED_BYTE, sides['negy']);
+		    gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_Z, 0, gl.SRGB8, gl.RGB, gl.UNSIGNED_BYTE, sides['posz']);
+		    gl.texImage2D(gl.TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, gl.SRGB8, gl.RGB, gl.UNSIGNED_BYTE, sides['negz']);
 
 		    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 			gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-			gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_S, gl.REPEAT);
-			gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_T, gl.REPEAT);
-		    // gl.generateMipmap(gl.gl.TEXTURE_CUBE_MAP);
+			gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+			gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+			gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_R, gl.CLAMP_TO_EDGE);
+		    //gl.generateMipmap(gl.TEXTURE_CUBE_MAP);
 		    gl.bindTexture(gl.TEXTURE_CUBE_MAP, null);
 		    // STK.Material.Handles[uniformName] = gl.getUniformLocation(this.program, uniformName);
 		}.bind(this));

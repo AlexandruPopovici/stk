@@ -3,11 +3,16 @@ var indirect_frag = `#version 300 es
 	 
 	in vec4 ray_origin;
 	in vec3 ray_direction;
+	in vec3 pos_eye;
+	in vec3 n_eye;
 
-	layout (std140) uniform Texture_Transform_data
-	{ 
-	  vec4 tex_transform;
-	} texture_transform_data;
+	`
+	+ vertex_transform_UBO
+	+ texture_transform_UBO
+	+ envMapCube
+	+ gamma
+	+
+	`
 
 	layout(location = 0) out vec4 outColor;
 	uniform sampler2D albedo;
@@ -100,14 +105,23 @@ var indirect_frag = `#version 300 es
         plane.normal = vec3(0.,1.,0.);
 
         Hit hit;
-        vec3 color = vec3(0.5,0.5,0.5);
+        vec3 color = vec3(0.,0.,0.);
         if(traceScene(ray, plane, hit))
         {	
         	vec2 uv = vec2(hit.position.x/planeWidth, hit.position.z/planeHeight);
         	uv = (uv * 0.5 + 0.5) * texture_transform_data.tex_transform.xy + texture_transform_data.tex_transform.zw;
-        	color *= texture(albedo, uv).rgb;
+        	color = texture(albedo, uv).rgb;
         }
 
-        outColor = vec4(color, 1.0);
+        vec3 incident_eye = normalize(pos_eye);
+		vec3 normal = normalize(n_eye);
+
+		vec3 reflected = reflect(incident_eye, normal);
+		// convert from eye to world space
+		reflected = vec3(inverse(vertex_transform_data.view) * vec4(reflected, 0.0));
+
+        vec4 envColor = texture(environment, reflected);
+        vec3 outC = mix(color*hit.t, envColor.rgb, clamp(hit.t, 0., 1.));
+        outColor = vec4(toGamma(outC), 1.0);
 	}`
 ;

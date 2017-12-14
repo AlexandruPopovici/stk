@@ -6,7 +6,13 @@ var skybox_frag = `#version 300 es
 	layout(location = 0) out vec4 outColor;
 	uniform samplerCube environment;
 
+	`
+	+ gamma
+	+
+	`
+
 	void main() {
-	  outColor = texture(environment, vEyeDirection);
+		vec3 color = texture(environment, vEyeDirection).rgb;
+		outColor = vec4(toGamma(color), 1.0);
 	}`
 ;

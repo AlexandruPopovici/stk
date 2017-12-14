@@ -38,23 +38,25 @@ function loadImage(path, callback) {
 }
 
 function loadCubemap(dirPath, sType, callback){
-  var sides = []
-  var onSideLoaded = function(sideImage){
-    sides.push(sideImage);
-    if(sides.length == 6)
+  var sides = {};
+  var sideCount = 0;
+  var onSideLoaded = function(sideImage, side){
+    sides[side] = sideImage;
+    sideCount++;
+    if(sideCount == 6)
       callback(sides);
   }
 
-  var loadSide = function(path){
+  var loadSide = function(path, side){
     var reader  = new FileReader();
     reader.addEventListener("load", function () {
       var image = new Image();
-      image.onload = function(){onSideLoaded(image)};
+      image.onload = function(){onSideLoaded(image, side)};
       image.src = reader.result;
     }, false);
 
     var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function(){
+    xhr.onreadystatechange = function(data){
         if (this.readyState == 4){
             reader.readAsDataURL(this.response);
         }
@@ -63,10 +65,11 @@ function loadCubemap(dirPath, sType, callback){
     xhr.responseType = 'blob';
     xhr.send();
   }
-  loadSide(dirPath + '/' + 'posX' + sType);
-  loadSide(dirPath + '/' + 'negX' + sType);
-  loadSide(dirPath + '/' + 'posY' + sType);
-  loadSide(dirPath + '/' + 'negY' + sType);
-  loadSide(dirPath + '/' + 'posZ' + sType);
-  loadSide(dirPath + '/' + 'negZ' + sType);
+
+  loadSide(dirPath + '/' + 'posx' + sType, 'posx');
+  loadSide(dirPath + '/' + 'negx' + sType, 'negx');
+  loadSide(dirPath + '/' + 'posy' + sType, 'posy');
+  loadSide(dirPath + '/' + 'negy' + sType, 'negy');
+  loadSide(dirPath + '/' + 'posz' + sType, 'posz');
+  loadSide(dirPath + '/' + 'negz' + sType, 'negz');
 }

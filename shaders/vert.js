@@ -6,20 +6,12 @@ var vertSrc = `#version 300 es
 	out vec2 vUv;
 	out vec3 vN;
 
-	layout (std140) uniform Vertex_Transform_data
-	{ 
-	  mat4 projection;
-	  mat4 model;
-	  mat4 view;
-	  mat4 modelView;
-	  mat3 normalMatrix;//World Space!
-	} vertex_transform_data;
 	
-	layout (std140) uniform Texture_Transform_data
-	{ 
-	  vec4 tex_transform;
-	} texture_transform_data;
-
+	`
+	+ vertex_transform_UBO
+	+ texture_transform_UBO
+	+
+	`
 
 	void main() {
 	 

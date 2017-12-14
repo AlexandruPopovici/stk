@@ -19,7 +19,7 @@ var sbo2 = null;
  	this.torusShape = Torus(1.0, 0.4);
  	this.planeShape = Plane(10, 10, 1, 1);
  	this.fsQuadShape = FSQuad();
- 	this.skyboxShape = Cube(1,1,1,1,1,1);
+ 	this.skyboxShape = Cube(100,100,100,1,1,1);
 
  	this.geometry = new STK.Geometry('Torus', 'positions', torusShape.vertices, 'uvs', torusShape.uvs, 'normals', torusShape.normals, 'indices', torusShape.indices);
  	this.planeGeometry = new STK.Geometry('Plane', 'positions', planeShape.vertices, 'uvs', planeShape.uvs, 'normals', planeShape.normals,'indices', planeShape.indices);
@@ -30,18 +30,25 @@ var sbo2 = null;
  	this.drawContext = new STK.DrawContext(canvas.width, canvas.height);
 
  	this.indirectMaterial = new STK.Material('Indirect', indirect_vert, indirect_frag);
- 	indirectMaterial.bindGL(0, 'Vertex_Transform_data');
+ 	// indirectMaterial.bindGL(0, 'Vertex_Transform_data');
 
  	this.skyBoxMaterial = new STK.Material('Skybox', skybox_vert, skybox_frag);
- 	this.skyBoxMaterial.bindGL(0, 'Vertex_Transform_data');
+ 	// this.skyBoxMaterial.bindGL(0, 'Vertex_Transform_data');
+
+ 	this.skyBoxCubeMaterial = new STK.Material('Skybox', cube_skybox_vert, cube_skybox_frag);
+ 	// this.skyBoxCubeMaterial.bindGL(0, 'Vertex_Transform_data');
+
  	geometry.createGL();
  	planeGeometry.createGL();
  	quadGeometry.createGL();
+ 	skyboxGeometry.createGL();
 
  	//Create vertex transform UBO
- 	ubo_vertex_transform = material.createGL('Vertex_Transform_data', 16*5);
+ 	ubo_vertex_transform = material.createGL('Vertex_Transform_data', 16*5 + 4);
  	material.bindGL(0, 'Vertex_Transform_data');
  	indirectMaterial.bindGL(0, 'Vertex_Transform_data');
+ 	skyBoxCubeMaterial.bindGL(0, 'Vertex_Transform_data');
+ 	skyBoxMaterial.bindGL(0, 'Vertex_Transform_data');
  	//Create texture transform UBO
  	ubo_texture_transform = material.createGL('Texure_Transform_data', 4);
  	material.bindGL(1, 'Texture_Transform_data');
@@ -50,8 +57,8 @@ var sbo2 = null;
  	material.createTexture('metal', 'assets/textures/metal1.jpg', 'albedo');
  	material.createTexture('ground', 'assets/textures/checkerboard texture.jpg', 'albedo');
  	material.createCubemap('environment', 'assets/textures/LancellottiChapel', 'environment');
- 	sbo1 = material.createSampler({min:gl.LINEAR_MIPMAP_LINEAR, mag: gl.LINEAR, wrapS: gl.CLAMP_TO_EDGE, wrapT: gl.CLAMP_TO_EDGE});
- 	sbo2 = material.createSampler({min:gl.LINEAR_MIPMAP_LINEAR, mag: gl.LINEAR, wrapS: gl.REPEAT, wrapT: gl.REPEAT});
+ 	sbo1 = material.createSampler({min:gl.LINEAR, mag: gl.LINEAR, wrapS: gl.CLAMP_TO_EDGE, wrapT: gl.CLAMP_TO_EDGE});
+ 	sbo2 = material.createSampler({min:gl.LINEAR, mag: gl.LINEAR, wrapS: gl.REPEAT, wrapT: gl.REPEAT});
  	sbo3 = material.createSampler({min:gl.LINEAR, mag: gl.LINEAR, wrapS: gl.MIRRORED_REPEAT, wrapT: gl.MIRRORED_REPEAT});
  
  }
@@ -64,6 +71,7 @@ function updateGlobals(){
 	mat4.copy(view, controls.out);
 	this.material.updateGL(ubo_vertex_transform, 0, projection);
 	this.material.updateGL(ubo_vertex_transform, 32, view);
+	this.material.updateGL(ubo_vertex_transform, 80, controls.pos3);
 
  	
 }
@@ -80,16 +88,19 @@ function updateLocals(imm_model){
  	updateGlobals();
  	//Set context
  	this.drawContext.set();
- 	gl.disable(gl.DEPTH_TEST);
+
  	gl.bindBufferBase(gl.UNIFORM_BUFFER, 0, ubo_vertex_transform);
  	gl.bindBufferBase(gl.UNIFORM_BUFFER, 1, ubo_texture_transform);
+
  	//SKYBOX
+ 	updateLocals(model);
+ 	gl.disable(gl.DEPTH_TEST);
  	gl.useProgram(this.skyBoxMaterial.program);
  	gl.bindVertexArray(quadGeometry.handles['vao']);
- 	skyBoxMaterial.bindTexture(gl.TEXTURE_CUBE_MAP, gl.TEXTURE1, 'environment', sbo3, 'environment');
+ 	skyBoxMaterial.bindTexture(gl.TEXTURE_CUBE_MAP, gl.TEXTURE1, 'environment', null, 'environment');
  	gl.drawElements(gl.TRIANGLES, this.fsQuadShape.indices.length, gl.UNSIGNED_SHORT,0);
-
  	gl.enable(gl.DEPTH_TEST);
+
  	//TORUS
  	updateLocals(model);
  	//Use material's program
@@ -98,6 +109,7 @@ function updateLocals(imm_model){
 	gl.bindVertexArray(geometry.handles['vao']);
 	//Bind the named texture handle to the texture unit, bind the SBO, and texture uniform location
 	indirectMaterial.bindTexture(gl.TEXTURE_2D, gl.TEXTURE0, 'ground', sbo2, 'albedo');
+	indirectMaterial.bindTexture(gl.TEXTURE_CUBE_MAP, gl.TEXTURE1, 'environment', sbo3, 'environment');
  	indirectMaterial.updateGL(ubo_texture_transform, 0, vec4.fromValues(8,8,0,0));
 	//Draw torus
 	gl.drawElements(gl.TRIANGLES, this.torusShape.indices.length, gl.UNSIGNED_SHORT,0);
@@ -109,7 +121,7 @@ function updateLocals(imm_model){
 	//Bind plane Geometry's VAO
 	gl.bindVertexArray(planeGeometry.handles['vao']);
 	material.updateGL(ubo_texture_transform, 0, vec4.fromValues(8,8,0,0));
-	//material.bindTexture(gl.TEXTURE0, 'ground', sbo2, 'albedo');
+	material.bindTexture(gl.TEXTURE_2D, gl.TEXTURE0, 'ground', sbo2, 'albedo');
 	//Draw plane
 	gl.drawElements(gl.TRIANGLES, this.planeShape.indices.length, gl.UNSIGNED_SHORT,0);
  	window.requestAnimationFrame(update);
