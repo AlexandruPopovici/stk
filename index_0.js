@@ -51,10 +51,11 @@ var sbo2 = null;
  	indirectMaterial.bindGL(1, 'Texture_Transform_data');
 
  	//Textures and samplers
- 	material.createTexture('metal', 'assets/textures/metal1.jpg', 'albedo');
- 	material.createTexture('ground', 'assets/textures/checkerboard texture.jpg', 'albedo');
- 	material.createCubemap('environment', 'assets/textures/LancellottiChapel', 'environment');
- 	sbo1 = material.createSampler({min:gl.LINEAR, mag: gl.LINEAR, wrapS: gl.CLAMP_TO_EDGE, wrapT: gl.CLAMP_TO_EDGE});
+ 	var so_ground = STK.TextureOptions.texture_rgba_Options();
+ 	material.createTexture('metal', 'assets/textures/metal1.jpg');
+ 	material.createTexture('ground', 'assets/textures/checkerboard texture.jpg');
+ 	material.createCubemap('environment', 'assets/textures/LancellottiChapel');
+	sbo1 = material.createSampler({min:gl.LINEAR, mag: gl.LINEAR, wrapS: gl.CLAMP_TO_EDGE, wrapT: gl.CLAMP_TO_EDGE});
  	sbo2 = material.createSampler({min:gl.LINEAR, mag: gl.LINEAR, wrapS: gl.REPEAT, wrapT: gl.REPEAT});
  	sbo3 = material.createSampler({min:gl.LINEAR, mag: gl.LINEAR, wrapS: gl.MIRRORED_REPEAT, wrapT: gl.MIRRORED_REPEAT});
  
