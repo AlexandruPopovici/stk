@@ -66,8 +66,6 @@ function updateGlobals(){
 	this.material.updateGL(ubo_vertex_transform, 0, projection);
 	this.material.updateGL(ubo_vertex_transform, 32, view);
 	this.material.updateGL(ubo_vertex_transform, 80, controls.pos3);
-
- 	
 }
 
 function updateLocals(imm_model){
@@ -101,9 +99,8 @@ function updateLocals(imm_model){
  	torusGeometry.bindGL();
 	indirectMaterial.bindTexture(gl.TEXTURE_2D, gl.TEXTURE0, 'ground_tex', 'ground_sampler', 'albedo');
 	indirectMaterial.bindTexture(gl.TEXTURE_CUBE_MAP, gl.TEXTURE1, 'environment', null, 'environment');
- 	indirectMaterial.updateGL(ubo_texture_transform, 0, vec4.fromValues(8,8,0,0));
+ 	indirectMaterial.updateGL(ubo_texture_transform, 0, vec4.fromValues(4,4,0,0));
 	gl.drawElements(gl.TRIANGLES, this.torusShape.indices.length, gl.UNSIGNED_SHORT,0);
-
 
 	//PLANE
 	updateLocals(planeModel);
