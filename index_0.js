@@ -19,30 +19,25 @@ var sbo2 = null;
  	this.torusShape = Torus(1.0, 0.4);
  	this.planeShape = Plane(10, 10, 1, 1);
  	this.fsQuadShape = FSQuad();
- 	this.skyboxShape = Cube(100,100,100,1,1,1);
 
- 	this.geometry = new STK.Geometry('Torus', 'positions', torusShape.vertices, 'uvs', torusShape.uvs, 'normals', torusShape.normals, 'indices', torusShape.indices);
+ 	this.torusGeometry = new STK.Geometry('Torus', 'positions', torusShape.vertices, 'uvs', torusShape.uvs, 'normals', torusShape.normals, 'indices', torusShape.indices);
  	this.planeGeometry = new STK.Geometry('Plane', 'positions', planeShape.vertices, 'uvs', planeShape.uvs, 'normals', planeShape.normals,'indices', planeShape.indices);
  	this.quadGeometry = new STK.Geometry('FSQuad', 'positions', fsQuadShape.vertices, 'indices', fsQuadShape.indices);
- 	this.skyboxGeometry = new STK.Geometry('SkyBox', 'positions', skyboxShape.vertices, 'uvs', skyboxShape.uvs, 'normals', skyboxShape.normals,'indices', skyboxShape.indices);
  	
- 	this.material = new STK.Material('Mat', vertSrc, fragSrc);
  	this.drawContext = new STK.DrawContext(canvas.width, canvas.height);
 
+ 	this.material = new STK.Material('Mat', vertSrc, fragSrc);
  	this.indirectMaterial = new STK.Material('Indirect', indirect_vert, indirect_frag);
  	this.skyBoxMaterial = new STK.Material('Skybox', skybox_vert, skybox_frag);
- 	this.skyBoxCubeMaterial = new STK.Material('Skybox', cube_skybox_vert, cube_skybox_frag);
 
- 	geometry.createGL();
+ 	torusGeometry.createGL();
  	planeGeometry.createGL();
  	quadGeometry.createGL();
- 	skyboxGeometry.createGL();
 
  	//Create vertex transform UBO
  	ubo_vertex_transform = material.createGL('Vertex_Transform_data', 16*5 + 4);
  	material.bindGL(0, 'Vertex_Transform_data');
  	indirectMaterial.bindGL(0, 'Vertex_Transform_data');
- 	skyBoxCubeMaterial.bindGL(0, 'Vertex_Transform_data');
  	skyBoxMaterial.bindGL(0, 'Vertex_Transform_data');
 
  	//Create texture transform UBO
@@ -50,15 +45,19 @@ var sbo2 = null;
  	material.bindGL(1, 'Texture_Transform_data');
  	indirectMaterial.bindGL(1, 'Texture_Transform_data');
 
- 	//Textures and samplers
- 	var so_ground = STK.TextureOptions.texture_rgba_Options();
- 	material.createTexture('metal', 'assets/textures/metal1.jpg');
- 	material.createTexture('ground', 'assets/textures/checkerboard texture.jpg');
- 	material.createCubemap('environment', 'assets/textures/LancellottiChapel');
-	sbo1 = material.createSampler({min:gl.LINEAR, mag: gl.LINEAR, wrapS: gl.CLAMP_TO_EDGE, wrapT: gl.CLAMP_TO_EDGE});
- 	sbo2 = material.createSampler({min:gl.LINEAR, mag: gl.LINEAR, wrapS: gl.REPEAT, wrapT: gl.REPEAT});
- 	sbo3 = material.createSampler({min:gl.LINEAR, mag: gl.LINEAR, wrapS: gl.MIRRORED_REPEAT, wrapT: gl.MIRRORED_REPEAT});
- 
+ 	//GROUND
+ 	var sampler_options_mipmaps_only = STK.SamplerOptions.texture_mipmaps_only(gl);
+ 	var texture_options_ground = STK.TextureOptions.texture_rgba_Options(gl);
+ 	var sampler_options_ground = STK.SamplerOptions.texture_mips_Sampler(gl);
+ 	STK.Material.createTexture('ground_tex', 'assets/textures/checkerboard texture.jpg', texture_options_ground, sampler_options_mipmaps_only);
+ 	STK.Material.createSampler('ground_sampler', sampler_options_ground);
+
+ 	//SKYBOX
+ 	var texture_options_skybox = STK.TextureOptions.cubemap_rgba_Options(gl);
+ 	var sampler_options_skybox = STK.SamplerOptions.texture_linear_Sampler(gl).amend('anisotropy', null);
+ 	STK.Material.createCubemap('environment', 'assets/textures/LancellottiChapel', texture_options_skybox, sampler_options_skybox);
+ 	//Sampler objects don't seem to work with cubemaps
+ 	// STK.Material.createSampler('skybox_sampler', sampler_options_skybox);
  }
 
 function updateGlobals(){
@@ -91,35 +90,28 @@ function updateLocals(imm_model){
  	updateLocals(model);
  	gl.disable(gl.DEPTH_TEST);
  	gl.useProgram(this.skyBoxMaterial.program);
- 	gl.bindVertexArray(quadGeometry.handles['vao']);
+ 	quadGeometry.bindGL();
  	skyBoxMaterial.bindTexture(gl.TEXTURE_CUBE_MAP, gl.TEXTURE1, 'environment', null, 'environment');
  	gl.drawElements(gl.TRIANGLES, this.fsQuadShape.indices.length, gl.UNSIGNED_SHORT,0);
  	gl.enable(gl.DEPTH_TEST);
 
  	//TORUS
  	updateLocals(model);
- 	//Use material's program
  	gl.useProgram(this.indirectMaterial.program);
- 	//Bind torus Geometry's VAO
-	gl.bindVertexArray(geometry.handles['vao']);
-	//Bind the named texture handle to the texture unit, bind the SBO, and texture uniform location
-	indirectMaterial.bindTexture(gl.TEXTURE_2D, gl.TEXTURE0, 'ground', sbo2, 'albedo');
-	indirectMaterial.bindTexture(gl.TEXTURE_CUBE_MAP, gl.TEXTURE1, 'environment', sbo3, 'environment');
+ 	torusGeometry.bindGL();
+	indirectMaterial.bindTexture(gl.TEXTURE_2D, gl.TEXTURE0, 'ground_tex', 'ground_sampler', 'albedo');
+	indirectMaterial.bindTexture(gl.TEXTURE_CUBE_MAP, gl.TEXTURE1, 'environment', null, 'environment');
  	indirectMaterial.updateGL(ubo_texture_transform, 0, vec4.fromValues(8,8,0,0));
-	//Draw torus
 	gl.drawElements(gl.TRIANGLES, this.torusShape.indices.length, gl.UNSIGNED_SHORT,0);
 
 
 	//PLANE
 	updateLocals(planeModel);
 	gl.useProgram(this.material.program);
-	//Bind plane Geometry's VAO
-	gl.bindVertexArray(planeGeometry.handles['vao']);
+	planeGeometry.bindGL();
 	material.updateGL(ubo_texture_transform, 0, vec4.fromValues(8,8,0,0));
-	material.bindTexture(gl.TEXTURE_2D, gl.TEXTURE0, 'ground', sbo2, 'albedo');
-	//Draw plane
+	material.bindTexture(gl.TEXTURE_2D, gl.TEXTURE0, 'ground_tex', 'ground_sampler', 'albedo');
 	gl.drawElements(gl.TRIANGLES, this.planeShape.indices.length, gl.UNSIGNED_SHORT,0);
-
 	
  	window.requestAnimationFrame(update);
  }

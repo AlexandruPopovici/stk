@@ -24,3 +24,6 @@ function createProgram(gl, vertexShader, fragmentShader) {
     console.log(gl.getProgramInfoLog(program));
     gl.deleteProgram(program);
 }
+
+
+

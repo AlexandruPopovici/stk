@@ -122,6 +122,6 @@ var indirect_frag = `#version 300 es
 
         vec4 envColor = texture(environment, reflected);
         vec3 outC = mix(color*hit.t, envColor.rgb, clamp(hit.t, 0., 1.));
-        outColor = vec4(toGamma(outC), 1.0);
+        outColor = vec4(outC, 1.0);
 	}`
 ;

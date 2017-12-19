@@ -14,6 +14,6 @@ var fragSrc = `#version 300 es
 
 	void main() {
 		vec3 color = texture(albedo, vUv).rgb;
-		outColor = vec4(toGamma(color), 1.0);
+		outColor = vec4(color, 1.0);
 	}`
 ;

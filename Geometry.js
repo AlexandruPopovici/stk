@@ -111,4 +111,9 @@ STK.Geometry.prototype = {
 		gl.bindBuffer(params.glType, null);
 	},
 
+	bindGL: function(){
+		var gl = STK.Board.Context;
+		gl.bindVertexArray(this.handles['vao']);
+	}
+
 }
