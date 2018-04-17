@@ -6,6 +6,7 @@ var canvas = document.getElementById('glCanvas');
 var projection = mat4.perspective([], Math.PI/3, gl.canvas.clientWidth / gl.canvas.clientHeight, 0.1, 1000);
 var view = mat4.create();
 var model = mat4.translate([], mat4.create(), vec3.fromValues(0,0,0));
+var scaledModel = mat4.scale([], model, vec3.fromValues(0.01,0.01,0.01));
 var modelView = mat4.create();
 var normalMatrix = mat3.create();
 var planeModel = mat4.translate([], mat4.create(), vec3.fromValues(0,-0.45,0));
@@ -22,7 +23,7 @@ var loadedMesh = null;
  	this.planeShape = Plane(10, 10, 1, 1);
  	this.fsQuadShape = FSQuad();
 
- 	this.torusGeometry = new STK.Geometry('Torus', 'positions', torusShape.vertices, 'uvs', torusShape.uvs, 'normals', torusShape.normals, 'indices', torusShape.indices);
+ 	this.torusGeometry = new STK.Geometry('Torus', 'positions', loadedMesh.vertices, 'uvs', loadedMesh.textures, 'normals', new Array(loadedMesh.vertices.length), 'indices', loadedMesh.indices);
  	this.planeGeometry = new STK.Geometry('Plane', 'positions', planeShape.vertices, 'uvs', planeShape.uvs, 'normals', planeShape.normals,'indices', planeShape.indices);
  	this.quadGeometry = new STK.Geometry('FSQuad', 'positions', fsQuadShape.vertices, 'indices', fsQuadShape.indices);
  	
@@ -71,8 +72,8 @@ function updateGlobals(){
 }
 
 function updateLocals(imm_model){
-	mat4.multiply(modelView, imm_model, view);
-	mat3.normalFromMat4(normalMatrix, model);
+	mat4.multiply(modelView, view, imm_model);
+	mat3.normalFromMat4(normalMatrix, imm_model);
 	this.material.updateGL(ubo_vertex_transform, 16, imm_model);
  	this.material.updateGL(ubo_vertex_transform, 48, modelView);
  	this.material.updateGL(ubo_vertex_transform, 64, normalMatrix);
@@ -96,13 +97,13 @@ function updateLocals(imm_model){
  	gl.enable(gl.DEPTH_TEST);
 
  	//TORUS
- 	updateLocals(model);
- 	gl.useProgram(this.indirectMaterial.program);
+ 	updateLocals(scaledModel);
+ 	gl.useProgram(this.material.program);
  	torusGeometry.bindGL();
-	indirectMaterial.bindTexture(gl.TEXTURE_2D, gl.TEXTURE0, 'ground_tex', 'ground_sampler', 'albedo');
-	indirectMaterial.bindTexture(gl.TEXTURE_CUBE_MAP, gl.TEXTURE1, 'environment', null, 'environment');
- 	indirectMaterial.updateGL(ubo_texture_transform, 0, vec4.fromValues(4,4,0,0));
-	gl.drawElements(gl.TRIANGLES, this.torusShape.indices.length, gl.UNSIGNED_SHORT,0);
+	this.material.bindTexture(gl.TEXTURE_2D, gl.TEXTURE0, 'ground_tex', 'ground_sampler', 'albedo');
+	this.material.bindTexture(gl.TEXTURE_CUBE_MAP, gl.TEXTURE1, 'environment', null, 'environment');
+ 	this.material.updateGL(ubo_texture_transform, 0, vec4.fromValues(4,4,0,0));
+	gl.drawElements(gl.TRIANGLES, loadedMesh.indices.length, gl.UNSIGNED_SHORT,0);
 
 	//PLANE
 	updateLocals(planeModel);
@@ -116,11 +117,12 @@ function updateLocals(imm_model){
  }
 
 var oReq = new XMLHttpRequest();
+var scope = this;
 oReq.addEventListener("load", function(){
 	loadedMesh = new OBJ.Mesh(oReq.responseText);
-	init.bind(this)();
- 	window.requestAnimationFrame(update);
+	init.bind(scope)();
+ 	window.requestAnimationFrame(scope.update);
 });
-oReq.open("GET", "assets/models/teapot.obj");
+oReq.open("GET", "assets/models/Wolf.obj");
 oReq.send();
  
