@@ -13,8 +13,10 @@ var ubo_vertex_transform = null;
 var ubo_texture_transform = null;
 var sbo1 = null;
 var sbo2 = null;
+var loadedMesh = null;
 
  function init(){
+
  	this.board = new STK.Board(gl);
  	this.torusShape = Torus(1.0, 0.4);
  	this.planeShape = Plane(10, 10, 1, 1);
@@ -113,5 +115,12 @@ function updateLocals(imm_model){
  	window.requestAnimationFrame(update);
  }
 
- init.bind(this)();
- window.requestAnimationFrame(update);
+var oReq = new XMLHttpRequest();
+oReq.addEventListener("load", function(){
+	loadedMesh = new OBJ.Mesh(oReq.responseText);
+	init.bind(this)();
+ 	window.requestAnimationFrame(update);
+});
+oReq.open("GET", "assets/models/teapot.obj");
+oReq.send();
+ 
