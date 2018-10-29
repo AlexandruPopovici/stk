@@ -111,7 +111,7 @@ function updateLocals(imm_model){
 	planeGeometry.bindGL();
 	material.updateGL(ubo_texture_transform, 0, vec4.fromValues(8,8,0,0));
 	material.bindTexture(gl.TEXTURE_2D, gl.TEXTURE0, 'ground_tex', 'ground_sampler', 'albedo');
-	gl.drawElements(gl.TRIANGLES, this.planeShape.indices.length, gl.UNSIGNED_SHORT,0);
+	// gl.drawElements(gl.TRIANGLES, this.planeShape.indices.length, gl.UNSIGNED_SHORT,0);
 	
  	window.requestAnimationFrame(update);
  }
