@@ -114,6 +114,46 @@ STK.Geometry.prototype = {
 	bindGL: function(){
 		var gl = STK.Board.Context;
 		gl.bindVertexArray(this.handles['vao']);
-	}
+	},
+
+	indicesCount: function(){
+		return this.data['indices'].length;
+	},
+
+	/*
+		Creates a new AABB each time
+	*/
+	AABB: function () {
+		var minX = + Infinity;
+		var minY = + Infinity;
+		var minZ = + Infinity;
+
+		var maxX = - Infinity;
+		var maxY = - Infinity;
+		var maxZ = - Infinity;
+
+		var array = this.data['positions'];
+		for ( var i = 0, l = array.length; i < l; i += 3 ) {
+
+			var x = array[ i ];
+			var y = array[ i + 1 ];
+			var z = array[ i + 2 ];
+
+			if ( x < minX ) minX = x;
+			if ( y < minY ) minY = y;
+			if ( z < minZ ) minZ = z;
+
+			if ( x > maxX ) maxX = x;
+			if ( y > maxY ) maxY = y;
+			if ( z > maxZ ) maxZ = z;
+
+		}
+
+		this.min.set( minX, minY, minZ );
+		this.max.set( maxX, maxY, maxZ );
+
+		return {min: vec3.fromValues(minX, minY, minZ),
+				max: vec3.fromValues(maxX, maxY, maxZ)};
+	},
 
 }

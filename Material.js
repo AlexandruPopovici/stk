@@ -17,21 +17,6 @@ STK.Material.prototype = {
 	    return createProgram(gl, vertShader, fragShader);
 	},
 
-	createGL: function(uniform_block_name, size){
-		var gl = STK.Board.Context;
-		var ubo = gl.createBuffer();
-		gl.bindBuffer(gl.UNIFORM_BUFFER, ubo);
-		gl.bufferData(gl.UNIFORM_BUFFER, new Float32Array(size), gl.DYNAMIC_DRAW);
-		gl.bindBuffer(gl.UNIFORM_BUFFER, null);
-	    return ubo;
-	},
-
-	updateGL: function(handle, offset, data){
-		var gl = STK.Board.Context;
-		gl.bindBuffer(gl.UNIFORM_BUFFER, handle);
-		gl.bufferSubData(gl.UNIFORM_BUFFER, offset*4, new Float32Array(data), 0, data.length);
-		gl.bindBuffer(gl.UNIFORM_BUFFER, null);
-	},
 
 	bindGL: function(index, uniform_block_name){
 		var gl = STK.Board.Context;

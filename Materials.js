@@ -122,6 +122,7 @@ STK.Material.Textures = {};
 STK.Material.Samplers = {};
 
 STK.Material.createTexture = function(texName, path, textureOptions, samplerOptions){
+    STK.Material.Textures[texName] = null;
 	loadImage(path, function(image){
 		var gl = STK.Board.Context;
 		var fill = function(data, textureOptions, mipmaps){
@@ -147,6 +148,7 @@ STK.Material.createTexture = function(texName, path, textureOptions, samplerOpti
 };
 
 STK.Material.createCubemap = function(texName, path, textureOptions, samplerOptions){
+    STK.Material.Textures[texName] = null;
 	loadCubemap(path, '.jpg', function(sides){
 		var gl = STK.Board.Context;
 		var fill = function(data, textureOptions, mipmaps){
@@ -177,6 +179,7 @@ STK.Material.createCubemap = function(texName, path, textureOptions, samplerOpti
 };
 
 STK.Material.createSampler = function(name, samplerOptions){
+    STK.Material.Samplers[name] = null;
 	var gl = STK.Board.Context;
 	var sbo = gl.createSampler();
 	gl.samplerParameteri(sbo, gl.TEXTURE_MIN_FILTER, samplerOptions.min_filter);
@@ -188,3 +191,14 @@ STK.Material.createSampler = function(name, samplerOptions){
 	// var ext = gl.getExtension('EXT_texture_filter_anisotropic');
     // gl.samplerParameterf(sbo, ext.TEXTURE_MAX_ANISOTROPY_EXT, 16.);
 };
+
+STK.Geometry.texturesLoaded = function(){
+    for(var asset in STK.Material.Textures){
+        if(STK.Material.Textures.hasOwnProperty(asset)){
+            if(STK.Material.Textures[asset] == null){
+                return false;
+            }
+        }
+    }
+    return true;
+}

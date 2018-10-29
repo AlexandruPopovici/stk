@@ -73,3 +73,13 @@ function loadCubemap(dirPath, sType, callback){
   loadSide(dirPath + '/' + 'posz' + sType, 'posz');
   loadSide(dirPath + '/' + 'negz' + sType, 'negz');
 }
+
+function loadIndexedObj(path, callback){
+  var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", function(){
+      loadedMesh = new OBJ.Mesh(oReq.responseText);
+      callback(loadedMesh);
+    });
+    oReq.open("GET", path);
+    oReq.send();
+}
