@@ -1,5 +1,5 @@
 STK.Material = function(name, vert, frag){
-	this.userID = name;
+	this.id = name;
 	this.guid = generateUUID();
 	this.locations = {};
 	this.program = this._makeProgram(vert, frag);
