@@ -63,7 +63,7 @@ STK.Geometry.prototype = {
 		// Bind appropriate array buffer to it
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_Buffer);
 		// Pass the vertex data to the buffer
-		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.data['indices']), gl.STATIC_DRAW);
+		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint32Array(this.data['indices']), gl.STATIC_DRAW);
 		// Unbind the buffer
 		this.handles['ibo'] = index_Buffer;
 
@@ -148,10 +148,6 @@ STK.Geometry.prototype = {
 			if ( z > maxZ ) maxZ = z;
 
 		}
-
-		this.min.set( minX, minY, minZ );
-		this.max.set( maxX, maxY, maxZ );
-
 		return {min: vec3.fromValues(minX, minY, minZ),
 				max: vec3.fromValues(maxX, maxY, maxZ)};
 	},
