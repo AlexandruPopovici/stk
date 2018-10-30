@@ -42,13 +42,15 @@ STK.Geometry.prototype = {
 		// Unbind the buffer
 		this.handles['vbo_positions'] = vertex_buffer;
 
-		var uv_buffer = gl.createBuffer();
-		// Bind appropriate array buffer to it
-		gl.bindBuffer(gl.ARRAY_BUFFER, uv_buffer);
-		// Pass the vertex data to the buffer
-		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.data['uvs']), gl.STATIC_DRAW);
-		// Unbind the buffer
-		this.handles['vbo_uvs'] = uv_buffer;
+		if(this.data['uvs'] != undefined && this.data['uvs'].length > 0){
+			var uv_buffer = gl.createBuffer();
+			// Bind appropriate array buffer to it
+			gl.bindBuffer(gl.ARRAY_BUFFER, uv_buffer);
+			// Pass the vertex data to the buffer
+			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.data['uvs']), gl.STATIC_DRAW);
+			// Unbind the buffer
+			this.handles['vbo_uvs'] = uv_buffer;
+		}
 
 		var normal_buffer = gl.createBuffer();
 		// Bind appropriate array buffer to it
@@ -74,9 +76,11 @@ STK.Geometry.prototype = {
 		gl.enableVertexAttribArray(0);
 		gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0); 
 		// Bind vertex buffer object
-		gl.bindBuffer(gl.ARRAY_BUFFER, uv_buffer);
-	 	gl.enableVertexAttribArray(1);
-		gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 0, 0); 
+		if(this.data['uvs'] != undefined && this.data['uvs'].length > 0){
+			gl.bindBuffer(gl.ARRAY_BUFFER, uv_buffer);
+		 	gl.enableVertexAttribArray(1);
+			gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 0, 0); 
+		}
 		// Bind vertex buffer object
 		gl.bindBuffer(gl.ARRAY_BUFFER, normal_buffer);
 		gl.enableVertexAttribArray(2);
