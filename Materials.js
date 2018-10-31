@@ -161,7 +161,7 @@ STK.Material.createTexture = function(texName, path, textureOptions, samplerOpti
 			gl.texParameteri(textureOptions.type, gl.TEXTURE_WRAP_T, samplerOptions.wrapT);
 			if(samplerOptions.anisotropy != null){
 				var ext = gl.getExtension('EXT_texture_filter_anisotropic');
-    			gl.samplerParameterf(textureOptions.type, ext.TEXTURE_MAX_ANISOTROPY_EXT, samplerOptions.anisotropy);
+    			gl.texParameterf(textureOptions.type, ext.TEXTURE_MAX_ANISOTROPY_EXT, samplerOptions.anisotropy);
 			}
 	    }
 	    gl.bindTexture(gl.TEXTURE_2D, null);
@@ -192,7 +192,7 @@ STK.Material.createCubemap = function(texName, path, textureOptions, samplerOpti
 			gl.texParameteri(textureOptions.type, gl.TEXTURE_WRAP_T, samplerOptions.wrapT);
 			if(samplerOptions.anisotropy != null){
 				var ext = gl.getExtension('EXT_texture_filter_anisotropic');
-    			gl.samplerParameterf(textureOptions.type, ext.TEXTURE_MAX_ANISOTROPY_EXT, samplerOptions.anisotropy);
+    			gl.texParameterf(textureOptions.type, ext.TEXTURE_MAX_ANISOTROPY_EXT, samplerOptions.anisotropy);
 			}
 	    }
 	    gl.bindTexture(gl.TEXTURE_CUBE_MAP, null);
