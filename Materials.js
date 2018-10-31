@@ -54,6 +54,15 @@ STK.TextureOptions.cubemap_srgb_Options = function(gl){
     return options;
 }
 
+STK.TextureOptions.cubemap_float32_Options = function(gl){
+    var options = new STK.TextureOptions();
+    options.type = gl.TEXTURE_CUBE_MAP;
+    options.format = gl.RGBA;
+    options.internalFormat = gl.RGBA32F;
+    options.dataType = gl.FLOAT;
+    return options;
+}
+
 
 STK.SamplerOptions = function(){
     this.min_filter = null;
@@ -106,6 +115,18 @@ STK.SamplerOptions.texture_mips_Sampler = function(gl){
     options.mag_filter = gl.LINEAR;
     options.wrapS = gl.REPEAT;
     options.wrapT = gl.REPEAT;
+    options.anisotropy = 16;
+    options.mipmaps = true;
+    return options;
+}
+
+STK.SamplerOptions.cubemap_mips_linear_Sampler = function(gl){
+    var options = new STK.SamplerOptions();
+    options.min_filter = gl.LINEAR_MIPMAP_LINEAR;
+    options.mag_filter = gl.LINEAR;
+    options.wrapS = gl.MIRRORED_REPEAT;
+    options.wrapT = gl.MIRRORED_REPEAT;
+    options.wrapR = gl.MIRRORED_REPEAT;
     options.anisotropy = 16;
     options.mipmaps = true;
     return options;
@@ -176,6 +197,68 @@ STK.Material.createCubemap = function(texName, path, textureOptions, samplerOpti
 	    }
 	    gl.bindTexture(gl.TEXTURE_CUBE_MAP, null);
 	}.bind(this));
+};
+
+STK.Material.createFloat32Cubemap = function(texName, path, textureOptions, samplerOptions){
+    STK.Material.Textures[texName] = null;
+    loadFloat32Cubemap(path, function(data){
+        /*
+            The dds parser returns :
+            {
+                shape: [ texWidth, texHeight ],
+                images: images -> [offset in bytes, length in bytes, shape: [width ,height]]
+                format: format(string)
+                flags: flags(don't know what they're used for)
+                cubemap: cubemap(true, false)
+            }
+        */
+        var totalLength = data.buffer.byteLength;
+        console.warn(' total length = ', totalLength);
+
+        var gl = STK.Board.Context;
+        var fill = function(data, textureOptions, mipmapLevels){
+            for(var miplevel = 0 ; miplevel < mipmapLevels; miplevel++){
+                var mipLevelData = [];
+                var mipLevelWidth, mipLevelHeight; 
+                for(var faceIndex = 0 ; faceIndex < 6 ; faceIndex++){
+                    var faceArrayIndex = faceIndex * (data.images.length/6.);
+                    var mipArrayIndex = faceArrayIndex + miplevel;
+                    var mipData = data.images[mipArrayIndex];
+                    if(mipData.offset == totalLength)
+                        mipData.offset -= 1024;
+                    var faceData = data.images[faceArrayIndex];
+                    mipLevelData[faceIndex] = new Float32Array(data.buffer, mipData.offset, mipData.length/4);
+                }
+                mipLevelWidth = data.images[data.images.length/6. + miplevel].shape[0];
+                mipLevelHeight = data.images[data.images.length/6. + miplevel].shape[1];
+                console.warn("Writing ", texName, " level: ", miplevel, " of size ", mipLevelWidth, "x", mipLevelHeight);
+                gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_X, miplevel, textureOptions.internalFormat, mipLevelWidth, mipLevelHeight, 0, textureOptions.format, textureOptions.dataType, mipLevelData[0]);
+                gl.texImage2D(gl.TEXTURE_CUBE_MAP_NEGATIVE_X, miplevel, textureOptions.internalFormat, mipLevelWidth, mipLevelHeight, 0, textureOptions.format, textureOptions.dataType, mipLevelData[1]);
+                gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_Y, miplevel, textureOptions.internalFormat, mipLevelWidth, mipLevelHeight, 0, textureOptions.format, textureOptions.dataType, mipLevelData[2]);
+                gl.texImage2D(gl.TEXTURE_CUBE_MAP_NEGATIVE_Y, miplevel, textureOptions.internalFormat, mipLevelWidth, mipLevelHeight, 0, textureOptions.format, textureOptions.dataType, mipLevelData[3]);
+                gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_Z, miplevel, textureOptions.internalFormat, mipLevelWidth, mipLevelHeight, 0, textureOptions.format, textureOptions.dataType, mipLevelData[4]);
+                gl.texImage2D(gl.TEXTURE_CUBE_MAP_NEGATIVE_Z, miplevel, textureOptions.internalFormat, mipLevelWidth, mipLevelHeight, 0, textureOptions.format, textureOptions.dataType, mipLevelData[5]);
+            }
+        }
+
+        STK.Material.Textures[texName] = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_CUBE_MAP, STK.Material.Textures[texName]);
+        // Upload the image into the texture.
+        fill(data, textureOptions, 10);
+        if(samplerOptions != null && samplerOptions.isComplete()){
+            var ext = gl.getExtension('OES_texture_float_linear');
+            gl.texParameteri(textureOptions.type, gl.TEXTURE_MIN_FILTER, samplerOptions.min_filter);
+            gl.texParameteri(textureOptions.type, gl.TEXTURE_MAG_FILTER, samplerOptions.mag_filter);
+            gl.texParameteri(textureOptions.type, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(textureOptions.type, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(textureOptions.type, gl.TEXTURE_WRAP_R, gl.CLAMP_TO_EDGE);
+            if(samplerOptions.anisotropy != null){
+                var ext = gl.getExtension('EXT_texture_filter_anisotropic');
+                gl.texParameteri(textureOptions.type, ext.TEXTURE_MAX_ANISOTROPY_EXT, samplerOptions.anisotropy);
+            }
+        }
+        gl.bindTexture(gl.TEXTURE_CUBE_MAP, null);
+    }.bind(this));
 };
 
 STK.Material.createSampler = function(name, samplerOptions){

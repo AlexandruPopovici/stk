@@ -12,7 +12,7 @@ var skybox_frag = `#version 300 es
 	`
 
 	void main() {
-		vec3 color = texture(environment, vEyeDirection).rgb;
+		vec3 color = textureLod(environment, vEyeDirection, 0.).rgb;
 		outColor = vec4(color, 1.0);
 	}`
 ;

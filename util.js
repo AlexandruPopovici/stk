@@ -74,6 +74,25 @@ function loadCubemap(dirPath, sType, callback){
   loadSide(dirPath + '/' + 'negz' + sType, 'negz');
 }
 
+function loadFloat32Cubemap(path, callback){
+  var reader  = new FileReader();
+  reader.addEventListener("load", function () {
+    var ret = parseHeaders(reader.result, true);
+    ret.buffer = reader.result;
+    callback(ret);
+  }, false);
+
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function(){
+      if (this.readyState == 4){
+          reader.readAsArrayBuffer(this.response);
+      }
+  }
+  xhr.open('GET', path);
+  xhr.responseType = 'blob';
+  xhr.send();
+}
+
 function loadIndexedObj(path, callback){
   var oReq = new XMLHttpRequest();
     oReq.addEventListener("load", function(){
