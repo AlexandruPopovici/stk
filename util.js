@@ -96,7 +96,7 @@ function loadFloat32Cubemap(path, callback){
 function loadIndexedObj(path, callback){
   var oReq = new XMLHttpRequest();
     oReq.addEventListener("load", function(){
-      callback(parseOBJ(oReq.responseText));
+      callback(new OBJ.Mesh(oReq.responseText));
       // loadedMesh = new OBJ.Mesh(oReq.responseText);
       // OBJ.initMeshBuffers(STK.Board.Context, loadedMesh);
       // callback(loadedMesh);

@@ -199,7 +199,7 @@ STK.Material.createCubemap = function(texName, path, textureOptions, samplerOpti
 	}.bind(this));
 };
 
-STK.Material.createFloat32Cubemap = function(texName, path, textureOptions, samplerOptions){
+STK.Material.createFloat32Cubemap = function(texName, path, maxMip, textureOptions, samplerOptions){
     STK.Material.Textures[texName] = null;
     loadFloat32Cubemap(path, function(data){
         /*
@@ -244,7 +244,7 @@ STK.Material.createFloat32Cubemap = function(texName, path, textureOptions, samp
         STK.Material.Textures[texName] = gl.createTexture();
         gl.bindTexture(gl.TEXTURE_CUBE_MAP, STK.Material.Textures[texName]);
         // Upload the image into the texture.
-        fill(data, textureOptions, 10);
+        fill(data, textureOptions, maxMip);
         if(samplerOptions != null && samplerOptions.isComplete()){
             var ext = gl.getExtension('OES_texture_float_linear');
             gl.texParameteri(textureOptions.type, gl.TEXTURE_MIN_FILTER, samplerOptions.min_filter);

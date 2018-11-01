@@ -10,9 +10,9 @@ STK.Geometry.createIndexedModel = function(modelName, path, callback){
 	STK.Geometry.Models[modelName] = null;
 	loadIndexedObj(path, function(obj){
 		var gl = STK.Board.Context;
-		var geometry = new STK.Geometry(modelName, 'positions', obj.positions, 
-												   'uvs', obj.uvs, 
-												   'normals', obj.normals, 
+		var geometry = new STK.Geometry(modelName, 'positions', obj.vertices, 
+												   'uvs', obj.textures, 
+												   'normals', obj.vertexNormals, 
 												   'indices', obj.indices);
 		
 	    geometry.createGL();
