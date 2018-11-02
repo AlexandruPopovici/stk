@@ -105,6 +105,25 @@ function loadIndexedObj(path, callback){
     oReq.send();
 }
 
+function loadDDSTexture(path, callback){
+	var reader  = new FileReader();
+  	reader.addEventListener("load", function () {
+    var ret = parseHeaders(reader.result, true);
+    ret.buffer = reader.result;
+    callback(ret);
+  }, false);
+
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function(){
+      if (this.readyState == 4){
+          reader.readAsArrayBuffer(this.response);
+      }
+  }
+  xhr.open('GET', path);
+  xhr.responseType = 'blob';
+  xhr.send();
+}
+
 function parseOBJ ( text ) {
 
     console.time( 'IndexedOBJLoader' );

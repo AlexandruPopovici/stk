@@ -63,6 +63,15 @@ STK.TextureOptions.cubemap_float32_Options = function(gl){
     return options;
 }
 
+STK.TextureOptions.texture_RG32_Options = function(gl){
+    var options = new STK.TextureOptions();
+    options.type = gl.TEXTURE_2D;
+    options.format = gl.RGBA;
+    options.internalFormat = gl.RGBA32F;
+    options.dataType = gl.FLOAT;
+    return options;
+}
+
 
 STK.SamplerOptions = function(){
     this.min_filter = null;
@@ -123,6 +132,18 @@ STK.SamplerOptions.texture_mips_Sampler = function(gl){
 STK.SamplerOptions.cubemap_mips_linear_Sampler = function(gl){
     var options = new STK.SamplerOptions();
     options.min_filter = gl.LINEAR_MIPMAP_LINEAR;
+    options.mag_filter = gl.LINEAR;
+    options.wrapS = gl.MIRRORED_REPEAT;
+    options.wrapT = gl.MIRRORED_REPEAT;
+    options.wrapR = gl.MIRRORED_REPEAT;
+    options.anisotropy = 16;
+    options.mipmaps = true;
+    return options;
+}
+
+STK.SamplerOptions.cubemap_linear_Sampler = function(gl){
+    var options = new STK.SamplerOptions();
+    options.min_filter = gl.LINEAR;
     options.mag_filter = gl.LINEAR;
     options.wrapS = gl.MIRRORED_REPEAT;
     options.wrapT = gl.MIRRORED_REPEAT;
@@ -260,6 +281,46 @@ STK.Material.createFloat32Cubemap = function(texName, path, maxMip, textureOptio
         gl.bindTexture(gl.TEXTURE_CUBE_MAP, null);
     }.bind(this));
 };
+
+STK.Material.createDDSTexture = function(texName, path, textureOptions, samplerOptions){
+    STK.Material.Textures[texName] = null;
+    loadFloat32Cubemap(path, function(data){
+        /*
+            The dds parser returns :
+            {
+                shape: [ texWidth, texHeight ],
+                images: images -> [offset in bytes, length in bytes, shape: [width ,height]]
+                format: format(string)
+                flags: flags(don't know what they're used for)
+                cubemap: cubemap(true, false)
+            }
+        */
+        var totalLength = data.buffer.byteLength;
+        console.warn(' total length = ', totalLength);
+        var width = data.images[0].shape[0];
+        var height = data.images[0].shape[1];
+        var gl = STK.Board.Context;
+        STK.Material.Textures[texName] = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, STK.Material.Textures[texName]);
+        gl.texImage2D(gl.TEXTURE_2D, 0, textureOptions.internalFormat, 
+                                        width, height, 0, 
+                                        textureOptions.format, 
+                                        textureOptions.dataType, 
+                                        new Float32Array(data.buffer, data.images[0].offset, width*height*4));
+
+        if(samplerOptions != null && samplerOptions.isComplete()){
+            gl.texParameteri(textureOptions.type, gl.TEXTURE_MIN_FILTER, samplerOptions.min_filter);
+            gl.texParameteri(textureOptions.type, gl.TEXTURE_MAG_FILTER, samplerOptions.mag_filter);
+            gl.texParameteri(textureOptions.type, gl.TEXTURE_WRAP_S, samplerOptions.wrapS);
+            gl.texParameteri(textureOptions.type, gl.TEXTURE_WRAP_T, samplerOptions.wrapT);
+            if(samplerOptions.anisotropy != null){
+                var ext = gl.getExtension('EXT_texture_filter_anisotropic');
+                gl.texParameterf(textureOptions.type, ext.TEXTURE_MAX_ANISOTROPY_EXT, samplerOptions.anisotropy);
+            }
+        }
+        gl.bindTexture(gl.TEXTURE_2D, null);
+    });
+}
 
 STK.Material.createSampler = function(name, samplerOptions){
     STK.Material.Samplers[name] = null;
