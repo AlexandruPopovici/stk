@@ -15,7 +15,7 @@ STK.Geometry.createIndexedModel = function(modelName, path, callback){
 												   'normals', obj.vertexNormals, 
 												   'indices', obj.indices);
 		
-	    geometry.createGL();
+	    // geometry.createGL();
 	    STK.Geometry.Models[modelName] = geometry;
 	    callback(geometry);
 	});
@@ -29,7 +29,7 @@ STK.Geometry.createIndexedProceduralModel = function(modelName, shape, callback)
 											   'normals', shape.normals, 
 											   'indices', shape.indices);
 	
-    geometry.createGL();
+    // geometry.createGL();
     STK.Geometry.Models[modelName] = geometry;
     callback(geometry);
 };

@@ -60,6 +60,16 @@ STK.Geometry.prototype = {
 		// Unbind the buffer
 		this.handles['vbo_normals'] = normal_buffer;
 
+		if(this.data['normalThickness'] != undefined){
+			var thickness_buffer = gl.createBuffer();
+			// Bind appropriate array buffer to it
+			gl.bindBuffer(gl.ARRAY_BUFFER, thickness_buffer);
+			// Pass the vertex data to the buffer
+			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.data['normalThickness']), gl.STATIC_DRAW);
+			// Unbind the buffer
+			this.handles['vbo_thickness'] = thickness_buffer;
+		}
+
 		// Create an empty buffer object to store Index buffer
 		var index_Buffer = gl.createBuffer();
 		// Bind appropriate array buffer to it
@@ -86,6 +96,11 @@ STK.Geometry.prototype = {
 		gl.enableVertexAttribArray(2);
 		gl.vertexAttribPointer(2, 3, gl.FLOAT, false, 0, 0); 
 
+		if(this.data['normalThickness'] != undefined){
+			gl.bindBuffer(gl.ARRAY_BUFFER, thickness_buffer);
+			gl.enableVertexAttribArray(3);
+			gl.vertexAttribPointer(3, 1, gl.FLOAT, false, 0, 0);
+		}
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_Buffer);
 		gl.bindVertexArray(null);
 		this.handles['vao'] = vao;

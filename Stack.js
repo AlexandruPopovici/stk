@@ -17,6 +17,7 @@ STK.Stack = function(id){
 
 	this.uniformBlocks = Object.create(this.materials);
 	this.transforms = null;
+	this.frameBuffers = null;
 
 	this._onStackRender = null;
 }
@@ -35,6 +36,10 @@ STK.Stack.prototype = {
 
 	initTransforms: function(userFunction){
 		this.transforms = userFunction.bind(this)();
+	},
+
+	initFrameBuffers: function(userFunction){
+		this.frameBuffers = userFunction.bind(this)();
 	},
 
 	getMaterial: function(id){
