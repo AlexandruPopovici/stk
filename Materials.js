@@ -16,6 +16,15 @@ STK.TextureOptions.prototype = {
     constructor: STK.TextureOptions,
 }
 
+STK.TextureOptions.new = function(gl, params){
+    var options = new STK.TextureOptions();
+    options.type = params.type;
+    options.format = params.format;
+    options.internalFormat = params.internalFormat;
+    options.dataType = params.dataType;
+    return options;
+};
+
 STK.TextureOptions.texture_rgba_Options = function(gl){
     var options = new STK.TextureOptions();
     options.type = gl.TEXTURE_2D;
