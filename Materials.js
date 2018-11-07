@@ -89,6 +89,7 @@ STK.SamplerOptions = function(){
     this.wrapT = null;
     this.anisotropy = null;
     this.mipmaps = null;
+    this.flipY = false;
 }
 
 STK.SamplerOptions.prototype = {
@@ -197,6 +198,26 @@ STK.Material.createTexture = function(texName, path, textureOptions, samplerOpti
 	    gl.bindTexture(gl.TEXTURE_2D, null);
 	});
 };
+STK.Material.createColorTexture = function(texName, intColor,textureOptions, samplerOptions){
+    var texObj = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texObj);
+    var color = [(intColor  >> 24) & 0x000000FF, (intColor & 0x00FF0000) >> 16, (intColor & 0x0000FF00) >> 8, (intColor & 0x000000FF)];
+    gl.texImage2D(gl.TEXTURE_2D, 0, textureOptions.internalFormat, 
+                                        1, 1, 0, 
+                                        textureOptions.format, 
+                                        textureOptions.dataType, new Uint8Array(color));
+    if(samplerOptions != null && samplerOptions.isComplete()){
+        gl.texParameteri(textureOptions.type, gl.TEXTURE_MIN_FILTER, samplerOptions.min_filter);
+        gl.texParameteri(textureOptions.type, gl.TEXTURE_MAG_FILTER, samplerOptions.mag_filter);
+        gl.texParameteri(textureOptions.type, gl.TEXTURE_WRAP_S, samplerOptions.wrapS);
+        gl.texParameteri(textureOptions.type, gl.TEXTURE_WRAP_T, samplerOptions.wrapT);
+        if(samplerOptions.anisotropy != null){
+            var ext = gl.getExtension('EXT_texture_filter_anisotropic');
+            gl.texParameterf(textureOptions.type, ext.TEXTURE_MAX_ANISOTROPY_EXT, samplerOptions.anisotropy);
+        }
+    }
+    STK.Material.Textures[texName] = texObj;
+}
 
 STK.Material.createRenderTexture = function(texName){
     STK.Material.Textures[texName] = null;

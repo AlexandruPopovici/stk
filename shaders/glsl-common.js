@@ -7,6 +7,7 @@ var vertex_transform_UBO = `
 	  mat4 view;
 	  mat4 modelView;
 	  mat4 normalMatrix;//View Space!
+	  mat4 invProjection;
 	  vec3 cameraPosition;
 	} vertex_transform_data;
 `;
