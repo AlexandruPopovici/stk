@@ -10,8 +10,10 @@ STK.Geometry.createIndexedModel = function(modelName, path, callback){
 	STK.Geometry.Models[modelName] = null;
 	loadIndexedObj(path, function(obj){
 		var gl = STK.Board.Context;
+		var attributeCount = obj.vertices.length/3;
+		var uvs = (obj.textures.length == 0 ? Array.apply(null, Array(attributeCount*2)).map(Number.prototype.valueOf,0) : obj.textures);
 		var geometry = new STK.Geometry(modelName, 'positions', obj.vertices, 
-												   'uvs', obj.textures, 
+												   'uvs', uvs, 
 												   'normals', obj.vertexNormals, 
 												   'indices', obj.indices);
 		

@@ -29,6 +29,6 @@ var quad_frag = `#version 300 es
 	uniform sampler2D depth;
 
 	void main() {
-		outColor = vec4(texture(depth, vUv).rrr, 1.);
+		outColor = vec4(texture(tex, vUv).rgb, 1.);
 	}
 `;
