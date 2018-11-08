@@ -33,6 +33,12 @@ STK.Material.prototype = {
 		if(samplerName != null)
 			gl.bindSampler(texUnit-gl.TEXTURE0, STK.Material.Samplers[texName]);
 		gl.uniform1i(this.locations[uniformName], texUnit-gl.TEXTURE0);
+	},
+
+	bindTextureLocation: function(uniformName, texUnit){
+		if(this.locations[uniformName] == undefined)
+			this.locations[uniformName] = gl.getUniformLocation(this.program, uniformName);
+		gl.uniform1i(this.locations[uniformName], texUnit-gl.TEXTURE0);
 	}
 
 	
