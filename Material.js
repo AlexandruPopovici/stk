@@ -45,6 +45,12 @@ STK.Material.prototype = {
 		if(this.locations[uniformName] == undefined)
 			this.locations[uniformName] = gl.getUniformLocation(this.program, uniformName);
 		gl.uniform1f(this.locations[uniformName], value);
+	},
+
+	setFloat3Uniform: function(uniformName, value){
+		if(this.locations[uniformName] == undefined)
+			this.locations[uniformName] = gl.getUniformLocation(this.program, uniformName);
+		gl.uniform3fv(this.locations[uniformName], value);
 	}
 
 	
