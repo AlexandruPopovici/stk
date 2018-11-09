@@ -21,15 +21,18 @@ var fxaa_vert = `#version 300 es
 var fxaa_frag = `#version 300 es
  
 	precision highp float;
- 
+ 	
 	in vec2 vUv;
 	in vec4 posPos;
-
+`
++ shaderConfig
++
+`	
 	layout(location = 0) out vec4 outColor;
 
 	uniform sampler2D tex;
-	const float rt_w = 1024.; 
-	const float rt_h = 1024.; 
+	const float rt_w = screenSize.x; 
+	const float rt_h = screenSize.y; 
 	const float FXAA_SPAN_MAX = 8.0;
 	const float FXAA_REDUCE_MUL = 1.0/8.0;
 
