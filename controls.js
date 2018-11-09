@@ -7,13 +7,14 @@ function createControllerEntity(){
 		element.addEventListener('wheel', this.wheel.bind(this));
 	};
 	entity.isDown = false;
-	entity.origin = vec3.fromValues(0,5,0);
+	entity.origin = vec3.fromValues(0,2,0);
 	entity.radius = 10;
 	entity.angle1 = 0;
 	entity.angle2 = 0;
 	entity.out = mat4.create();
 	entity.pos3 = vec3.create();
 	entity.lastForward = vec3.fromValues(0, 0, 1);
+	entity.animateLoop = undefined;
 
 	entity.down = function(e){
 		entity.isDown = true;
@@ -39,6 +40,11 @@ function createControllerEntity(){
 	}
 
 	entity.update = function(delta){
+		if(entity.animateLoop != undefined){
+			if(entity.animateLoop() == false)
+				entity.animateLoop = undefined;
+		}
+
 		var t = this.radius*Math.cos(this.angle2);   
 		var y = this.radius*Math.sin(this.angle2);
 		var x = t*Math.cos(this.angle1)
@@ -61,6 +67,27 @@ function createControllerEntity(){
 		vec3.copy(this.pos3, eye);
 		// vec3.copy(this.lastForward, newDir);
 	};
+
+	entity.setOrigin = function(origin){
+		vec3.copy(entity.origin, origin);
+	};
+
+	entity.setAngles = function(angle1, angle2){
+		if(angle1 != undefined)
+			entity.angle1 = angle1;
+		if(angle2 != undefined)
+			entity.angle2 = angle2;
+	};
+
+	entity.setRadius = function(radius){
+		entity.radius = radius;
+	}
+
+	entity.startAnimation = function(animateFunction){
+		entity.animateLoop = animateFunction.bind(entity);
+	};
+
+
 
 	return entity; 
 }
