@@ -5,6 +5,7 @@ function createControllerEntity(){
 		element.addEventListener('mouseup', this.up.bind(this));
 		element.addEventListener('mousedown', this.down.bind(this));
 		element.addEventListener('wheel', this.wheel.bind(this));
+		window.addEventListener("keypress", this.key.bind(this));
 	};
 	entity.isDown = false;
 	entity.origin = vec3.fromValues(0,0,0);
@@ -32,40 +33,40 @@ function createControllerEntity(){
 			// console.warn('Theta -> ', this.theta);
 			// console.warn('Phi -> ', this.phi);
 		}
-
 	};
 
 	entity.wheel = function(e){
 		this.radius += e.deltaY * 0.005;
-	}
+	};
+
+	entity.key = function(e){
+		if(e.keyCode == 32)
+			this.printState();
+	};
+
+	entity.printState = function(){
+		console.warn('Angle H -> ', RadToDeg(this.angle1));
+		console.warn('Angle V -> ', RadToDeg(this.angle2));
+		console.warn('Radius -> ', this.radius);
+	};
 
 	entity.update = function(delta){
 		if(entity.animateLoop != undefined){
 			if(entity.animateLoop() == false)
 				entity.animateLoop = undefined;
 		}
+		this.updateValues();
+	};
 
+	entity.updateValues = function(){
 		var t = this.radius*Math.cos(this.angle2);   
 		var y = this.radius*Math.sin(this.angle2);
 		var x = t*Math.cos(this.angle1)
 		var z = t*Math.sin(this.angle1)
 		
 		var eye = vec3.fromValues(x,y,z);
-		// var newDir = vec3.fromValues(-x,-y,-z);
-		// vec3.normalize(newDir, newDir);
-		// var quat = fromToRotation(this.lastForward, newDir);
-		// // console.warn(quat);
-		// var T = mat4.translate([], mat4.create(), eye);
-		// var R = lookAt(eye, [0,0,0], [0,1,0]);//mat4.fromQuat([], quat);
-		// var RT = mat4.multiply(mat4.create(), R, T);
-		
-		// var V = mat4.invert([], RT);
-
-		// mat4.copy(this.out, V);
 		mat4.lookAt(this.out, eye, this.origin, [0,1,0]); 
-
 		vec3.copy(this.pos3, eye);
-		// vec3.copy(this.lastForward, newDir);
 	};
 
 	entity.setOrigin = function(origin){

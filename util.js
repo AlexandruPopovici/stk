@@ -16,6 +16,14 @@ function generateUUID() {
     }();
 }
 
+function RadToDeg(radians){
+  return radians * (180/Math.PI);
+}
+
+function DegToRad(degrees){
+  return degrees * (Math.PI/180)
+}
+
 Math.clamp=function(val,min,max){return Math.max(min,Math.min(max,val));}
 
 function loadImage(path, callback) {
