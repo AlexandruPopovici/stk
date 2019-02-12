@@ -23,6 +23,45 @@ STK.Geometry.createIndexedModel = function(modelName, path, callback){
 	});
 };
 
+STK.Geometry.createIndexedModelGLTF = function(modelName, path, callback){
+	STK.Geometry.Models[modelName] = null;
+	if(this.glTFLoader == null){
+		this.glTFLoader = new MinimalGLTFLoader.glTFLoader(STK.Board.Context);
+	}
+	this.glTFLoader.loadGLTF(path, function(glTF){
+    console.warn("# Loaded glTF # ", glTF);
+
+    var parse = function(node, mat){
+	    for(var i = 0 ; i < node.children.length; i++){
+	    	var _node = node.children[i];
+	    	var _mat = mat4.multiply([], mat, _node.matrix);
+	    	if(_node.children.length > 0)
+	    		parse(_node, _mat);
+	    	var mesh = _node.mesh;
+	    	if(mesh != null){
+			    var primitive = mesh.primitives[0];
+			    var attributeData = primitive.attributes;
+			    var indexAccessor = primitive.indices;
+			    var geom = new STK.Geometry(
+			    	mesh.name, 
+			    	'positions', attributeData['POSITION'].bufferView.data, 
+			    	'uvs', attributeData['TEXCOORD_0'] != undefined ? attributeData['TEXCOORD_0'].bufferView.data : undefined, 
+			    	'normals', attributeData['NORMAL'].bufferView.data, 
+			    	'indices', glTF.accessors[indexAccessor].bufferView.data);
+			    geom.createGL(16);
+			    geom.aabb = geom.AABB(_mat);
+			    geom.modelMatrix = _mat;
+			    carMeshes.push(geom);
+			    carModels.push(_mat);
+			}
+		}
+	};
+	parse(glTF.nodes[0], mat4.translate([], mat4.create(), vec3.fromValues(0,-0.45,0)));
+	init.bind(scope)();
+	window.requestAnimationFrame(scope.update);
+});
+};
+
 STK.Geometry.createIndexedProceduralModel = function(modelName, shape, callback){
 	STK.Geometry.Models[modelName] = null;
 	var gl = STK.Board.Context;

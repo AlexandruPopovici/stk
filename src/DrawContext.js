@@ -1,4 +1,4 @@
-STK.DrawContext = function(width, height){
+var DrawContext = function(width, height){
 	this.guid = generateUUID();
 
 	this.width = width;
@@ -6,9 +6,9 @@ STK.DrawContext = function(width, height){
 	return this.guid;
 }
 
-STK.DrawContext.prototype = {
+DrawContext.prototype = {
 
-	constructor: STK.DrawContext,
+	constructor: DrawContext,
 
 	set: function(){
 		var gl = STK.Board.Context;
@@ -17,3 +17,5 @@ STK.DrawContext.prototype = {
 		gl.viewport(0,0,this.width,this.height);
 	}
 }
+
+export default DrawContext;

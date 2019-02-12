@@ -22,6 +22,8 @@ STK.Stack = function(id){
 	this._onStackRender = null;
 }
 
+Stk.Stacks = {};
+
 STK.Stack.prototype = {
 
 	constructor: STK.Stack,

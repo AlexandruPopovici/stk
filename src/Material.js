@@ -1,4 +1,4 @@
-STK.Material = function(name, vert, frag){
+var Material = function(name, vert, frag){
 	this.id = name;
 	this.guid = generateUUID();
 	this.locations = {};
@@ -7,9 +7,9 @@ STK.Material = function(name, vert, frag){
 }
 
 
-STK.Material.prototype = {
+Material.prototype = {
 
-	constructor: STK.Material,
+	constructor: Material,
 
 	_makeProgram: function(vert, frag){
 		var vertShader = createShader(gl, gl.VERTEX_SHADER, vert);
@@ -52,6 +52,6 @@ STK.Material.prototype = {
 			this.locations[uniformName] = gl.getUniformLocation(this.program, uniformName);
 		gl.uniform3fv(this.locations[uniformName], value);
 	}
-
-	
 }
+
+export default Material;

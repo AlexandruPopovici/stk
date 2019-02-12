@@ -1,11 +1,11 @@
-STK.UniformBlock = function(id){
+var UniformBlock = function(id){
 	this.id = id;
 	this.handle= null;
 }
 
-STK.UniformBlock.prototype = {
+UniformBlock.prototype = {
 
-	constructor: STK.UniformBlock,
+	constructor: UniformBlock,
 
 	createGL: function(size){
 		var gl = STK.Board.Context;
@@ -34,6 +34,6 @@ STK.UniformBlock.prototype = {
 		}
 		gl.bindBuffer(gl.UNIFORM_BUFFER, null);
 	},
-
-	
 }
+
+export default UniformBlock;
