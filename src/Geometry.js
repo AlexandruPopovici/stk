@@ -4,6 +4,7 @@ var Geometry = function(id){
 	this.data = {};
 	this.handles = {};
 	this.modelMatrix = mat4.create();
+	this.indicesType = gl.UNSIGNED_SHORT;
 	this._init(arguments);
 	return this.guid;
 };
@@ -18,8 +19,8 @@ Geometry.prototype = {
 	* @param {arguments} Variable number of arguments in the repeating form of(name:string, data:array, etc)
 	*/
 	_init: function(...args){
-		for(var i = 1 ; i < args.length; i+=2){
-			this.data[args[i]] = args[i+1]
+		for(var i = 1 ; i < args[0].length; i+=2){
+			this.data[args[0][i]] = args[0][i+1]
 		}
 	},
 
@@ -32,8 +33,8 @@ Geometry.prototype = {
 		}
 	},
 
-	createGL: function(indicesType){
-		var gl = STK.Board.Context;
+	createGL: function(gl, indicesType){
+		this.indicesType = indicesType;
 		var vertex_buffer = gl.createBuffer();
 
 		// Bind appropriate array buffer to it
@@ -68,7 +69,7 @@ Geometry.prototype = {
 		// Bind appropriate array buffer to it
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_Buffer);
 		// Pass the vertex data to the buffer
-		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indicesType == 16 ? new Uint16Array(this.data['indices']) : new Uint32Array(this.data['indices']), gl.STATIC_DRAW);
+		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indicesType == gl.UNSIGNED_SHORT ? new Uint16Array(this.data['indices']) : new Uint32Array(this.data['indices']), gl.STATIC_DRAW);
 		// Unbind the buffer
 		this.handles['ibo'] = index_Buffer;
 
@@ -107,8 +108,7 @@ Geometry.prototype = {
 			size
 		}
 	*/
-	updateGL: function(params){
-		var gl = STK.Board.Context;
+	updateGL: function(gl, params){
 		gl.bindBuffer(params.glType, this.handles[params.glHandleID]);
 		if(params.size - params.offset < params.size){
 			gl.bufferSubData(params.glType, params.offset, new Float32Array(params.data), 0, params.size);
@@ -119,13 +119,12 @@ Geometry.prototype = {
 		gl.bindBuffer(params.glType, null);
 	},
 
-	bindGL: function(){
-		var gl = STK.Board.Context;
+	bindGL: function(gl){
 		gl.bindVertexArray(this.handles['vao']);
 	},
 
-	indicesCount: function(type){
-		return (type == 16 ? this.data['indices'].byteLength/2 : this.data['indices'].byteLength/4);
+	indicesCount: function(){
+		return (this.indicesType == gl.UNSIGNED_SHORT ? this.data['indices'].byteLength/2 : this.data['indices'].byteLength/4);
 	},
 
 	/*
@@ -167,10 +166,9 @@ Geometry.prototype = {
 		return {min: min , max: max, center: center};
 	},
 
-	drawGL(primitiveType, indicesType){
-		var gl = STK.Board.Context;
-		var glType = indicesType == 16 ? gl.UNSIGNED_SHORT : gl.UNSIGNED_INT;
-		var indicesCount = (indicesType == 16 ? this.data['indices'].byteLength/2 : this.data['indices'].byteLength/4);
+	drawGL(gl, primitiveType, indicesType){
+		var glType = indicesType;
+		var indicesCount = (indicesType == gl.UNSIGNED_SHORT ? this.data['indices'].byteLength/2 : this.data['indices'].byteLength/4);
 		gl.bindVertexArray(this.handles['vao']);
 		gl.drawElements(gl.TRIANGLES, indicesCount, glType, 0);
 	}

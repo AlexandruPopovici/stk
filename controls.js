@@ -1,4 +1,6 @@
-function createControllerEntity(){
+import STK from './stk.js'
+
+export default function createControllerEntity(){
 	var entity = new STK.Entity();
 	entity.bindInput = function(element){
 		element.addEventListener('mousemove', this.move.bind(this));
