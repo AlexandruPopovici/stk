@@ -111,6 +111,16 @@ function loadIndexedObj(path, callback){
     });
     oReq.open("GET", path);
     oReq.send();
+  
+}
+
+function loadIndexedObj2(name, path, callback){
+  var req = {};
+  for(var i = 0 ; i < name.length; i++){
+    req[name[i]] = path[i];
+  }
+  
+  OBJ.downloadMeshes(req, callback);
 }
 
 function loadDDSTexture(path, callback){

@@ -16,6 +16,8 @@ function createControllerEntity(){
 	entity.pos3 = vec3.create();
 	entity.lastForward = vec3.fromValues(0, 0, 1);
 	entity.animateLoop = undefined;
+	entity.targetRadius = entity.radius;
+	entity.radiusTime = 2.;
 
 	entity.down = function(e){
 		entity.isDown = true;
@@ -29,14 +31,15 @@ function createControllerEntity(){
 		if(entity.isDown){
 			this.angle1 += e.movementX*0.01;
 			this.angle2 += e.movementY*0.01; 
-			this.angle2 = Math.clamp(this.angle2, -Math.PI/2, Math.PI/2);
+			this.angle2 = Math.clamp(this.angle2, -Math.PI/2 + 0.01, Math.PI/2 - 0.01);
 			// console.warn('Theta -> ', this.theta);
 			// console.warn('Phi -> ', this.phi);
 		}
 	};
 
 	entity.wheel = function(e){
-		this.radius += e.deltaY * 0.005;
+		this.targetRadius += e.deltaY * 0.005;
+		this.radiusTime = 1.;
 	};
 
 	entity.key = function(e){
@@ -59,6 +62,11 @@ function createControllerEntity(){
 	};
 
 	entity.updateValues = function(){
+		if(this.radius != this.targetRadius){
+			this.radius = this.radius*this.radiusTime + this.targetRadius*(1-this.radiusTime);
+			this.radiusTime -= 0.001;
+		}
+		// console.warn(this.radius);
 		var t = this.radius*Math.cos(this.angle2);   
 		var y = this.radius*Math.sin(this.angle2);
 		var x = t*Math.cos(this.angle1)
@@ -82,6 +90,7 @@ function createControllerEntity(){
 
 	entity.setRadius = function(radius){
 		entity.radius = radius;
+		entity.targetRadius = radius;
 	}
 
 	entity.startAnimation = function(animateFunction){
